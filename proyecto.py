@@ -17,8 +17,8 @@ pygame.display.set_caption('Trash Hunters')
 #Imagen de fondo
 background = pygame.image.load("background1.png").convert()
 imagen_redimensionada = pygame.transform.scale(background, (1024, 768))
-start_img = pygame.image.load("start.png")
-start_hover = pygame.image.load("starth.png")
+start_img = pygame.image.load("start1.png")
+start_hover = pygame.image.load("start1h.png")
 tutorial = pygame.image.load("tutorial.png")
 tutorial_hover = pygame.image.load("tutorialh.png")
 configuracion = pygame.image.load("configuracion.png")
@@ -41,7 +41,7 @@ class Button():
         else:
             screen.blit(self.image, (self.rect.x, self.rect.y))
 
-start_Button = Button(613, 512, start_img, start_hover)
+start_Button = Button(403, 315, start_img, start_hover)
 
 # Otro boton
 class Button2():
@@ -57,7 +57,7 @@ class Button2():
         else:
             screen.blit(self.image, (self.rect.x, self.rect.y))
 
-start_Button2 = Button2(0, 0, tutorial, tutorial_hover)
+start_Button2 = Button2(404, 537, tutorial, tutorial_hover)
 
 # Otro boton
 class Button3():
@@ -73,7 +73,7 @@ class Button3():
         else:
             screen.blit(self.image, (self.rect.x, self.rect.y))
 
-start_Button3 = Button3(0, 0, configuracion, configuracion_hover)
+start_Button3 = Button3(10, 666, configuracion, configuracion_hover)
 
 # Otro boton
 class Button4():
@@ -89,7 +89,7 @@ class Button4():
         else:
             screen.blit(self.image, (self.rect.x, self.rect.y))
 
-start_Button4 = Button4(0, 0, creditos, creditos_hover)
+start_Button4 = Button4(925, 676, creditos, creditos_hover)
 
 
 # Crear el bucle del juego
