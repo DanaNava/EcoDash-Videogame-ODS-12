@@ -6,9 +6,10 @@ pygame.init()
 screen = pygame.display.set_mode((1024, 768))
 pygame.display.set_caption('Trash Hunters')
 
-#posiciones
+#posiciones del selector
 posiciones = [443, 675]  # coordenadas X para cada personaje
 indice_actual = 0  # empieza en el primer personaje
+personaje_seleccionado = None
 
 #imagenes
 background = pygame.image.load("select_character_background.png")
@@ -30,6 +31,9 @@ class Button():
        else:
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
+    def clicked(self, event):
+        return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos)
+
 next_button = Button(906, 670, next_interface, next_interface_hover)
 
 # clase boton para el selector de personaje
@@ -42,7 +46,7 @@ class Button2():
     def draw(self):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-select_button = Button2(432, 297, select)
+select_button = Button2(posiciones[indice_actual], 297, select)
 
 
 while True:
@@ -52,13 +56,27 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+
+    # Condicion que abrira la siguiente interfaz al picar la flechita
+        if next_button.clicked(event):
+            #! Agregar interfaz aqui
+            print("Aun no hay proxima interfaz!")
+
+    # Condicion que nos permite cambiar la posicion del selector de personaje
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 indice_actual = (indice_actual + 1) % len(posiciones)
             elif event.key == pygame.K_LEFT:
                 indice_actual = (indice_actual - 1) % len(posiciones)
+    # Condicion que nos permite seleccionar el personaje con enter
+            elif event.key == pygame.K_RETURN:  # tecla Enter
+                personaje_seleccionado = indice_actual
+                print(f"Personaje {personaje_seleccionado + 1} seleccionado!")
 
+    # Actualiza la posicion del selector cada que lo movamos y lo mantiene funcionando
     select_button.rect.x = posiciones[indice_actual]
+
+    # Dibuja el fondo
     screen.blit(background, (0, 0))
 
     #Dibujar el botoncito
