@@ -4,6 +4,7 @@ class MiInterfaz:
     def __init__(self, screen):
         self.screen = screen
         self.running = True
+        self.cambio = None
         # Aquí cargas tus imágenes, botones, fuentes, etc.
         self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_nivel/fondo/fondo_interfaz_Seleccion_de_nivel.png").convert()  
        
@@ -33,11 +34,11 @@ class MiInterfaz:
             for i, boton in enumerate(self.botones):
                 if boton["rect"].collidepoint(mouse_pos):
                     if i == 0:
-                        print("Seleccionaste nivel 1")
+                        self.cambio = "nivel 1"
                     elif i == 1:
-                        print("Seleccionaste nivel 2")
+                        self.cambio = "nivel 2"
                     elif i == 2:
-                        print("Seleccionaste nivel 3")
+                        self.cambio = "nivel 3"
 
     def update(self):
         # Aquí actualizas animaciones, colores, etc.
