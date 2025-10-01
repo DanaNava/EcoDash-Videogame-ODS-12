@@ -19,9 +19,14 @@ class MiInterfaz:
                 "hover": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2_hover.png").convert_alpha()
             },
             {
-                 "rect": pygame.Rect(634, 345, 213, 84),
+                "rect": pygame.Rect(634, 345, 213, 84),
                 "normal": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3.png").convert_alpha(),
                 "hover": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3_hover.png").convert_alpha()
+            },
+            {
+                "rect": pygame.Rect(0, 2, 120, 67),
+                "normal": pygame.image.load("assets_PI/sprites/boton_back.png").convert_alpha(),
+                "hover": pygame.image.load("assets_PI/sprites/boton_back_hover.png").convert_alpha()
             }
             ]  
 
@@ -39,6 +44,8 @@ class MiInterfaz:
                         self.cambio = "nivel 2"
                     elif i == 2:
                         self.cambio = "nivel 3"
+                    elif i == 3:
+                        self.cambio = "Seleccion_dificultad"
 
     def update(self):
         # Aquí actualizas animaciones, colores, etc.
