@@ -17,7 +17,14 @@ class MiInterfaz:
                 "rect": pygame.Rect(197, 475, 235, 97),
                 "normal": pygame.image.load("assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio.png").convert_alpha(),
                 "hover": pygame.image.load("assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio_hover.png").convert_alpha()
-            }]  
+            },
+            {
+                "rect": pygame.Rect(0, 35, 120, 67),
+                "normal": pygame.image.load("assets_PI/sprites/boton_back.png").convert_alpha(),
+                "hover": pygame.image.load("assets_PI/sprites/boton_back_hover.png").convert_alpha()
+            }
+            
+            ]  
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -31,6 +38,8 @@ class MiInterfaz:
                     self.cambio = "facil"
                    elif i == 1:
                     self.cambio = "medio"
+                   elif i == 2:
+                       self.cambio = "seleccion_personaje"
 
     def update(self):
         # Aquí actualizas animaciones, colores, etc.
