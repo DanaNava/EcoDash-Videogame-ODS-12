@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((1024, 768))
 pygame.display.set_caption('Trash Hunters')
 
 #Imagenes
-background = pygame.image.load("FINALL.png")
+background = pygame.image.load("background.png")
 personaje = pygame.image.load("PI_personaje_m_ver_delante.png")
 
 platano = pygame.image.load("banano.png")
