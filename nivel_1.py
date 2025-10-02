@@ -1,6 +1,7 @@
 import pygame
 
 def run_level1():
+    pygame.init()
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Nivel 1")
 
@@ -8,26 +9,24 @@ def run_level1():
     # CARGA DE IMÁGENES
     # -----------------------------
     fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_2.png").convert_alpha()
+    capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_fondo_2.png").convert_alpha()
+    capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
 
-    # Imagen grande del personaje 
-    personaje = pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png").convert_alpha()
-
-    # Rect de dibujo (para blit)
+    personaje = pygame.image.load(
+        "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png"
+    ).convert_alpha()
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
-
-    # Hitbox (rect de colisión, 80x80, centrado en el mismo lugar)
     hitbox = pygame.Rect(0, 0, 80, 80)
     hitbox.center = personaje_draw_rect.center
 
-    capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_fondo_2.png").convert_alpha()
-    capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
-    velocidad = 5
-    clock = pygame.time.Clock()
-    running = True
+    # Objetos recogibles
+    botella_image = pygame.image.load("assets_PI/basura/inorganica/botella agua.png").convert_alpha()
+    botella_rect = botella_image.get_rect(topleft=(627, 377))
+    objetos = [
+        {"nombre": "botella", "imagen": botella_image, "rect": botella_rect},
+    ]
 
-    # -----------------------------
-    # COLISIONES
-    # -----------------------------
+    # Colisiones con el fondo y objetos inmovibles
     colisiones = [
         pygame.Rect(9, 150, 14, 601),  # pared izquierda
         pygame.Rect(10, 737, 1005, 17),  # pared abajo
@@ -55,6 +54,11 @@ def run_level1():
         pygame.Rect(793, 179, 20, 20),  # bote rojo
     ]
 
+    inventario = []
+    velocidad = 5
+    clock = pygame.time.Clock()
+    running = True
+
     # -----------------------------
     # BUCLE PRINCIPAL
     # -----------------------------
@@ -66,7 +70,7 @@ def run_level1():
         keys = pygame.key.get_pressed()
         old_hitbox = hitbox.copy()
 
-        # Movimiento
+        # Movimiento del jugador
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             hitbox.x -= velocidad
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
@@ -76,24 +80,40 @@ def run_level1():
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             hitbox.y += velocidad
 
-        # Colisiones
+        # Colisiones con objetos inmovibles
         for rect in colisiones:
             if hitbox.colliderect(rect):
                 hitbox.x = old_hitbox.x
                 hitbox.y = old_hitbox.y
                 break
 
-        # Mantener la imagen dibujada centrada en la hitbox
+        # Mantener la imagen centrada en la hitbox
         personaje_draw_rect.center = hitbox.center
+
+        # Recoger objetos
+        for obj in objetos[:]:
+            if hitbox.colliderect(obj["rect"]) and keys[pygame.K_e]:
+                inventario.append(obj)
+                objetos.remove(obj)
+                print(f"Recogido: {obj['nombre']}")  # para verificar
 
         # -----------------------------
         # DIBUJAR TODO
         # -----------------------------
-        screen.blit(fondo, (0, 0))
+        screen.blit(fondo, (0, 0))  # fondo primero
+
+        # Objetos recogibles
+        for obj in objetos:
+            screen.blit(obj["imagen"], obj["rect"])
+
+        # Personaje
         screen.blit(personaje, personaje_draw_rect)
+
+        # Capas delante
         screen.blit(capa_delante, (709, 334))
         screen.blit(capa_delante_2, (814, 418))
 
-
         pygame.display.flip()
         clock.tick(60)
+
+    pygame.quit()
