@@ -13,9 +13,7 @@ def run_level1():
     capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_fondo_2.png").convert_alpha()
     capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
 
-    personaje = pygame.image.load(
-        "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png"
-    ).convert_alpha()
+    personaje = pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png").convert_alpha()
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
     hitbox = pygame.Rect(0, 0, 80, 80)
     hitbox.center = personaje_draw_rect.center
@@ -28,13 +26,15 @@ def run_level1():
     manzana = pygame.image.load("assets_PI/basura/organica/manzene.png").convert_alpha()
     bateria = pygame.image.load("assets_PI/basura/residuos_peligrosos/batería item -9c3f.png").convert_alpha()
 
+
+    # declaramos la basura dentro de una lista
     basura = [
-        {"imagen": platano, "rect": platano.get_rect(topleft=(200, 350)), "nombre": "Plátano"},
-        {"imagen": agua, "rect": agua.get_rect(topleft=(620, 400)), "nombre": "Botella de agua"},
-        {"imagen": foco, "rect": foco.get_rect(topleft=(420, 640)), "nombre": "Foco"},
-        {"imagen": lata, "rect": lata.get_rect(topleft=(920, 280)), "nombre": "Lata"},
-        {"imagen": manzana, "rect": manzana.get_rect(topleft=(360, 250)), "nombre": "Manzana"},
-        {"imagen": bateria, "rect": bateria.get_rect(topleft=(50, 600)), "nombre": "Batería"}
+        {"imagen": platano, "rect": platano.get_rect(topleft=(200, 350)), "nombre": "Plátano", "tipo": "organica"},
+        {"imagen": agua, "rect": agua.get_rect(topleft=(620, 400)), "nombre": "Botella de agua", "tipo": "inorganica"},
+        {"imagen": foco, "rect": foco.get_rect(topleft=(420, 640)), "nombre": "Foco", "tipo": "peligrosa"},
+        {"imagen": lata, "rect": lata.get_rect(topleft=(920, 280)), "nombre": "Lata", "tipo": "inorganica"},
+        {"imagen": manzana, "rect": manzana.get_rect(topleft=(360, 250)), "nombre": "Manzana", "tipo": "organica"},
+        {"imagen": bateria, "rect": bateria.get_rect(topleft=(50, 600)), "nombre": "Batería", "tipo": "peligrosa"}
     ]
 
     # Colisiones con el fondo y objetos inmovibles (si quieres que los botes bloqueen,
@@ -66,19 +66,40 @@ def run_level1():
         pygame.Rect(793, 179, 20, 20),  # bote rojo
     ]
 
+    #declaramos los botes dentro de una lista
     botes = [
-        {"nombre": "Azul", "rect": pygame.Rect(284, 155, 20, 35)},
-        {"nombre": "Verde", "rect": pygame.Rect(341, 156, 20, 35)},
-        {"nombre": "Rojo", "rect": pygame.Rect(793, 179, 20, 20)}
+    {"nombre": "Azul", "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
+    {"nombre": "Verde", "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
+    {"nombre": "Rojo", "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
     ]
 
+    # -----------------------------
+    # Animaciones
+    # -----------------------------
+
+    # Animacion para daño
+    frames_dano = [
+        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha1.png").convert_alpha(),
+        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha2.png").convert_alpha()
+    ]
+
+    animando_dano = False
+    frame_actual_dano = 0
+    tiempo_frame_dano = 0
+    duracion_frame = 100  # ms por frame (ajustable)
+
+    # mensaje y variable bandera
     objeto_en_mano = None
     mensaje = ""
     mensaje_tiempo = 0
     duracion_mensaje = 2000
     fuente = pygame.font.Font(None, 36)
+
+    #velocidad del personaje
     velocidad = 5
     clock = pygame.time.Clock()
+
+    
     running = True
 
     # prev_keys para detectar pulsación nueva (edge)
@@ -135,15 +156,32 @@ def run_level1():
                     break  # sólo 1 objeto por pulsación
 
         # Tirar: pulsa Q (una vez) y estar cerca de un bote (inflate para proximidad)
-        if pressed_q and objeto_en_mano is not None:
-            proximity = hitbox.inflate(24, 24)
-            for bote in botes:
-                if proximity.colliderect(bote["rect"]):
-                    mensaje = f"Tiraste {objeto_en_mano['nombre']} en bote {bote['nombre']}"
-                    objeto_en_mano = None
+        # Tirar basura (tecla Q)
+        if pressed_q:
+            if objeto_en_mano is None:
+                mensaje = "No tienes ningún objeto en la mano"
+                mensaje_tiempo = pygame.time.get_ticks()
+            else:
+                proximity = hitbox.inflate(24, 24)
+                tiro_valido = False  # Para saber si se detectó un bote cerca
+
+                for bote in botes:
+                    if proximity.colliderect(bote["rect"]):
+                        tiro_valido = True
+                        if objeto_en_mano["tipo"] == bote["tipo"]:
+                            mensaje = f"Tiraste {objeto_en_mano['nombre']} en bote {bote['nombre']}"
+                            objeto_en_mano = None
+                        else:
+                            mensaje = f"No puedes tirar {objeto_en_mano['nombre']} en bote {bote['nombre']}"
+                            animando_dano = True
+                            frame_actual_dano = 0
+                            tiempo_frame_dano = pygame.time.get_ticks()
+                        mensaje_tiempo = pygame.time.get_ticks()
+                        break
+
+                if not tiro_valido:
+                    mensaje = "No hay un bote cerca"
                     mensaje_tiempo = pygame.time.get_ticks()
-                    print(mensaje)
-                    break
 
         # 4) DIBUJAR (limpiar todo con fill para evitar zonas sin cubrir)
         screen.fill((0, 0, 0))        # limpia toda la ventana
@@ -169,6 +207,22 @@ def run_level1():
         else:
             mensaje = ""
 
+
+        if animando_dano:
+            ahora = pygame.time.get_ticks()
+            if ahora - tiempo_frame_dano >= duracion_frame:
+                frame_actual_dano += 1
+                tiempo_frame_dano = ahora
+
+                if frame_actual_dano >= len(frames_dano):
+                    animando_dano = False
+                    frame_actual_dano = 0
+
+            if animando_dano:  # se sigue mostrando
+                frame = frames_dano[frame_actual_dano]
+                screen.blit(frame, personaje_draw_rect.topleft)
+                
+                
         pygame.display.flip()
         clock.tick(60)
 
