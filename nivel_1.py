@@ -14,9 +14,16 @@ def run_level1():
     capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
     capa_delante_3 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_arriba.png").convert_alpha()
 
-    personaje = pygame.image.load(
-        "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png"
-    ).convert_alpha()
+    boton_reintentar = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez.png").convert_alpha()
+    boton_reintentar_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez_hover.png").convert_alpha()
+    boton_menu = pygame.image.load("assets_PI/interfaces/perdida/boton_menu.png").convert_alpha()
+    boton_menu_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_menu_hover.png").convert_alpha()
+
+    rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
+    rect_menu = boton_menu.get_rect(center=(515, 550))
+
+
+    personaje = pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png").convert_alpha()
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
@@ -93,6 +100,7 @@ def run_level1():
 
     animando_dano = False
     animando_muerte = False
+    tiempo_fin_animacion = None
     frame_actual_dano = 0
     frame_actual_muerte = 0
     tiempo_frame = 0
@@ -224,26 +232,71 @@ def run_level1():
                 screen.blit(frame, personaje_draw_rect.topleft)
 
         # Animación de muerte y pantalla de pérdida
+        # Animación de muerte y pantalla de pérdida
+        # Animación de muerte y pantalla de pérdida
         if errores >= 3:
-            animando_muerte = True
-            frame_actual_muerte = 0
-            tiempo_frame = pygame.time.get_ticks()
-            errores = -1  # evitar repetir la animación
+            if not animando_muerte and not tiempo_fin_animacion:
+                animando_muerte = True
+                frame_actual_muerte = 0
+                tiempo_frame_muerte = pygame.time.get_ticks()
+                tiempo_fin_animacion = None
 
-        if animando_muerte:
-            ahora = pygame.time.get_ticks()
-            if ahora - tiempo_frame >= duracion_frame:
-                frame_actual_muerte += 1
-                tiempo_frame = ahora
-                if frame_actual_muerte >= len(frames_muerte):
-                    # Animación terminada -> mostrar pantalla de pérdida
-                    screen.blit(pantalla_perdida, (0, 0))
+            if animando_muerte:
+                ahora = pygame.time.get_ticks()
+                if ahora - tiempo_frame_muerte >= duracion_frame:
+                    frame_actual_muerte += 1
+                    tiempo_frame_muerte = ahora
+
+                    if frame_actual_muerte >= len(frames_muerte):
+                        animando_muerte = False
+                        tiempo_fin_animacion = pygame.time.get_ticks()
+                        frame_actual_muerte = len(frames_muerte) - 1
+
+                screen.fill((0, 0, 0))
+                screen.blit(fondo, (0, 0))
+                screen.blit(frames_muerte[frame_actual_muerte], personaje_draw_rect.topleft)
+                pygame.display.flip()
+                clock.tick(60)
+
+            elif tiempo_fin_animacion:
+                ahora = pygame.time.get_ticks()
+                if ahora - tiempo_fin_animacion >= 1500:
+                    while True:
+                            screen.fill((0, 0, 0))
+                            screen.blit(pantalla_perdida, (0, 0))
+
+                            mouse_pos = pygame.mouse.get_pos()
+
+                            # Dibujar botones según hover
+                            if rect_reintentar.collidepoint(mouse_pos):
+                                screen.blit(boton_reintentar_hover, rect_reintentar)
+                            else:
+                                screen.blit(boton_reintentar, rect_reintentar)
+
+                            if rect_menu.collidepoint(mouse_pos):
+                                screen.blit(boton_menu_hover, rect_menu)
+                            else:
+                                screen.blit(boton_menu, rect_menu)
+
+                            pygame.display.flip()
+
+                            # Eventos
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    pygame.quit()
+                                    sys.exit()
+                                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # clic izquierdo
+                                    if rect_reintentar.collidepoint(mouse_pos):
+                                        run_level1() # reiniciar nivel
+                                    elif rect_menu.collidepoint(mouse_pos):
+                                        return  # volver al menú
+                else:
+                    screen.fill((0, 0, 0))
+                    screen.blit(fondo, (0, 0))
+                    screen.blit(frames_muerte[-1], personaje_draw_rect.topleft)
                     pygame.display.flip()
-                    pygame.time.delay(3000)
-                    running = False
-            else:
-                frame = frames_muerte[frame_actual_muerte]
-                screen.blit(frame, personaje_draw_rect.topleft)
+                    clock.tick(60)
+
 
         pygame.display.flip()
         clock.tick(60)
