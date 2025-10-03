@@ -45,7 +45,7 @@ def run_level1():
       ]
     
     # Velocidad del personaje
-    velocidad = 10
+    velocidad = 5
     
     # Variable de la velocidad del juego
     clock = pygame.time.Clock()
@@ -53,6 +53,11 @@ def run_level1():
     # Barra de vida 
     vida_max = 3
     vida_actual = vida_max
+
+    # Tiempo
+    tiempo = 120
+    inicio_tiempo = pygame.time.get_ticks()
+    fuente_tiempo =pygame.font.Font(None, 48)
 
     # Verificar si gano
     def ganar(basura, objeto_en_mano):
@@ -269,6 +274,22 @@ def run_level1():
       # Actualizar las teclas presionadas
           prev_keys = teclas
 
+# [Nuevo] TIEMPO-----------
+          tiempo_actual = pygame.time.get_ticks()
+          segundos = (tiempo_actual - inicio_tiempo)  // 1000
+          tiempo_restante = max(0, tiempo - segundos)
+
+          pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+          texto_tiempo = fuente_tiempo.render(f" {tiempo_restante}", True, (255, 255, 255))
+          screen.blit(texto_tiempo, (20, 90))
+
+# Perder si se acaba el tiempo
+          if tiempo_restante <= 0:
+              mensaje = "Fondo de perder"
+              screen.fill((0, 0, 0), (20, 90, 100, 50))
+              texto = fuente_tiempo(f"{tiempo_restante}", True, (255, 255, 255))
+              screen.blit(texto_tiempo, (20, 90))
+            
           if ganar(basura, objeto_en_mano):
               screen.blit(win, (0,0))   
 
