@@ -23,6 +23,8 @@ def run_level1():
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     win = pygame.transform.scale(w, (1024, 768))
+    boton_win_intentar = pygame.image.load("assets_PI/interfaces/victoria/boton_intenta_otra_vez.png")
+    boton_win_menu = pygame.image.load("assets_PI/interfaces/victoria/boton_menu.png")
 
     platano = pygame.image.load("assets_PI/basura/organica/banano.png")
     agua = pygame.image.load("assets_PI/basura/inorganica/botella agua.png")
@@ -31,6 +33,10 @@ def run_level1():
     manzana = pygame.image.load("assets_PI/basura/organica/manzene.png")
     bateria = pygame.image.load("assets_PI/basura/residuos_peligrosos/batería item -9c3f.png")
     
+    # Posiciones botones
+    # no terminado aun boton_win_intentar = boton_win_intentar.get_rect(center = (100, 600))
+    # boton_win_menu = boton_win_menu(center = (600, 600))
+
     # Inventario del personaje 
     inventario = []
     
@@ -292,6 +298,13 @@ def run_level1():
             
           if ganar(basura, objeto_en_mano):
               screen.blit(win, (0,0))   
+
+# Dibujar botones
+        #  screen.blit(boton_win_intentar, (100, 600))
+         # screen.blit(boton_win_menu, (600, 600))
+
+# Clikearlo 
+  # aun no terminado        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
 
 # Actualizar pantalla
           pygame.display.flip()

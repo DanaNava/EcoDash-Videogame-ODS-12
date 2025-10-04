@@ -3,23 +3,65 @@ import sys
 
 def run_level1():
     pygame.init()
+    pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Nivel 1")
 
     # -----------------------------
     # CARGA DE IMÁGENES
     # -----------------------------
-    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_2.png").convert_alpha()
-    capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_fondo_2.png").convert_alpha()
+    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_3.png").convert_alpha()
+    capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_derecha.png").convert_alpha()
     capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
+    capa_delante_3 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_arriba.png").convert_alpha()
+
+    boton_reintentar = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez.png").convert_alpha()
+    boton_reintentar_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez_hover.png").convert_alpha()
+    boton_menu = pygame.image.load("assets_PI/interfaces/perdida/boton_menu.png").convert_alpha()
+    boton_menu_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_menu_hover.png").convert_alpha()
+
+    rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
+    rect_menu = boton_menu.get_rect(center=(515, 550))
+
 
     personaje = pygame.image.load(
         "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png"
     ).convert_alpha()
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
-    hitbox = pygame.Rect(0, 0, 80, 80)
+    hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 
+<<<<<<< HEAD
+=======
+
+    # -----------------------------
+    # CARGA musica de fondo
+    # -----------------------------
+    pygame.mixer.music.load("assets_PI/musica/musica_nivel.wav")
+    pygame.mixer.music.set_volume(0.5)  # volumen 0.0 a 1.0
+    pygame.mixer.music.play(-1)  # -1 = bucle infinito
+
+    # -----------------------------
+    # CARGA efectos de sonido
+    # -----------------------------
+    sonido_caminar = pygame.mixer.Sound("assets_PI/sonidos/pasos_madera.wav")
+    sonido_dano = pygame.mixer.Sound("assets_PI/sonidos/recibir_daño.wav")
+    sonido_morir = pygame.mixer.Sound("assets_PI/sonidos/morir.wav")
+    sonido_recoger = pygame.mixer.Sound("assets_PI/sonidos/recoger_basura.wav")
+    sonido_tirar_correcto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_bien.wav")
+    sonido_tirar_incorrecto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_error.wav")
+
+
+    # Volúmenes
+    sonido_caminar.set_volume(1)
+    sonido_dano.set_volume(0.1)
+    sonido_morir.set_volume(0.6)
+    sonido_recoger.set_volume(0.4)
+    sonido_tirar_correcto.set_volume(0.5)
+    sonido_tirar_incorrecto.set_volume(1)
+
+
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
     # -----------------------------
     # BASURA
     # -----------------------------
@@ -46,27 +88,27 @@ def run_level1():
     ]
 
     colisiones = [
-        pygame.Rect(9, 150, 14, 601),
-        pygame.Rect(10, 737, 1005, 17),
-        pygame.Rect(1003, 11, 10, 734),
-        pygame.Rect(690, 17, 21, 450),
-        pygame.Rect(261, 15, 9, 250),
-        pygame.Rect(26, 146, 239, 140),
-        pygame.Rect(719, 184, 66, 5),
-        pygame.Rect(872, 82, 122, 85),
-        pygame.Rect(700, 336, 144, 120),
-        pygame.Rect(767, 500, 43, 1),
-        pygame.Rect(935, 336, 79, 120),
-        pygame.Rect(400, 58, 289, 73),
-        pygame.Rect(421, 219, 70, 71),
-        pygame.Rect(645, 220, 43, 52),
-        pygame.Rect(950, 577, 20, 26),
-        pygame.Rect(178, 530, 120, 20),
-        pygame.Rect(176, 572, 120, 20),
-        pygame.Rect(217, 451, 42, 60),
-        pygame.Rect(127, 545, 35, 1),
-        pygame.Rect(311, 544, 35, 1),
-        pygame.Rect(215, 600, 42, 9),
+        pygame.Rect(9, 150, 14, 601),  # pared izquierda
+        pygame.Rect(10, 737, 1005, 17),  # pared abajo
+        pygame.Rect(1003, 11, 10, 734),  # pared derecha
+        pygame.Rect(690, 17, 21, 450),  # pared bodega izquierda
+        pygame.Rect(261, 15, 9, 250),  # pared esquina izquierda
+        pygame.Rect(26, 146, 239, 140),  # pared esquina arriba
+        pygame.Rect(719, 184, 66, 5),  # cajas
+        pygame.Rect(872, 82, 122, 85),  # estanteria
+        pygame.Rect(693, 391, 135, 75),  # pared abajo bodega_1
+        pygame.Rect(767, 500, 43, 1),  # perchero
+        pygame.Rect(959, 391, 40, 75),  # pared abajo bodega_2
+        pygame.Rect(400, 58, 289, 73),  # pared arriba sala
+        pygame.Rect(421, 219, 70, 71),  # sofa rojo
+        pygame.Rect(645, 220, 43, 52),  # mesa con tele
+        pygame.Rect(950, 577, 20, 26),  # sofa azul
+        pygame.Rect(178, 530, 120, 20),  # mesa redonda_arriba
+        pygame.Rect(176, 572, 120, 20),  # mesa redonda_abajo
+        pygame.Rect(217, 451, 42, 60),  # silla arriba
+        pygame.Rect(127, 545, 35, 1),  # silla izquierda
+        pygame.Rect(311, 544, 35, 1),  # silla derecha
+        pygame.Rect(215, 600, 42, 9),  # silla abajo
         pygame.Rect(284, 155, 20, 35),  # bote azul
         pygame.Rect(341, 156, 20, 35),  # bote verde
         pygame.Rect(793, 179, 20, 20)  # bote rojo
@@ -92,6 +134,10 @@ def run_level1():
 
     animando_dano = False
     animando_muerte = False
+<<<<<<< HEAD
+=======
+    tiempo_fin_animacion = None
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
     frame_actual_dano = 0
     frame_actual_muerte = 0
     tiempo_frame = 0
@@ -132,6 +178,14 @@ def run_level1():
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             hitbox.y += velocidad
 
+<<<<<<< HEAD
+=======
+        # Al caminar
+        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_UP] or keys[pygame.K_DOWN]:
+            if not pygame.mixer.get_busy():  # Para que no se superponga
+                sonido_caminar.play()
+
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
         for rect in colisiones:
             if hitbox.colliderect(rect):
                 hitbox.x = old_hitbox.x
@@ -149,6 +203,7 @@ def run_level1():
             for obj in basura[:]:
                 if hitbox.inflate(12, 12).colliderect(obj["rect"]):
                     if objeto_en_mano is None:
+                        sonido_recoger.play()
                         objeto_en_mano = obj
                         basura.remove(obj)
                         mensaje = f"Recogiste: {obj['nombre']}"
@@ -172,6 +227,7 @@ def run_level1():
                         if objeto_en_mano["tipo"] == bote["tipo"]:
                             mensaje = f"Tiraste {objeto_en_mano['nombre']} en bote {bote['nombre']}"
                             objeto_en_mano = None
+                            sonido_tirar_correcto.play()
                         else:
                             errores += 1
                             mensaje = f"No puedes tirar {objeto_en_mano['nombre']} en bote {bote['nombre']}"
@@ -179,6 +235,10 @@ def run_level1():
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
                             objeto_en_mano = None
+<<<<<<< HEAD
+=======
+                            sonido_tirar_incorrecto.play()
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
                         mensaje_tiempo = pygame.time.get_ticks()
                         break
 
@@ -196,8 +256,14 @@ def run_level1():
             screen.blit(obj["imagen"], obj["rect"])
 
         screen.blit(personaje, personaje_draw_rect)
+<<<<<<< HEAD
         screen.blit(capa_delante, (709, 334))
         screen.blit(capa_delante_2, (814, 418))
+=======
+        screen.blit(capa_delante, (938, 424))
+        screen.blit(capa_delante_2, (816, 423))
+        screen.blit(capa_delante_3, (698, 333))
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
 
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
@@ -210,6 +276,7 @@ def run_level1():
 
         # Animación de daño
         if animando_dano:
+            sonido_dano.play()
             ahora = pygame.time.get_ticks()
             if ahora - tiempo_frame >= duracion_frame:
                 frame_actual_dano += 1
@@ -222,6 +289,7 @@ def run_level1():
                 screen.blit(frame, personaje_draw_rect.topleft)
 
         # Animación de muerte y pantalla de pérdida
+<<<<<<< HEAD
         if errores >= 3:
             animando_muerte = True
             frame_actual_muerte = 0
@@ -242,9 +310,89 @@ def run_level1():
             else:
                 frame = frames_muerte[frame_actual_muerte]
                 screen.blit(frame, personaje_draw_rect.topleft)
+=======
+        # Animación de muerte y pantalla de pérdida
+        # Animación de muerte y pantalla de pérdida
+        if errores >= 3:
+            if not animando_muerte and not tiempo_fin_animacion:
+                animando_muerte = True
+                frame_actual_muerte = 0
+                tiempo_frame_muerte = pygame.time.get_ticks()
+                tiempo_fin_animacion = None
+
+            if animando_muerte:
+                sonido_morir.play()
+                ahora = pygame.time.get_ticks()
+                if ahora - tiempo_frame_muerte >= duracion_frame:
+                    frame_actual_muerte += 1
+                    tiempo_frame_muerte = ahora
+
+                    if frame_actual_muerte >= len(frames_muerte):
+                        animando_muerte = False
+                        tiempo_fin_animacion = pygame.time.get_ticks()
+                        frame_actual_muerte = len(frames_muerte) - 1
+
+                screen.fill((0, 0, 0))
+                screen.blit(fondo, (0, 0))
+                screen.blit(frames_muerte[frame_actual_muerte], personaje_draw_rect.topleft)
+                pygame.display.flip()
+                clock.tick(60)
+
+            elif tiempo_fin_animacion:
+                ahora = pygame.time.get_ticks()
+                if ahora - tiempo_fin_animacion >= 1500:
+                    pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
+                    pygame.mixer.music.set_volume(0.5)  # volumen 0.0 a 1.0
+                    pygame.mixer.music.play(-1)  # -1 = bucle infinito
+
+                    while True:
+                            screen.fill((0, 0, 0))
+                            screen.blit(pantalla_perdida, (0, 0))
+
+                            mouse_pos = pygame.mouse.get_pos()
+
+                            # Dibujar botones según hover
+                            if rect_reintentar.collidepoint(mouse_pos):
+                                screen.blit(boton_reintentar_hover, rect_reintentar)
+                            else:
+                                screen.blit(boton_reintentar, rect_reintentar)
+
+                            if rect_menu.collidepoint(mouse_pos):
+                                screen.blit(boton_menu_hover, rect_menu)
+                            else:
+                                screen.blit(boton_menu, rect_menu)
+
+                            pygame.display.flip()
+
+                            # Eventos
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    pygame.quit()
+                                    sys.exit()
+                                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # clic izquierdo
+                                    if rect_reintentar.collidepoint(mouse_pos):
+                                        run_level1() # reiniciar nivel
+                                    elif rect_menu.collidepoint(mouse_pos):
+                                        return  # volver al menú
+                else:
+                    screen.fill((0, 0, 0))
+                    screen.blit(fondo, (0, 0))
+                    screen.blit(frames_muerte[-1], personaje_draw_rect.topleft)
+                    pygame.display.flip()
+                    clock.tick(60)
+
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
 
         pygame.display.flip()
         clock.tick(60)
         prev_keys = keys
 
+<<<<<<< HEAD
         pygame.quit()
+=======
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    run_level1()
+>>>>>>> 0c114a37a4da4a722a034d7859a375cc46ed4688
