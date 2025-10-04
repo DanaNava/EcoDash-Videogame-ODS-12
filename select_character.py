@@ -1,86 +1,77 @@
-# Para iniciar cualquier proyecto en pygame 
+# select_character_menu.py
 import pygame
 import sys
+
 pygame.init()
 
+# Crear ventana
 screen = pygame.display.set_mode((1024, 768))
 pygame.display.set_caption('Trash Hunters')
 
-#posiciones del selector
-posiciones = [443, 675]  # coordenadas X para cada personaje
-indice_actual = 0  # empieza en el primer personaje
-personaje_seleccionado = None
-
-#imagenes
-background = pygame.image.load("select_character_background.png")
-next_interface = pygame.image.load("next_button.png")
-next_interface_hover = pygame.image.load("next_buttonh.png")
-select = pygame.image.load("select.png")
-
-# clase boton para la flechita
-class Button():
-    def __init__(self, x, y, image, image_hover):
+# Clase general para botones
+class Button:
+    def __init__(self, x, y, image, image_hover=None):
         self.image = image
-        self.image_hover = image_hover
+        self.image_hover = image_hover if image_hover else image
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
-    def draw(self, pos_mouse):
-       if self.rect.collidepoint(pos_mouse):
-           screen.blit(self.image_hover, self.rect)
-       else:
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+    def draw(self, screen, pos_mouse=None):
+        if self.image_hover and pos_mouse and self.rect.collidepoint(pos_mouse):
+            screen.blit(self.image_hover, self.rect)
+        else:
+            screen.blit(self.image, self.rect)
 
     def clicked(self, event):
         return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos)
 
-next_button = Button(906, 670, next_interface, next_interface_hover)
 
-# clase boton para el selector de personaje
-class Button2():
-    def __init__(self, x, y, image):
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
+class Select_character:
+    def __init__(self, screen):
+        self.screen = screen
+        self.posiciones = [443, 675]
+        self.indice_actual = 0
+        self.personaje_seleccionado = None
 
-    def draw(self):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        # Cargar imágenes
+        self.background = pygame.image.load("assets_PI/interfaces/eleguir_personaje/fondo/select_character_background.png")
+        self.next_img = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_button.png")
+        self.next_hover = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_buttonh.png")
+        self.select_img = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/select.png")
 
-select_button = Button2(posiciones[indice_actual], 297, select)
+        # Botones
+        self.next_button = Button(906, 670, self.next_img, self.next_hover)
+        self.select_button = Button(self.posiciones[self.indice_actual], 297, self.select_img)
 
+    def run(self):
+        running = True
+        while running:
+            pos_mouse = pygame.mouse.get_pos()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-while True:
-    #Obtener posicion del mouse
-    pos_mouse = pygame.mouse.get_pos()
+                # Botón "siguiente"
+                if self.next_button.clicked(event):
+                    print("Aun no hay proxima interfaz!")
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+                # Mover selector
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT:
+                        self.indice_actual = (self.indice_actual + 1) % len(self.posiciones)
+                    elif event.key == pygame.K_LEFT:
+                        self.indice_actual = (self.indice_actual - 1) % len(self.posiciones)
+                    elif event.key == pygame.K_RETURN:
+                        self.personaje_seleccionado = self.indice_actual
+                        print(f"Personaje {self.personaje_seleccionado + 1} seleccionado!")
 
-    # Condicion que abrira la siguiente interfaz al picar la flechita
-        if next_button.clicked(event):
-            #! Agregar interfaz aqui
-            print("Aun no hay proxima interfaz!")
+            # Actualizar posición del selector
+            self.select_button.rect.x = self.posiciones[self.indice_actual]
 
-    # Condicion que nos permite cambiar la posicion del selector de personaje
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                indice_actual = (indice_actual + 1) % len(posiciones)
-            elif event.key == pygame.K_LEFT:
-                indice_actual = (indice_actual - 1) % len(posiciones)
-    # Condicion que nos permite seleccionar el personaje con enter
-            elif event.key == pygame.K_RETURN:  # tecla Enter
-                personaje_seleccionado = indice_actual
-                print(f"Personaje {personaje_seleccionado + 1} seleccionado!")
+            # Dibujar fondo y botones
+            self.screen.blit(self.background, (0, 0))
+            self.next_button.draw(self.screen, pos_mouse)
+            self.select_button.draw(self.screen)
 
-    # Actualiza la posicion del selector cada que lo movamos y lo mantiene funcionando
-    select_button.rect.x = posiciones[indice_actual]
-
-    # Dibuja el fondo
-    screen.blit(background, (0, 0))
-
-    #Dibujar el botoncito
-    next_button.draw(pos_mouse)
-    select_button.draw()
-    # Actualizar pantalla
-    pygame.display.flip()
+            pygame.display.flip()

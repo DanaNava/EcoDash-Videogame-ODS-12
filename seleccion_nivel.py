@@ -1,64 +1,70 @@
 import pygame
 
-class MiInterfaz:
+# ----------- Clase Button Reutilizable -----------
+class Button:
+    def __init__(self, rect, normal_path, hover_path, action):
+        self.rect = pygame.Rect(rect)
+        self.normal = pygame.image.load(normal_path).convert_alpha()
+        self.hover = pygame.image.load(hover_path).convert_alpha()
+        self.action = action
+
+    def draw(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            screen.blit(self.hover, self.rect)
+        else:
+            screen.blit(self.normal, self.rect)
+
+    def check_click(self, pos):
+        return self.action if self.rect.collidepoint(pos) else None
+
+
+# ----------- Clase Selección de Nivel -----------
+class Seleccion_nivel:
     def __init__(self, screen):
         self.screen = screen
         self.running = True
-        self.cambio = None
-        # Aquí cargas tus imágenes, botones, fuentes, etc.
-        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_nivel/fondo/fondo_interfaz_Seleccion_de_nivel.png").convert()  
-       
-        self.botones = [{
-                "rect": pygame.Rect(175, 345, 213, 84),
-                "normal": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1.png").convert_alpha(),
-                "hover": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1_hover.png").convert_alpha()
-            },
-            {
-                "rect": pygame.Rect(409, 345, 213, 84),
-                "normal": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2.png").convert_alpha(),
-                "hover": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2_hover.png").convert_alpha()
-            },
-            {
-                "rect": pygame.Rect(634, 345, 213, 84),
-                "normal": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3.png").convert_alpha(),
-                "hover": pygame.image.load("assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3_hover.png").convert_alpha()
-            },
-            {
-                "rect": pygame.Rect(0, 2, 120, 67),
-                "normal": pygame.image.load("assets_PI/sprites/boton_back.png").convert_alpha(),
-                "hover": pygame.image.load("assets_PI/sprites/boton_back_hover.png").convert_alpha()
-            }
-            ]  
+
+        # Fondo
+        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_nivel/fondo/fondo_interfaz_Seleccion_de_nivel.png").convert()
+
+        # Botones
+        self.botones = [
+            Button((175, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1_hover.png","nivel1"),
+
+            Button((409, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2_hover.png","nivel2"),
+
+            Button((634, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3_hover.png","nivel3"),
+
+            Button((0, 2, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","seleccion_dificultad")
+        ]
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             self.running = False
-        
+            return "salir"
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = event.pos
-            for i, boton in enumerate(self.botones):
-                if boton["rect"].collidepoint(mouse_pos):
-                    if i == 0:
-                        self.cambio = "nivel 1"
-                    elif i == 1:
-                        self.cambio = "nivel 2"
-                    elif i == 2:
-                        self.cambio = "nivel 3"
-                    elif i == 3:
-                        self.cambio = "Seleccion_dificultad"
+            for boton in self.botones:
+                accion = boton.check_click(event.pos)
+                if accion:
+                    return accion
 
     def update(self):
-        # Aquí actualizas animaciones, colores, etc.
         pass
 
     def draw(self):
-        self.screen.blit(self.fondo, (0,0))
-        # dibujar botones
-        mouse_pos = pygame.mouse.get_pos()
+        self.screen.blit(self.fondo, (0, 0))
         for boton in self.botones:
-            if boton["rect"].collidepoint(mouse_pos):
-                self.screen.blit(boton["hover"], boton["rect"].topleft)
-            else:
-                self.screen.blit(boton["normal"], boton["rect"].topleft)
+            boton.draw(self.screen)
 
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                cambio = self.handle_event(event)
+                if cambio:
+                    return cambio
 
+            self.update()
+            self.draw()
+            pygame.display.flip()
