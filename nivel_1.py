@@ -3,6 +3,7 @@ import sys
 
 def run_level1():
     pygame.init()
+    pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Nivel 1")
 
@@ -27,6 +28,34 @@ def run_level1():
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
+
+
+    # -----------------------------
+    # CARGA musica de fondo
+    # -----------------------------
+    pygame.mixer.music.load("assets_PI/musica/musica_nivel.wav")
+    pygame.mixer.music.set_volume(0.5)  # volumen 0.0 a 1.0
+    pygame.mixer.music.play(-1)  # -1 = bucle infinito
+
+    # -----------------------------
+    # CARGA efectos de sonido
+    # -----------------------------
+    sonido_caminar = pygame.mixer.Sound("assets_PI/sonidos/pasos_madera.wav")
+    sonido_dano = pygame.mixer.Sound("assets_PI/sonidos/recibir_daño.wav")
+    sonido_morir = pygame.mixer.Sound("assets_PI/sonidos/morir.wav")
+    sonido_recoger = pygame.mixer.Sound("assets_PI/sonidos/recoger_basura.wav")
+    sonido_tirar_correcto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_bien.wav")
+    sonido_tirar_incorrecto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_error.wav")
+
+
+    # Volúmenes
+    sonido_caminar.set_volume(1)
+    sonido_dano.set_volume(0.1)
+    sonido_morir.set_volume(0.6)
+    sonido_recoger.set_volume(0.4)
+    sonido_tirar_correcto.set_volume(0.5)
+    sonido_tirar_incorrecto.set_volume(1)
+
 
     # -----------------------------
     # BASURA
@@ -141,6 +170,11 @@ def run_level1():
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             hitbox.y += velocidad
 
+        # Al caminar
+        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_UP] or keys[pygame.K_DOWN]:
+            if not pygame.mixer.get_busy():  # Para que no se superponga
+                sonido_caminar.play()
+
         for rect in colisiones:
             if hitbox.colliderect(rect):
                 hitbox.x = old_hitbox.x
@@ -158,6 +192,7 @@ def run_level1():
             for obj in basura[:]:
                 if hitbox.inflate(12, 12).colliderect(obj["rect"]):
                     if objeto_en_mano is None:
+                        sonido_recoger.play()
                         objeto_en_mano = obj
                         basura.remove(obj)
                         mensaje = f"Recogiste: {obj['nombre']}"
@@ -181,6 +216,7 @@ def run_level1():
                         if objeto_en_mano["tipo"] == bote["tipo"]:
                             mensaje = f"Tiraste {objeto_en_mano['nombre']} en bote {bote['nombre']}"
                             objeto_en_mano = None
+                            sonido_tirar_correcto.play()
                         else:
                             errores += 1
                             mensaje = f"No puedes tirar {objeto_en_mano['nombre']} en bote {bote['nombre']}"
@@ -188,6 +224,7 @@ def run_level1():
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
                             objeto_en_mano = None
+                            sonido_tirar_incorrecto.play()
                         mensaje_tiempo = pygame.time.get_ticks()
                         break
 
@@ -220,6 +257,7 @@ def run_level1():
 
         # Animación de daño
         if animando_dano:
+            sonido_dano.play()
             ahora = pygame.time.get_ticks()
             if ahora - tiempo_frame >= duracion_frame:
                 frame_actual_dano += 1
@@ -242,6 +280,7 @@ def run_level1():
                 tiempo_fin_animacion = None
 
             if animando_muerte:
+                sonido_morir.play()
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_frame_muerte >= duracion_frame:
                     frame_actual_muerte += 1
@@ -261,6 +300,10 @@ def run_level1():
             elif tiempo_fin_animacion:
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
+                    pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
+                    pygame.mixer.music.set_volume(0.5)  # volumen 0.0 a 1.0
+                    pygame.mixer.music.play(-1)  # -1 = bucle infinito
+
                     while True:
                             screen.fill((0, 0, 0))
                             screen.blit(pantalla_perdida, (0, 0))
