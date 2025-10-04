@@ -1,12 +1,19 @@
 import pygame
 
+pygame.init()
+pygame.mixer.init()
+click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
+click_sound.set_volume(0.5)  # Ajusta el volumen (0.0 a 1.0)
+
+
 # ----------- Clase Button Reutilizable -----------
 class Button:
-    def __init__(self, rect, normal_path, hover_path, action):
+    def __init__(self, rect, normal_path, hover_path, action, sound = None):
         self.rect = pygame.Rect(rect)
         self.normal = pygame.image.load(normal_path).convert_alpha()
         self.hover = pygame.image.load(hover_path).convert_alpha()
         self.action = action
+        self.sound = sound 
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
@@ -16,7 +23,11 @@ class Button:
             screen.blit(self.normal, self.rect)
 
     def check_click(self, pos):
-        return self.action if self.rect.collidepoint(pos) else None
+       if self.rect.collidepoint(pos):
+            if self.sound:   # reproducir sonido al hacer clic
+                self.sound.play()
+            return self.action
+       return None
 
 
 # ----------- Clase Selección de Nivel -----------
@@ -30,13 +41,13 @@ class Seleccion_nivel:
 
         # Botones
         self.botones = [
-            Button((175, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1_hover.png","nivel1"),
+            Button((175, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel1_hover.png","nivel1", click_sound),
 
-            Button((409, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2_hover.png","nivel2"),
+            Button((409, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel2_hover.png","nivel2", click_sound),
 
-            Button((634, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3_hover.png","nivel3"),
+            Button((634, 345, 213, 84),"assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3.png","assets_PI/interfaces/eleguir_nivel/botones/boton_interfaz_eleguir_nivel_nivel3_hover.png","nivel3", click_sound),
 
-            Button((0, 2, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","seleccion_dificultad")
+            Button((0, 2, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","seleccion_dificultad", click_sound)
         ]
 
     def handle_event(self, event):

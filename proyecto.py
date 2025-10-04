@@ -3,7 +3,9 @@ import pygame
 import sys
 
 pygame.init()
-
+pygame.mixer.init()
+click_sound = pygame.mixer.Sound("assets_PI\sonidos\sonido_click_main.wav")
+click_sound.set_volume(0.5)  # Ajusta el volumen (0.0 a 1.0)
 # Colores
 negro = (0, 0, 0)
 blanco = (255, 255, 255)
@@ -65,6 +67,7 @@ class Main:
                     return "salir"
 
                 if self.start_button.clicked(event):
+                    click_sound.play()
                     return "select_character"
 
                 if self.tutorial_button.clicked(event):
