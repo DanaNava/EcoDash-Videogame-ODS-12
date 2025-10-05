@@ -15,6 +15,14 @@ def run_level1():
     capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_derecha.png").convert_alpha()
     capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
     capa_delante_3 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_arriba.png").convert_alpha()
+    capa_delante_4 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_1.png").convert_alpha()
+    capa_delante_5 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_2.png").convert_alpha()
+    capa_delante_6 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_3.png").convert_alpha()
+    capa_delante_7 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_4.png").convert_alpha()
+    capa_delante_8 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_1.png").convert_alpha()
+    capa_delante_9 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_2.png").convert_alpha()
+    capa_delante_10 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_1.png").convert_alpha()
+    capa_delante_11 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_2.png").convert_alpha()
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
     bv2 = pygame.image.load("assets_PI/sprites/barra_vida_2co.png")
@@ -105,8 +113,8 @@ def run_level1():
     ]
 
     colisiones = [
-        pygame.Rect(9, 150, 14, 601),  # pared izquierda
-        pygame.Rect(10, 737, 1005, 17),  # pared abajo
+        pygame.Rect(9, 150, 30, 601),  # pared izquierda
+        pygame.Rect(10, 725, 1005, 50),  # pared abajo
         pygame.Rect(1003, 11, 10, 734),  # pared derecha
         pygame.Rect(690, 17, 21, 450),  # pared bodega izquierda
         pygame.Rect(261, 15, 9, 250),  # pared esquina izquierda
@@ -118,9 +126,9 @@ def run_level1():
         pygame.Rect(959, 391, 40, 75),  # pared abajo bodega_2
         pygame.Rect(400, 58, 289, 73),  # pared arriba sala
         pygame.Rect(421, 219, 70, 71),  # sofa rojo
-        pygame.Rect(645, 220, 43, 52),  # mesa con tele
+        pygame.Rect(645, 210, 43, 60),  # mesa con tele
         pygame.Rect(950, 577, 20, 26),  # sofa azul
-        pygame.Rect(178, 530, 120, 20),  # mesa redonda_arriba
+        pygame.Rect(185, 519, 107, 20),  # mesa redonda_arriba
         pygame.Rect(176, 572, 120, 20),  # mesa redonda_abajo
         pygame.Rect(217, 451, 42, 60),  # silla arriba
         pygame.Rect(127, 545, 35, 1),  # silla izquierda
@@ -179,7 +187,7 @@ def run_level1():
 
 
     # Tiempo
-    tiempo = 30
+    tiempo = 90
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo =pygame.font.Font(None, 48)
 
@@ -230,11 +238,13 @@ def run_level1():
         personaje_draw_rect.center = hitbox.center
 
         # Edge detection
-        pressed_e = keys[pygame.K_e] and not prev_keys[pygame.K_e]
-        pressed_q = keys[pygame.K_q] and not prev_keys[pygame.K_q]
+        pressed_o = keys[pygame.K_o] and not prev_keys[pygame.K_o]
+        pressed_p = keys[pygame.K_p] and not prev_keys[pygame.K_p]
+        pressed_z = keys[pygame.K_z] and not prev_keys[pygame.K_z]
+        pressed_x = keys[pygame.K_x] and not prev_keys[pygame.K_x]
 
         # Recoger objetos
-        if pressed_e:
+        if pressed_o or pressed_z:
             for obj in basura[:]:
                 if hitbox.inflate(12, 12).colliderect(obj["rect"]):
                     if objeto_en_mano is None:
@@ -248,7 +258,7 @@ def run_level1():
                     break
 
         # Tirar basura
-        if pressed_q:
+        if pressed_p or pressed_x:
             if objeto_en_mano is None:
                 mensaje = "No tienes ningún objeto en la mano"
                 mensaje_tiempo = pygame.time.get_ticks()
@@ -316,6 +326,14 @@ def run_level1():
         screen.blit(capa_delante, (938, 424))
         screen.blit(capa_delante_2, (816, 423))
         screen.blit(capa_delante_3, (698, 333))
+        screen.blit(capa_delante_4, (425, 215))
+        screen.blit(capa_delante_5, (434, 202))
+        screen.blit(capa_delante_6, (449, 205))
+        screen.blit(capa_delante_7, (430, 205))
+        screen.blit(capa_delante_8, (244, 514))
+        screen.blit(capa_delante_9, (284, 519))
+        screen.blit(capa_delante_10, (192, 514))
+        screen.blit(capa_delante_10, (185, 519))
 
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
@@ -328,7 +346,8 @@ def run_level1():
 
         # Animación de daño
         if animando_dano:
-            sonido_dano.play()
+            if frame_actual_dano == 0:
+                sonido_dano.play()
             ahora = pygame.time.get_ticks()
             if ahora - tiempo_frame >= duracion_frame:
                 frame_actual_dano += 1
@@ -353,8 +372,16 @@ def run_level1():
 
         color_tiempo = (255, 0, 0) if tiempo_restante <= 20 else (255, 255, 255)
 
+
+        # Convertir a minutos y segundos
+        minutos = tiempo_restante // 60
+        segundos_restantes = tiempo_restante % 60
+
+        # Formato mm:ss con ceros (01:05)
+        tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
+
         pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
-        texto_tiempo = fuente_tiempo.render(f" {tiempo_restante}", True, color_tiempo)
+        texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
         screen.blit(texto_tiempo, (20, 90))
 
         
