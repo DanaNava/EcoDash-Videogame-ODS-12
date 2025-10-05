@@ -287,7 +287,7 @@ def run_level1():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 120
+    tiempo = 90
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
 
@@ -607,13 +607,13 @@ def run_level1():
         segundos = (tiempo_actual - inicio_tiempo) // 1000
         tiempo_restante = max(0, tiempo - segundos)
 
-        if tiempo_restante <= 20 and not musica_cambiada:
+        if tiempo_restante <= 30 and not musica_cambiada:
             pygame.mixer.music.load("assets_PI/musica/musica_apresurada.ogg")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
             musica_cambiada = True
 
-        color_tiempo = (255, 0, 0) if tiempo_restante <= 20 else (255, 255, 255)
+        color_tiempo = (255, 0, 0) if tiempo_restante <= 30 else (255, 255, 255)
 
         # Convertir a minutos y segundos
         minutos = tiempo_restante // 60
