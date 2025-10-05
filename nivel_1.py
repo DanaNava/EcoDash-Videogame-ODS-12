@@ -275,8 +275,8 @@ def run_level1():
     objeto_en_mano = None
     mensaje = ""
     mensaje_tiempo = 0
-    duracion_mensaje = 2000
-    fuente = pygame.font.Font(None, 36)
+    duracion_mensaje = 3000  # Aumentar a 3 segundos
+    fuente = pygame.font.Font(None, 32)  # Fuente más pequeña
     
     # velocidad del juego y personaje
     velocidad = 5
@@ -287,7 +287,7 @@ def run_level1():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 30
+    tiempo = 120
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
 
@@ -318,6 +318,7 @@ def run_level1():
         old_hitbox = hitbox.copy()
 
         # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
+       # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
         if not animando_muerte and not tiempo_fin_animacion:
             moving = False
             # Movimiento
@@ -401,7 +402,7 @@ def run_level1():
                         mensaje_tiempo = pygame.time.get_ticks()
                         break
 
-            # Tirar basura
+            # Tirar basura - VERSIÓN CORREGIDA
             if pressed_p or pressed_x:
                 if objeto_en_mano is None:
                     mensaje = "No tienes ningún objeto en la mano"
@@ -409,32 +410,43 @@ def run_level1():
                 else:
                     proximity = hitbox.inflate(24, 24)
                     tiro_valido = False
+                    bote_correcto_encontrado = False
+                    bote_actual = None
 
+                    # PRIMERO: Encontrar qué bote está cerca (si hay alguno)
                     for bote in botes:
                         if proximity.colliderect(bote["rect"]):
                             tiro_valido = True
-                            if objeto_en_mano["tipo"] == bote["tipo"]:
-                                mensaje = f"Tiraste {objeto_en_mano['nombre']} en bote {bote['nombre']}"
-                                objeto_en_mano = None
-                                sonido_tirar_correcto.play()
-                            else:
-                                errores += 1
-                                mensaje = f"No puedes tirar {objeto_en_mano['nombre']} en bote {bote['nombre']}"
-                                animando_dano = True
-                                frame_actual_dano = 0
-                                tiempo_frame = pygame.time.get_ticks()
-                                objeto_en_mano = None
-                                sonido_tirar_incorrecto.play()
-                                
-                                # BARRA DE VIDA
-                                vida_actual -= 1
-                                if vida_actual < 0:
-                                    vida_actual = 0
+                            bote_actual = bote  # Guardar referencia al bote cercano
+                            break  # Solo nos interesa el bote más cercano
 
-                            mensaje_tiempo = pygame.time.get_ticks()
-                            break
+                    # SEGUNDO: Procesar el tiro solo si hay un bote cercano
+                    if tiro_valido and bote_actual:
+                        # Verificar si es el bote CORRECTO para este objeto
+                        if objeto_en_mano["tipo"] == bote_actual["tipo"]:
+                            # Tiro CORRECTO
+                            bote_correcto_encontrado = True
+                            mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            objeto_en_mano = None
+                            sonido_tirar_correcto.play()
+                        else:
+                            # Tiro INCORRECTO - NO tirar pero recibir daño
+                            errores += 1
+                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            animando_dano = True
+                            frame_actual_dano = 0
+                            tiempo_frame = pygame.time.get_ticks()
+                            # IMPORTANTE: NO liberar el objeto - el jugador lo mantiene en la mano
+                            sonido_tirar_incorrecto.play()
+                
+                            # BARRA DE VIDA
+                            vida_actual -= 1
+                            if vida_actual < 0:
+                                vida_actual = 0
 
-                    if not tiro_valido:
+                        mensaje_tiempo = pygame.time.get_ticks()
+                    else:
+                        # No hay bote cercano
                         mensaje = "No hay un bote cerca"
                         mensaje_tiempo = pygame.time.get_ticks()
 
@@ -576,10 +588,17 @@ def run_level1():
 
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
-            mensaje_rect = pygame.Rect(520, 12, 500, 36)
+            # Calcular el ancho del texto
+            texto_surface = fuente.render(mensaje, True, (255, 255, 255))
+            texto_ancho = texto_surface.get_width()
+    
+            # Crear rectángulo dinámico basado en el ancho del texto
+            mensaje_ancho = min(texto_ancho + 20, 700)  # Máximo 700 píxeles
+            mensaje_rect = pygame.Rect(512 - mensaje_ancho // 2, 12, mensaje_ancho, 36)
+    
             pygame.draw.rect(screen, (0, 0, 0), mensaje_rect)
-            texto = fuente.render(mensaje, True, (255, 255, 255))
-            screen.blit(texto, (mensaje_rect.x + 10, mensaje_rect.y + 5))
+            pygame.draw.rect(screen, (255, 255, 255), mensaje_rect, 2)  # Borde blanco
+            screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
         else:
             mensaje = ""
 
