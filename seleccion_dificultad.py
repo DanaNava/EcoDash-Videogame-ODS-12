@@ -1,42 +1,46 @@
 import pygame
-pygame.init()
-pygame.mixer.init()
+pygame.init()  # Inicializa pygame
+pygame.mixer.init()  # Inicializa el sistema de sonido
+
+# Sonido general de clic para los botones
 click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
 click_sound.set_volume(0.5)  # Ajusta el volumen (0.0 a 1.0)
 
 # ----------- Clase Button Reutilizable -----------
 class Button:
     def __init__(self, rect, normal_path, hover_path, action, sound=None):
-        self.rect = pygame.Rect(rect)
-        self.normal = pygame.image.load(normal_path).convert_alpha()
-        self.hover = pygame.image.load(hover_path).convert_alpha()
-        self.action = action
-        self.sound = sound 
+        self.rect = pygame.Rect(rect)  # Zona clickeable del botón
+        self.normal = pygame.image.load(normal_path).convert_alpha()  # Imagen normal
+        self.hover = pygame.image.load(hover_path).convert_alpha()  # Imagen con hover
+        self.action = action  # Acción que devuelve al hacer clic
+        self.sound = sound  # Sonido opcional al presionar
 
     def draw(self, screen):
-        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = pygame.mouse.get_pos()  # Obtener posición del mouse
+        # Si el mouse está encima del botón, mostrar hover, si no la imagen normal
         if self.rect.collidepoint(mouse_pos):
             screen.blit(self.hover, self.rect)
         else:
             screen.blit(self.normal, self.rect)
 
     def check_click(self, pos):
+        # Revisa si se hizo clic dentro del botón
         if self.rect.collidepoint(pos):
-            if self.sound:   # reproducir sonido al hacer clic
+            if self.sound:   # Reproducir sonido al hacer clic si se configuró
                 self.sound.play()
-            return self.action
-        return None
+            return self.action  # Devuelve la acción asignada
+        return None  # Si no se clickeó el botón no hace nada
 
 # ----------- Clase de Interfaz -----------
-class Seleccion_dificultad:  # Elegir dificultad
+class Seleccion_dificultad:  # Pantalla para elegir dificultad
     def __init__(self, screen):
         self.screen = screen
         self.running = True
 
-        # Fondo
+        # Fondo de la interfaz
         self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_dificultad/fondo/fondo_interfaz_elegir_dificultad.png").convert()
 
-        # Botones con acción directa
+        # Lista de botones con sus acciones
         self.botones = [
             Button((199, 303, 237, 96),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil_hover.png","facil", click_sound ),
 
@@ -48,29 +52,29 @@ class Seleccion_dificultad:  # Elegir dificultad
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             self.running = False
-            return "salir"
+            return "salir"  # Si se cierra la ventana, se sale del juego
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             for boton in self.botones:
                 accion = boton.check_click(event.pos)
                 if accion:
-                    return accion  # 🔥 devolvemos directamente la acción
+                    return accion # Devuelve la acción del botón y cambia de pantalla
 
     def update(self):
-        pass  # Por si agregas animaciones luego
+        pass  
 
     def draw(self):
-        self.screen.blit(self.fondo, (0, 0))
+        self.screen.blit(self.fondo, (0, 0))  # Dibujar el fondo
         for boton in self.botones:
-            boton.draw(self.screen)
+            boton.draw(self.screen)  # Dibujar cada botón
 
     def run(self):
         while self.running:
             for event in pygame.event.get():
                 cambio = self.handle_event(event)
-                if cambio:  # si se seleccionó algo
+                if cambio:  # Si se seleccionó alguna opción
                     return cambio
 
             self.update()
             self.draw()
-            pygame.display.flip()
+            pygame.display.flip()  # Actualiza la pantalla con los cambios
