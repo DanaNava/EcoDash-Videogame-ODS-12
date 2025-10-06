@@ -1,7 +1,8 @@
 import pygame
 
 # Importamos todas las pantallas necesarias para la navegación del juego
-from proyecto import Main        
+from proyecto import Main
+from configuracion import Configuracion        
 from select_character import Select_character
 from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
@@ -17,7 +18,7 @@ def main():
     pygame.mixer.music.play(-1)  # Reproduce la música en loop infinito (-1)
 
     screen = pygame.display.set_mode((1024, 768))  # Crea la ventana del juego con resolución 1024x768
-    pygame.display.set_caption("Mi Juego")  # Título de la ventana
+    pygame.display.set_caption("Eco Dash")  # Título de la ventana
 
     # Cargar efecto de sonido para los clics
     click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
@@ -31,6 +32,9 @@ def main():
         # Lógica de navegación entre pantallas
         if resultado == "select_character":
             pantalla_actual = Select_character(screen)  # Ir a la pantalla de selección de personaje
+
+        elif resultado == "configuracion":
+            pantalla_actual = Configuracion(screen)
 
         elif resultado == "main":
             pantalla_actual = Main(screen)  # Volver al menú principal

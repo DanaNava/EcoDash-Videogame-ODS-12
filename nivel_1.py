@@ -110,9 +110,9 @@ def run_level1():
     ]
 
     botes = [
-        {"nombre": "Azul", "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
-        {"nombre": "Verde", "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
-        {"nombre": "Rojo", "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
+        {"nombre": "Inorganico", "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
+        {"nombre": "Organico", "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
+        {"nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
     ]
 
     colisiones = [
@@ -151,7 +151,7 @@ def run_level1():
         pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda5.png").convert_alpha()
     ]
 
-    # Para delante y detrás, usar las mismas que derecha (o crear específicas si las tienes)
+    # Para delante y detrás, usar las mismas que derecha
     frames_muerte_delante = frames_muerte_derecha
     frames_muerte_detras = frames_muerte_derecha
 
@@ -228,8 +228,8 @@ def run_level1():
         pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda9.png").convert_alpha()
     ]
 
-    # Para delante usaremos la postura estática o podemos crear frames si los tienes
-    frames_quieto_delante = [quieto_delante]  # Solo una imagen o puedes agregar más frames si los tienes
+    # Para delante postura estática
+    frames_quieto_delante = [quieto_delante]
 
     pantalla_perdida = pygame.image.load("assets_PI/interfaces/perdida/game over 2.0.png").convert_alpha()
 
@@ -317,7 +317,6 @@ def run_level1():
         keys = pygame.key.get_pressed()
         old_hitbox = hitbox.copy()
 
-        # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
        # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
         if not animando_muerte and not tiempo_fin_animacion:
             moving = False
@@ -413,7 +412,7 @@ def run_level1():
                     bote_correcto_encontrado = False
                     bote_actual = None
 
-                    # PRIMERO: Encontrar qué bote está cerca (si hay alguno)
+                    # PRIMERO: Encontrar qué bote está cerca
                     for bote in botes:
                         if proximity.colliderect(bote["rect"]):
                             tiro_valido = True
@@ -531,7 +530,7 @@ def run_level1():
                 }
                 frame = posturas_quieto.get(ultima_direccion, quieto_delante)
         else:
-            # Durante daño o muerte, usar la última postura conocida (estática)
+            # Durante daño o muerte, usar la última postura conocida
             posturas_quieto = {
                 "derecha": quieto_derecha,
                 "izquierda": quieto_izquierda,
