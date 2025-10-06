@@ -84,8 +84,8 @@ def run_level1():
 
     # Volúmenes
     sonido_caminar.set_volume(1)
-    sonido_dano.set_volume(0.1)
-    sonido_morir.set_volume(0.6)
+    sonido_dano.set_volume(0.5)
+    sonido_morir.set_volume(1)
     sonido_recoger.set_volume(0.4)
     sonido_tirar_correcto.set_volume(0.5)
     sonido_tirar_incorrecto.set_volume(1)
@@ -630,6 +630,7 @@ def run_level1():
             pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
+            sonido_morir.play()
 
             while True:
                 screen.fill((0, 0, 0))
@@ -656,9 +657,11 @@ def run_level1():
                         sys.exit()
                     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if rect_reintentar.collidepoint(mouse_pos):
-                            run_level1()  # reiniciar nivel
+                            pygame.mixer.music.stop()
+                            return "reintentar"  # reiniciar nivel
                         elif rect_menu.collidepoint(mouse_pos):
-                            return  # volver al menú
+                            pygame.mixer.music.stop()
+                            return "main"  # volver al menú
 
         def mostrar_pantalla_victoria():
             pygame.mixer.music.load("assets_PI\musica\musica_victoria.mp3")
@@ -690,13 +693,20 @@ def run_level1():
                         sys.exit()
                     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if rect_reintentar.collidepoint(mouse_pos):
-                            run_level1()  # reiniciar nivel
+                            pygame.mixer.music.stop()
+                            return "reintentar"  # reiniciar nivel
                         elif rect_menu.collidepoint(mouse_pos):
-                            return  # volver al menú
+                            pygame.mixer.music.stop()
+                            return "main" # volver al menú
             
         #ganar
         if ganar(basura, objeto_en_mano):
-            mostrar_pantalla_victoria()
+            resultado = mostrar_pantalla_victoria()
+            if resultado == "main":
+                return "main"  # Volver al menú principal
+            elif resultado == "reintentar":
+                return "reintentar" # Reiniciar nivel
+                
 
          
         # -----------------------------
@@ -740,7 +750,12 @@ def run_level1():
             elif tiempo_fin_animacion:
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
-                    mostrar_pantalla_perdida()
+                    resultado = mostrar_pantalla_perdida()
+                    if resultado == "main":
+                        return "main"  # Volver al menú principal
+                    elif resultado == "reintentar":
+                        return "reintentar"  # Reiniciar nivel
+        
                 else:
                     # CORRECCIÓN: Mantener la última animación de muerte según dirección
                     if ultima_direccion == "izquierda":
@@ -765,7 +780,7 @@ def run_level1():
         pygame.display.flip()
         clock.tick(60)
         prev_keys = keys
-
+        
     pygame.quit()
 
 if __name__ == "__main__":
