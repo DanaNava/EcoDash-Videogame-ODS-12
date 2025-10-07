@@ -38,13 +38,13 @@ class Seleccion_dificultad:  # Pantalla para elegir dificultad
         self.running = True
 
         # Fondo de la interfaz
-        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_dificultad/fondo/fondo_interfaz_elegir_dificultad.png").convert()
+        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_dificultad/fondo/fondo_interfaz_elegir_dificultad_2.png").convert()
 
         # Lista de botones con sus acciones
         self.botones = [
-            Button((199, 303, 237, 96),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil_hover.png","facil", click_sound ),
+            Button((152, 313, 333, 97),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil_hover.png","facil", click_sound ),
 
-            Button((197, 475, 235, 97),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio_hover.png","medio", click_sound ),
+            Button((152, 482, 330, 98),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio_hover.png","medio", click_sound ),
 
             Button((0, 35, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","select_character", click_sound )
         ]
