@@ -2,7 +2,7 @@ import pygame
 import sys
 
 
-def run_level1():
+def run_level2():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
@@ -881,4 +881,4 @@ def run_level1():
     pygame.quit()
 
 if __name__ == "__main__":
-    run_level1()
+    run_level2()
