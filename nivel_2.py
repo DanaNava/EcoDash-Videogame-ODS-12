@@ -64,6 +64,23 @@ def run_level2():
     capa_arbol45 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb45.png").convert_alpha()
     capa_arbol46 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb46.png").convert_alpha()
 
+    #lampara
+    capa_lampara1 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara1.png").convert_alpha()
+    capa_lampara2 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara2.png").convert_alpha()
+    capa_lampara3 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara3.png").convert_alpha()
+    capa_lampara4 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara4.png").convert_alpha()
+    capa_lampara5 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara5.png").convert_alpha()
+    capa_lampara6 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara6.png").convert_alpha()
+    capa_lampara7 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara7.png").convert_alpha()
+    capa_lampara8 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara8.png").convert_alpha()
+    capa_lampara9 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara9.png").convert_alpha()
+    capa_lampara10 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara10.png").convert_alpha()
+    capa_lampara11 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara11.png").convert_alpha()
+    capa_lampara12 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara12.png").convert_alpha()
+    capa_lampara13 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara13.png").convert_alpha()
+    capa_lampara14 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara14.png").convert_alpha()
+    capa_lampara15 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara15.png").convert_alpha()
+    capa_lampara16 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara16.png").convert_alpha()
     
    
     # Pantalla de victoria y barras de vida
@@ -150,16 +167,16 @@ def run_level2():
     basura = [
         {"imagen": platano, "rect": platano.get_rect(topleft=(825, 621)), "nombre": "Plátano", "tipo": "organica"},
         {"imagen": agua, "rect": agua.get_rect(topleft=(552, 46)), "nombre": "Botella de agua", "tipo": "inorganica"},
-        {"imagen": foco, "rect": foco.get_rect(topleft=(420, 640)), "nombre": "Foco", "tipo": "peligrosa"},
+        {"imagen": foco, "rect": foco.get_rect(topleft=(463, 681)), "nombre": "Foco", "tipo": "peligrosa"},
         {"imagen": lata, "rect": lata.get_rect(topleft=(954, 74)), "nombre": "Lata", "tipo": "inorganica"},
         {"imagen": manzana, "rect": manzana.get_rect(topleft=(107, 193)), "nombre": "Manzana", "tipo": "organica"},
-        {"imagen": bateria, "rect": bateria.get_rect(topleft=(50, 600)), "nombre": "Batería", "tipo": "peligrosa"},
+        {"imagen": bateria, "rect": bateria.get_rect(topleft=(287, 325)), "nombre": "Batería", "tipo": "peligrosa"},
     ]
 
     botes = [
         {"nombre": "Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
         {"nombre": "Organico", "tipo": "organica", "rect": pygame.Rect(215, 400, 54, 24)},
-        {"nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(346, 687, 52, 29)}
+        {"nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)}
     ]
 
     colisiones = [
@@ -180,7 +197,13 @@ def run_level2():
         #mesa para comer?
         pygame.Rect(702, 494, 18, 83), pygame.Rect(737, 529, 86, 10), pygame.Rect(850, 495, 12, 93), pygame.Rect(758, 456, 50, 25),
         #arboles y arbustos
-        pygame.Rect(22, 83, 107, 60), pygame.Rect(88, 640, 45, 49)
+        pygame.Rect(22, 83, 107, 60), pygame.Rect(88, 640, 45, 49),
+        #lampara
+        pygame.Rect(415, 699, 7, 8),
+        #juegos de los niños
+        pygame.Rect(604, 268, 151, 26),
+        #bote peligro
+        pygame.Rect(648, 710, 30, 36)
     ]
 
     # -----------------------------
@@ -680,7 +703,23 @@ def run_level2():
         screen.blit(capa_arbol44, (47, 687))
         screen.blit(capa_arbol45, (59, 684))
         screen.blit(capa_arbol46, (32, 675))
-
+        #fondo lampara
+        screen.blit(capa_lampara1, (412, 612))
+        screen.blit(capa_lampara2, (415, 607))
+        screen.blit(capa_lampara3, (422, 604))
+        screen.blit(capa_lampara4, (432, 599))
+        screen.blit(capa_lampara5, (425, 602))
+        screen.blit(capa_lampara6, (455, 602))
+        screen.blit(capa_lampara7, (462, 604))
+        screen.blit(capa_lampara8, (466, 610))
+        screen.blit(capa_lampara9, (469, 612)) 
+        screen.blit(capa_lampara10, (466, 617))
+        screen.blit(capa_lampara11, (462, 620))
+        screen.blit(capa_lampara12, (459, 623))
+        screen.blit(capa_lampara13, (455, 625))
+        screen.blit(capa_lampara14, (459, 633))
+        screen.blit(capa_lampara15, (408, 709))
+        screen.blit(capa_lampara16, (405, 717))
 
    
         # Mensaje
