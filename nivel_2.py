@@ -10,6 +10,7 @@ def run_level2():
 
     # -----------------------------
     # CARGA DE IMÁGENES
+    #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
     fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondo_nivel2.png").convert_alpha()
     #arboles
@@ -39,12 +40,12 @@ def run_level2():
     capa_arbol20 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb20.png").convert_alpha()
     capa_arbol21 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb21.png").convert_alpha()
     capa_arbol22 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol23 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol24 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol25 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol26 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol27 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
-    capa_arbol28 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb22.png").convert_alpha()
+    capa_arbol23 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb23.png").convert_alpha()
+    capa_arbol24 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb24.png").convert_alpha()
+    capa_arbol25 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb25.png").convert_alpha()
+    capa_arbol26 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb26.png").convert_alpha()
+    capa_arbol27 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb27.png").convert_alpha()
+    capa_arbol28 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb28.png").convert_alpha()
     capa_arbol29 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb29.png").convert_alpha()
     capa_arbol30 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb30.png").convert_alpha()
     capa_arbol31 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb31.png").convert_alpha()
@@ -63,6 +64,32 @@ def run_level2():
     capa_arbol44 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb44.png").convert_alpha()
     capa_arbol45 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb45.png").convert_alpha()
     capa_arbol46 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb46.png").convert_alpha()
+    capa_arbol47 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb47.png").convert_alpha()
+    capa_arbol48 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb48.png").convert_alpha()
+    capa_arbol49 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb49.png").convert_alpha()
+    capa_arbol50 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb50.png").convert_alpha()
+    capa_arbol51 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb51.png").convert_alpha()
+    capa_arbol52 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb52.png").convert_alpha()
+    capa_arbol53 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb53.png").convert_alpha()
+    capa_arbol54 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb54.png").convert_alpha()
+    capa_arbol55 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb55.png").convert_alpha()
+    capa_arbol56 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb56.png").convert_alpha()
+    capa_arbol57 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb57.png").convert_alpha()
+    capa_arbol58 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb58.png").convert_alpha()
+    capa_arbol59 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb59.png").convert_alpha()
+    capa_arbol60 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb60.png").convert_alpha()
+    capa_arbol61 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb61.png").convert_alpha()
+    capa_arbol62 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb62.png").convert_alpha()
+    capa_arbol63 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb63.png").convert_alpha()
+    capa_arbol64 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb64.png").convert_alpha()
+    capa_arbol65 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb65.png").convert_alpha()
+    capa_arbol66 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb66.png").convert_alpha()
+    capa_arbol67 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/fondos/arb67.png").convert_alpha()
+   
+
+        
+
+
 
     #lampara
     capa_lampara1 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara1.png").convert_alpha()
@@ -81,6 +108,30 @@ def run_level2():
     capa_lampara14 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara14.png").convert_alpha()
     capa_lampara15 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara15.png").convert_alpha()
     capa_lampara16 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/lampara/lampara16.png").convert_alpha()
+
+    #columpio
+    capa_colum1 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/columpio/colu1.png").convert_alpha()
+    capa_colum2 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/columpio/colu2.png").convert_alpha()
+    capa_colum4 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/columpio/colu4.png").convert_alpha()
+    capa_colum5 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/columpio/colu5.png").convert_alpha()
+    capa_colum6 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/columpio/colu6.png").convert_alpha()
+
+    #detalles menores
+    cosa_1 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa1.png").convert_alpha()
+    cosa_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa2.png").convert_alpha()
+    cosa_3 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa3.png").convert_alpha()
+    cosa_4 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa4.png").convert_alpha()
+    cosa_5 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa5.png").convert_alpha()
+    cosa_6 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa6.png").convert_alpha()
+    cosa_7 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa7.png").convert_alpha()
+    cosa_8 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa8.png").convert_alpha()
+    cosa_9 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa9.png").convert_alpha()
+    cosa_10 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa10.png").convert_alpha()
+    cosa_11 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa11.png").convert_alpha()
+
+    
+    
+
     
    
     # Pantalla de victoria y barras de vida
@@ -162,6 +213,8 @@ def run_level2():
     #escalar basura
 
     lata = pygame.transform.scale(lata, (30, 30))
+    foco = pygame.transform.scale(foco, (40, 40))
+
 
    #ubicacion de la basura
     basura = [
@@ -181,7 +234,7 @@ def run_level2():
 
     colisiones = [
         #izquierda
-        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(0, 446, 168, 33), 
+        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 447, 75, 23), 
         pygame.Rect(0, 498, 4, 268),
         #abajo
         pygame.Rect(0, 762, 595, 6), pygame.Rect(609, 657, 22, 84), pygame.Rect(609, 760, 419, 6),
@@ -201,9 +254,14 @@ def run_level2():
         #lampara
         pygame.Rect(415, 699, 7, 8),
         #juegos de los niños
-        pygame.Rect(604, 268, 151, 26),
+        pygame.Rect(604, 268, 151, 26), pygame.Rect(271, 271, 154, 15), pygame.Rect(246, 137, 9, 19), pygame.Rect(489, 138, 11, 17), pygame.Rect(710, 36, 90, 47),
         #bote peligro
-        pygame.Rect(648, 710, 30, 36)
+        pygame.Rect(648, 710, 30, 36),
+        #bote inorganico
+        pygame.Rect(404, 410, 21, 9),
+        #bote organico
+        pygame.Rect(309, 409, 22, 9),
+
     ]
 
     # -----------------------------
@@ -367,7 +425,7 @@ def run_level2():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 60
+    tiempo = 180
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
 
@@ -703,6 +761,30 @@ def run_level2():
         screen.blit(capa_arbol44, (47, 687))
         screen.blit(capa_arbol45, (59, 684))
         screen.blit(capa_arbol46, (32, 675))
+        screen.blit(capa_arbol47, (189, 581))
+        screen.blit(capa_arbol48, (192, 583))
+        screen.blit(capa_arbol49, (192, 598))
+        screen.blit(capa_arbol50, (192, 638))
+        screen.blit(capa_arbol51, (195, 586))
+        screen.blit(capa_arbol52, (195, 604))
+        screen.blit(capa_arbol53, (195, 618))
+        screen.blit(capa_arbol54, (195, 624))
+        screen.blit(capa_arbol55, (195, 641))
+        screen.blit(capa_arbol56, (195, 647))
+        screen.blit(capa_arbol57, (198, 650))
+        screen.blit(capa_arbol58, (198, 658))
+        screen.blit(capa_arbol59, (201, 655))
+        screen.blit(capa_arbol60, (130, 665))
+        screen.blit(capa_arbol61, (134, 674))
+        screen.blit(capa_arbol62, (180, 675))
+        screen.blit(capa_arbol63, (137, 690))
+        screen.blit(capa_arbol64, (143, 688))
+        screen.blit(capa_arbol65, (143, 693))
+        screen.blit(capa_arbol66, (158, 693))
+        screen.blit(capa_arbol67, (167, 693))
+        screen.blit(capa_arbol66, (171, 696))
+        screen.blit(capa_arbol66, (146, 696))
+        
         #fondo lampara
         screen.blit(capa_lampara1, (412, 612))
         screen.blit(capa_lampara2, (415, 607))
@@ -720,6 +802,27 @@ def run_level2():
         screen.blit(capa_lampara14, (459, 633))
         screen.blit(capa_lampara15, (408, 709))
         screen.blit(capa_lampara16, (405, 717))
+
+        #columpio
+        screen.blit(capa_colum1, (485, 54))
+        screen.blit(capa_colum2, (486, 51))
+        screen.blit(capa_colum4, (259, 60))
+        screen.blit(capa_colum5, (242, 54))
+        screen.blit(capa_colum6, (243, 51))
+        
+        #detalles menores
+        screen.blit(cosa_1, (615, 232))
+        screen.blit(cosa_2, (613, 239))
+        screen.blit(cosa_3, (611, 242))
+        screen.blit(cosa_4, (614, 247))
+        screen.blit(cosa_5, (614, 248))
+        screen.blit(cosa_6, (610, 249))
+        screen.blit(cosa_7, (608, 251))
+        screen.blit(cosa_8, (610, 257))
+        screen.blit(cosa_9, (610, 257))
+        screen.blit(cosa_10, (632, 260))
+        screen.blit(cosa_11, (603, 260))
+
 
    
         # Mensaje
