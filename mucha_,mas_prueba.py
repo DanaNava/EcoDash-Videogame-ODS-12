@@ -643,6 +643,9 @@ def run_level1():
             frame_actual = obj["frames"][obj["frame_actual"]]
             screen.blit(frame_actual, obj["rect"])
 
+        # DIBUJAR BOTES
+        for bote in botes:
+            screen.blit(bote["imagen"], bote["rect"])
 
         # Actualizar animación
         ahora = pygame.time.get_ticks()
