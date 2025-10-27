@@ -209,11 +209,16 @@ def run_level2():
     lata = pygame.image.load("assets_PI/basura/inorganica/lata.png").convert_alpha()
     manzana = pygame.image.load("assets_PI/basura/organica/manzene.png").convert_alpha()
     bateria = pygame.image.load("assets_PI/basura/residuos_peligrosos/batería item -9c3f.png").convert_alpha()
+    periodico = pygame.image.load("assets_PI/basura/inorganica/periodico_mas_grande.png").convert_alpha()
+    cascara_huevo = pygame.image.load("assets_PI/basura/organica/cascara_huevo.png").convert_alpha()
+    jeringa = pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa.png").convert_alpha()
+
 
     #escalar basura
 
     lata = pygame.transform.scale(lata, (30, 30))
     foco = pygame.transform.scale(foco, (40, 40))
+    periodico = pygame.transform.scale(periodico, (50, 50))
 
 
    #ubicacion de la basura
@@ -224,6 +229,9 @@ def run_level2():
         {"imagen": lata, "rect": lata.get_rect(topleft=(954, 74)), "nombre": "Lata", "tipo": "inorganica"},
         {"imagen": manzana, "rect": manzana.get_rect(topleft=(107, 193)), "nombre": "Manzana", "tipo": "organica"},
         {"imagen": bateria, "rect": bateria.get_rect(topleft=(287, 325)), "nombre": "Batería", "tipo": "peligrosa"},
+        {"imagen": periodico, "rect": periodico.get_rect(topleft=(30, 360)), "nombre": "Periodico", "tipo": "inorganica"},
+        {"imagen": cascara_huevo, "rect": cascara_huevo.get_rect(topleft=(819, 466)), "nombre": "Cascara de huevo", "tipo": "organica"},
+        {"imagen": jeringa, "rect": jeringa.get_rect(topleft=(193, 689)), "nombre": "jeringa", "tipo": "peligrosa"},
     ]
 
     botes = [
@@ -234,7 +242,7 @@ def run_level2():
 
     colisiones = [
         #izquierda
-        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 447, 75, 23), 
+        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 448, 59, 20), 
         pygame.Rect(0, 498, 4, 268),
         #abajo
         pygame.Rect(0, 762, 595, 6), pygame.Rect(609, 657, 22, 84), pygame.Rect(609, 760, 419, 6),
@@ -250,7 +258,7 @@ def run_level2():
         #mesa para comer?
         pygame.Rect(702, 494, 18, 83), pygame.Rect(737, 529, 86, 10), pygame.Rect(850, 495, 12, 93), pygame.Rect(758, 456, 50, 25),
         #arboles y arbustos
-        pygame.Rect(22, 83, 107, 60), pygame.Rect(88, 640, 45, 49),
+        pygame.Rect(22, 83, 107, 60), pygame.Rect(88, 640, 45, 49), pygame.Rect(864, 236, 19, 125),
         #lampara
         pygame.Rect(415, 699, 7, 8),
         #juegos de los niños
@@ -261,6 +269,8 @@ def run_level2():
         pygame.Rect(404, 410, 21, 9),
         #bote organico
         pygame.Rect(309, 409, 22, 9),
+        #detalles
+        pygame.Rect(146, 47, 61, 8)
 
     ]
 
