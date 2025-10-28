@@ -273,7 +273,11 @@ def run_level2():
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa3.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
     ]
-
+    frames_surprice = [
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha(),
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha() 
+    ]
+    
     # -----------------------------
     # POSICIONES ALEATORIAS PARA BASURAS
     # -----------------------------
@@ -282,7 +286,7 @@ def run_level2():
         (825, 621),  
         (552, 46),  
         (463, 681),  
-        (954, 74),  
+        (961, 83),  
         (107, 193),  
         (287, 325),
         (197, 703),
@@ -303,7 +307,7 @@ def run_level2():
         {
             "frames": frames_banana, 
             "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
-            "nombre": "Plátano", 
+            "nombre": "un Plátano", 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -312,7 +316,7 @@ def run_level2():
         {
             "frames": frames_botella_agua, 
             "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
-            "nombre": "Botella de agua", 
+            "nombre": "una Botella de agua", 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -321,7 +325,7 @@ def run_level2():
         {
             "frames": frames_foco, 
             "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
-            "nombre": "Foco", 
+            "nombre": "un Foco", 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -330,7 +334,7 @@ def run_level2():
         {
             "frames": frames_lata, 
             "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
-            "nombre": "Lata", 
+            "nombre": "una Lata", 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -339,7 +343,7 @@ def run_level2():
         {
             "frames": frames_manzana, 
             "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]), 
-            "nombre": "Manzana", 
+            "nombre": "una Manzana", 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -348,16 +352,16 @@ def run_level2():
         {
             "frames": frames_bateria, 
             "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
-            "nombre": "Batería", 
+            "nombre": "una Batería", 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
-                {
+        {
             "frames": frames_cascara_huevo, 
             "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]), 
-            "nombre": "Cascara de huevo", 
+            "nombre": "Cascaras de huevo", 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -366,7 +370,7 @@ def run_level2():
         {
             "frames": frames_jeringa, 
             "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]), 
-            "nombre": "Jeringa", 
+            "nombre": "una Jeringa", 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -375,18 +379,31 @@ def run_level2():
         {
             "frames": frames_periodico, 
             "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]), 
-            "nombre": "Periodico", 
+            "nombre": "un Periodico", 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
+        },
+        {
+            "frames": frames_surprice, 
+            "rect": frames_surprice[0].get_rect(topleft=(90, 572)),
+            "nombre": "a Larry", 
+            "tipo": "segura",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
         }
-    ]
+
+        
+        ]
 
     botes = [
-        {"nombre": "Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
-        {"nombre": "Organico", "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
-        {"nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)}
+        {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
+        {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
+        {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
+        {"nombre": "a el arbol", "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
+
     ]
 
     colisiones = [
@@ -419,7 +436,7 @@ def run_level2():
         #bote organico
         pygame.Rect(309, 409, 22, 9),
         #detalles
-        pygame.Rect(146, 47, 61, 8)
+        pygame.Rect(146, 47, 61, 8), pygame.Rect(974, 669, 48, 11)
 
     ]
 
@@ -591,9 +608,26 @@ def run_level2():
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
 
-    # Verificar si gano
+   # Verificar si gano
     def ganar(basura, objeto_en_mano):
-        return len(basura) == 0 and objeto_en_mano is None
+        
+        # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
+        #    Excluye explícitamente el objeto "a Larry" (la sorpresa).
+        basura_esencial_restante = [
+            obj for obj in basura if obj["nombre"] != "a Larry"
+        ]
+        
+        # 2. Verifica si el objeto en la mano NO es la basura esencial.
+        #    El jugador PUEDE tener el objeto "a Larry" en la mano al ganar.
+        objeto_en_mano_esencial = (
+            objeto_en_mano is not None and 
+            objeto_en_mano["nombre"] != "a Larry"
+        )
+        
+        # 3. La condición de victoria es:
+        #    - La lista de basura esencial en el suelo debe estar vacía.
+        #    - Y el jugador no debe tener otra basura esencial en la mano.
+        return len(basura_esencial_restante) == 0 and not objeto_en_mano_esencial
 
     # Variable para el while infinito, para las teclas pulsadas y un contador de errores
     running = True
@@ -698,7 +732,7 @@ def run_level2():
                                 "tipo": obj["tipo"]
                             }
                             basura.remove(obj)
-                            mensaje = f"Recogiste: {obj['nombre']}"
+                            mensaje = f"Recogiste {obj['nombre']}"
                         else:
                             mensaje = "Ya tienes un objeto en la mano"
                         mensaje_tiempo = pygame.time.get_ticks()
@@ -728,13 +762,13 @@ def run_level2():
                         if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                             # Tiro CORRECTO
                             bote_correcto_encontrado = True
-                            mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
                             objeto_en_mano = None
                             sonido_tirar_correcto.play()
                         else:
                             # Tiro INCORRECTO - NO tirar pero recibir daño
                             errores += 1
-                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
                             animando_dano = True
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
@@ -793,13 +827,16 @@ def run_level2():
         elif vida_actual == 1:
             screen.blit(barra_vida1, (20, -20))
 
-        # DIBUJAR BASURAS CON ANIMACIONES
         for obj in basura:
+         # Evitar que el índice se salga del rango
+            if obj["frame_actual"] >= len(obj["frames"]):
+
+                obj["frame_actual"] = 0
             frame_actual = obj["frames"][obj["frame_actual"]]
             screen.blit(frame_actual, obj["rect"])
 
 
-     # Actualizar animación
+        # Actualizar animación
         ahora = pygame.time.get_ticks()
        
         # --- Animaciones de movimiento ---
