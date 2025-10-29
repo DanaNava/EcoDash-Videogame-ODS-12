@@ -274,8 +274,8 @@ def run_level2():
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
     ]
     frames_surprice = [
-        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha(),
-        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha() 
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha(),
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha() 
     ]
     
     # -----------------------------
@@ -402,7 +402,7 @@ def run_level2():
         {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
         {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
         {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
-        {"nombre": "a el arbol", "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
+        {"nombre": " al arbol", "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
 
     ]
 
