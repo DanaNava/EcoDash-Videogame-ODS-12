@@ -100,15 +100,13 @@ def run_level1():
     # BASURA CON ANIMACIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
-    # Botella de agua
     frames_botella_agua = [
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua4.png").convert_alpha()
     ]
     
-    # Lata
     frames_lata = [
         pygame.image.load("assets_PI/basura/inorganica/lata/lata1.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/lata/lata2.png").convert_alpha(),
@@ -841,7 +839,7 @@ def run_level1():
                             return "main"  # volver al menú
 
         def mostrar_pantalla_victoria():
-            pygame.mixer.music.load("assets_PI\musica\musica_victoria.mp3")
+            pygame.mixer.music.load("assets_PI/musica/musica_victoria.mp3")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
 
