@@ -130,7 +130,9 @@ def run_level2():
     cosa_9 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa9.png").convert_alpha()
     cosa_10 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa10.png").convert_alpha()
     cosa_11 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa11.png").convert_alpha()
-
+    cosa_12 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa12.png").convert_alpha()
+    cosa_13 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa13.png").convert_alpha()
+    cosa_14 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa14.png").convert_alpha()
    
     # Pantalla de victoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
@@ -334,7 +336,7 @@ def run_level2():
         {
             "frames": frames_lata, 
             "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
-            "nombre": "una Lata", 
+            "nombre": "una Lata ", 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -417,18 +419,18 @@ def run_level2():
         #conjunto de bancas
         pygame.Rect(996, 77, 17, 40), pygame.Rect(897, 41, 75, 14), pygame.Rect(839, 72, 33, 71),
         #rejas
-        pygame.Rect(837, 250, 11, 118), pygame.Rect(598, 376, 237, 4), pygame.Rect(208, 1, 630, 3), pygame.Rect(209, 30, 10, 332), 
+        pygame.Rect(837, 250, 11, 118), pygame.Rect(592, 382, 246, 3), pygame.Rect(208, 1, 630, 3), pygame.Rect(209, 30, 10, 332), 
         pygame.Rect(248, 385, 202, 7),
         #bancas no puestas 
-        pygame.Rect(187, 234, 10, 87), pygame.Rect(615, 438, 11, 52), 
+        pygame.Rect(187, 234, 10, 87), pygame.Rect(603, 428, 25, 34), 
         #mesa para comer?
-        pygame.Rect(702, 494, 18, 83), pygame.Rect(737, 529, 86, 10), pygame.Rect(850, 495, 12, 93), pygame.Rect(758, 456, 50, 25),
+        pygame.Rect(752, 456, 63, 81), pygame.Rect(709, 489, 17, 48), pygame.Rect(841, 488, 30, 48),
         #arboles y arbustos
         pygame.Rect(22, 83, 107, 60), pygame.Rect(88, 640, 45, 49), pygame.Rect(864, 236, 19, 125),
         #lampara
         pygame.Rect(415, 699, 7, 8),
         #juegos de los niños
-        pygame.Rect(604, 268, 151, 26), pygame.Rect(271, 271, 154, 15), pygame.Rect(246, 137, 9, 19), pygame.Rect(489, 138, 11, 17), pygame.Rect(710, 36, 90, 47),
+        pygame.Rect(640, 252, 111, 34), pygame.Rect(271, 271, 154, 15), pygame.Rect(246, 137, 9, 19), pygame.Rect(489, 138, 11, 17), pygame.Rect(710, 36, 90, 47),
         #bote peligro
         pygame.Rect(648, 710, 30, 36),
         #bote inorganico
@@ -1043,17 +1045,21 @@ def run_level2():
         screen.blit(capa_colum6, (243, 51))
         
         #detalles menores
-        screen.blit(cosa_1, (615, 232))
-        screen.blit(cosa_2, (613, 239))
-        screen.blit(cosa_3, (611, 242))
-        screen.blit(cosa_4, (614, 247))
-        screen.blit(cosa_5, (614, 248))
-        screen.blit(cosa_6, (610, 249))
-        screen.blit(cosa_7, (608, 251))
-        screen.blit(cosa_8, (610, 257))
-        screen.blit(cosa_9, (610, 257))
-        screen.blit(cosa_10, (632, 260))
-        screen.blit(cosa_11, (603, 260))
+        screen.blit(cosa_1, (660, 215))
+        screen.blit(cosa_2, (658, 217))
+        screen.blit(cosa_3, (656, 222))
+        screen.blit(cosa_4, (654, 225))
+        screen.blit(cosa_5, (666, 225))
+        screen.blit(cosa_6, (666, 231))
+        screen.blit(cosa_7, (653, 232))
+        screen.blit(cosa_8, (651, 234))
+        screen.blit(cosa_9, (671, 234))
+        screen.blit(cosa_10, (666, 240))
+        screen.blit(cosa_11, (649, 242))
+        screen.blit(cosa_12, (646, 243))
+        screen.blit(cosa_13, (643, 252))
+        screen.blit(cosa_14, (636, 253))
+     
 
 
    
