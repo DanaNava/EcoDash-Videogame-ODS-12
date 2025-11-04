@@ -101,10 +101,10 @@ def run_level1():
     # -----------------------------
     # Cargar frames de animación para cada basura
     frames_botella_agua = [
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella_agua4.png").convert_alpha()
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
     ]
     
     frames_lata = [

@@ -14,14 +14,12 @@ def run_level3():
     #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
     fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
-    #arboles
     
-    
-  
-    
-    
-
-   
+    #Capas
+    casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
+    pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
+    pared2= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared.png")
+    pared3= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared3.png")
     # Pantalla de victoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
@@ -301,8 +299,11 @@ def run_level3():
         pygame.Rect(700, 756, 324, 5), pygame.Rect(733, 580, 30, 170), pygame.Rect(960, 485, 51, 130), 
         pygame.Rect(0, 732, 684, 25), pygame.Rect(0, 0, 19, 768),
         #MESAS
-        pygame.Rect(105, 380, 85, 35), pygame.Rect(300, 380, 85, 35), pygame.Rect(00, 0, 0, 0), pygame.Rect(105, 570, 85, 35),
+        pygame.Rect(105, 380, 85, 35), pygame.Rect(300, 380, 85, 35), pygame.Rect(492, 380, 85, 35), pygame.Rect(105, 570, 85, 35),
         pygame.Rect(300, 570, 85, 35), pygame.Rect(493, 570, 85, 35),
+        #sillas
+        pygame.Rect(130, 444, 40, 2),pygame.Rect(320, 444, 40, 2), pygame.Rect(515, 444, 40, 2), pygame.Rect(133, 636, 38, 2),
+        pygame.Rect(320, 636, 80, 2),pygame.Rect(512, 636, 40, 2),
         #muebles
         pygame.Rect(245, 160, 190, 60),pygame.Rect(20, 104, 146, 20), pygame.Rect(600, 120, 10, 1),
         #botes
@@ -689,7 +690,7 @@ def run_level3():
         # -----------------------------
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
-
+        
         # BARRA DE VIDA
         if vida_actual == 3:
             screen.blit(barra_vida, (20, -20))
@@ -779,7 +780,9 @@ def run_level3():
                 "delante": quieto_delante
             }
             frame = posturas_quieto.get(ultima_direccion, quieto_delante)
-
+            
+         #casillero
+        screen.blit(casillero,(592, 51))     
         # --- DIBUJAR PERSONAJE ---
         personaje_draw_rect = frame.get_rect(center=hitbox.center)
         
@@ -806,19 +809,16 @@ def run_level3():
         else:
             # Dibujar personaje normal
             screen.blit(frame, personaje_draw_rect)
-
+       
+        #capas  
+        screen.blit(pared, (0, 741))
+        screen.blit(pared2,(660, 471))   
+        screen.blit(pared3, (660,0))
         # DIBUJAR OBJETO EN LA MANO
         if objeto_en_mano is not None and not animando_muerte:
             mano_x = personaje_draw_rect.centerx + 20
             mano_y = personaje_draw_rect.centery 
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
-
-        #fondo arbol esquina izquierda
-        
-
-
-
-   
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
