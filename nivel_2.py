@@ -603,7 +603,7 @@ def run_level2():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 180
+    tiempo = 250
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
 

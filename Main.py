@@ -8,6 +8,7 @@ from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
 from nivel_1 import run_level1
 from nivel_2 import run_level2
+from tutorial import run_tutorial
 
 def main():
     pygame.init()  # Inicializa todos los módulos de pygame
@@ -24,14 +25,16 @@ def main():
     # Cargar efecto de sonido para los clics
     click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
     click_sound.set_volume(0.5)  # volumen del clic
-
     pantalla_actual = Main(screen)  # comienza en la pantalla main, la inicial
 
     while True:
         resultado = pantalla_actual.run()  # Se ejecuta la pantalla actual
 
         # Lógica de navegación entre pantallas
-        if resultado == "select_character":
+        if resultado == "tutorial":
+            run_tutorial()
+
+        elif resultado == "select_character":
             pantalla_actual = Select_character(screen)  # Ir a la pantalla de selección de personaje
 
         elif resultado == "configuracion":

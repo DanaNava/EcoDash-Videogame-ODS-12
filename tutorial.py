@@ -2,27 +2,16 @@ import pygame
 import sys
 import random
 
-def run_level1():
+def run_tutorial():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
-    pygame.display.set_caption("Nivel 1")
+    pygame.display.set_caption("tutorial")
 
     # -----------------------------
     # CARGA DE IMÁGENES
     # -----------------------------
-    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_3.png").convert_alpha()
-    capa_delante = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_derecha.png").convert_alpha()
-    capa_delante_2 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png").convert_alpha()
-    capa_delante_3 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_arriba.png").convert_alpha()
-    capa_delante_4 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_1.png").convert_alpha()
-    capa_delante_5 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_2.png").convert_alpha()
-    capa_delante_6 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_3.png").convert_alpha()
-    capa_delante_7 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_sillon_4.png").convert_alpha()
-    capa_delante_8 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_1.png").convert_alpha()
-    capa_delante_9 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_2.png").convert_alpha()
-    capa_delante_10 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_1.png").convert_alpha()
-    capa_delante_11 = pygame.image.load("assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_2.png").convert_alpha()
+    fondo = pygame.image.load("assets_PI/diseyo_nivel/semituto.png").convert_alpha()
     
     # Pantalla de vistoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
@@ -100,19 +89,7 @@ def run_level1():
     # BASURA CON ANIMACIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
-    frames_botella_agua = [
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
-    ]
-    
-    frames_lata = [
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata4.png").convert_alpha()
-    ]
+
     
     # Periódico
     frames_periodico = [
@@ -120,22 +97,6 @@ def run_level1():
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande2.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande3.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande4.png").convert_alpha()
-    ]
-    
-    # Banana
-    frames_banana = [
-        pygame.image.load("assets_PI/basura/organica/Banana/banano1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano4.png").convert_alpha()
-    ]
-    
-    # Cascara de huevo
-    frames_cascara_huevo = [
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_4.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_5.png").convert_alpha()
     ]
     
     # Manzana
@@ -146,14 +107,6 @@ def run_level1():
         pygame.image.load("assets_PI/basura/organica/Manzana/manzene4.png").convert_alpha()
     ]
     
-    # Batería
-    frames_bateria = [
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f4.png").convert_alpha()
-    ]
-    
     # Foco
     frames_foco = [
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a975.png").convert_alpha(),
@@ -162,14 +115,7 @@ def run_level1():
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a978.png").convert_alpha()
     ]
     
-    # Jeringa
-    frames_jeringa = [
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
-    ]
-
+    
     # -----------------------------
     # POSICIONES ALEATORIAS PARA BASURAS
     # -----------------------------
@@ -193,38 +139,12 @@ def run_level1():
 
     # Definir basuras con animaciones
     basura = [
-        {
-            "frames": frames_banana, 
-            "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
-            "nombre": "Plátano", 
-            "tipo": "organica",
-            "frame_actual": 0,
-            "tiempo_ultimo_frame": 0,
-            "animando": True
-        },
-        {
-            "frames": frames_botella_agua, 
-            "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
-            "nombre": "Botella de agua", 
-            "tipo": "inorganica",
-            "frame_actual": 0,
-            "tiempo_ultimo_frame": 0,
-            "animando": True
-        },
+       
         {
             "frames": frames_foco, 
             "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
             "nombre": "Foco", 
             "tipo": "peligrosa",
-            "frame_actual": 0,
-            "tiempo_ultimo_frame": 0,
-            "animando": True
-        },
-        {
-            "frames": frames_lata, 
-            "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
-            "nombre": "Lata", 
-            "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
@@ -237,15 +157,6 @@ def run_level1():
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
-        },
-        {
-            "frames": frames_bateria, 
-            "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
-            "nombre": "Batería", 
-            "tipo": "peligrosa",
-            "frame_actual": 0,
-            "tiempo_ultimo_frame": 0,
-            "animando": True
         }
     ]
 
@@ -255,17 +166,10 @@ def run_level1():
         {"imagen": peligroso, "nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
     ]
 
+
     colisiones = [
         pygame.Rect(9, 150, 30, 601), pygame.Rect(10, 725, 1005, 50), pygame.Rect(1003, 11, 10, 734),
-        pygame.Rect(690, 17, 21, 450), pygame.Rect(261, 15, 9, 250), pygame.Rect(26, 146, 239, 140),
-        pygame.Rect(719, 184, 66, 5), pygame.Rect(872, 82, 122, 85), pygame.Rect(693, 391, 135, 75),
-        pygame.Rect(767, 500, 43, 1), pygame.Rect(959, 391, 40, 75), pygame.Rect(400, 58, 289, 73),
-        pygame.Rect(421, 219, 70, 71), pygame.Rect(645, 210, 43, 60), pygame.Rect(950, 577, 20, 26),
-        pygame.Rect(185, 519, 107, 20), pygame.Rect(176, 572, 120, 20), pygame.Rect(217, 451, 42, 60),
-        pygame.Rect(127, 545, 35, 1), pygame.Rect(311, 544, 35, 1), pygame.Rect(215, 600, 42, 9),
-        pygame.Rect(284, 155, 20, 35), pygame.Rect(341, 156, 20, 35), pygame.Rect(793, 179, 20, 20)
     ]
-
     # -----------------------------
     # ANIMACIONES DEL PERSONAJE
     # -----------------------------
@@ -748,19 +652,7 @@ def run_level1():
             mano_y = personaje_draw_rect.centery 
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
 
-        # Capas del fondo
-        screen.blit(capa_delante, (938, 424))
-        screen.blit(capa_delante_2, (816, 423))
-        screen.blit(capa_delante_3, (698, 333))
-        screen.blit(capa_delante_4, (425, 215))
-        screen.blit(capa_delante_5, (434, 202))
-        screen.blit(capa_delante_6, (449, 205))
-        screen.blit(capa_delante_7, (430, 205))
-        screen.blit(capa_delante_8, (244, 514))
-        screen.blit(capa_delante_9, (284, 519))
-        screen.blit(capa_delante_10, (192, 514))
-        screen.blit(capa_delante_10, (185, 519))
-
+       
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
@@ -959,4 +851,4 @@ def run_level1():
     pygame.quit()
 
 if __name__ == "__main__":
-    run_level1()
+    run_tutorial()
