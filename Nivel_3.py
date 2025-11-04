@@ -634,7 +634,7 @@ def run_level3():
                         if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                             # Tiro CORRECTO
                             bote_correcto_encontrado = True
-                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']} {bote_actual['nombre']}"
                             objeto_en_mano = None
                             sonido_tirar_correcto.play()
                         else:
