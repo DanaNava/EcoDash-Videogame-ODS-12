@@ -2,18 +2,25 @@ import pygame
 import sys
 import random
 
-def run_tutorial():
+
+def run_level3():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
-    pygame.display.set_caption("tutorial")
+    pygame.display.set_caption("Nivel 3")
 
     # -----------------------------
     # CARGA DE IMÁGENES
+    #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
-    fondo = pygame.image.load("assets_PI/diseyo_nivel/semituto.png").convert_alpha()
+    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
     
-    # Pantalla de vistoria y barras de vida
+    #Capas
+    casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
+    pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
+    pared2= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared.png")
+    pared3= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared3.png")
+    # Pantalla de victoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
     bv2 = pygame.image.load("assets_PI/sprites/barra_vida_2co.png")
@@ -30,12 +37,6 @@ def run_tutorial():
     barra_vida = pygame.transform.scale(bv, (150, 118))
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
-
-    #Botes
-    organico = pygame.image.load("assets_PI/botes/bote organico.png").convert_alpha()
-    inorganico = pygame.image.load("assets_PI/botes/bote inorganico.png").convert_alpha()
-    peligroso= pygame.image.load("assets_PI/botes/bote peligro (1).png").convert_alpha()
-
 
     #Cargar botones
     boton_reintentar = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez.png").convert_alpha()
@@ -56,7 +57,7 @@ def run_tutorial():
 
     # Personaje inicial
     personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(489, 420))
+    personaje_draw_rect = personaje.get_rect(center=(870, 140))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 
@@ -85,11 +86,25 @@ def run_tutorial():
     sonido_tirar_correcto.set_volume(0.5)
     sonido_tirar_incorrecto.set_volume(1)
 
-    # -----------------------------
+     # -----------------------------
     # BASURA CON ANIMACIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
-
+    # Botella de agua
+    frames_botella_agua = [
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
+    ]
+    
+    # Lata
+    frames_lata = [
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata4.png").convert_alpha()
+    ]
     
     # Periódico
     frames_periodico = [
@@ -97,6 +112,22 @@ def run_tutorial():
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande2.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande3.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande4.png").convert_alpha()
+    ]
+    
+    # Banana
+    frames_banana = [
+        pygame.image.load("assets_PI/basura/organica/Banana/banano1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano4.png").convert_alpha()
+    ]
+    
+    # Cascara de huevo
+    frames_cascara_huevo = [
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_4.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_5.png").convert_alpha()
     ]
     
     # Manzana
@@ -107,6 +138,14 @@ def run_tutorial():
         pygame.image.load("assets_PI/basura/organica/Manzana/manzene4.png").convert_alpha()
     ]
     
+    # Batería
+    frames_bateria = [
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f4.png").convert_alpha()
+    ]
+    
     # Foco
     frames_foco = [
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a975.png").convert_alpha(),
@@ -115,18 +154,32 @@ def run_tutorial():
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a978.png").convert_alpha()
     ]
     
+    # Jeringa
+    frames_jeringa = [
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
+    ]
+    frames_surprice = [
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha(),
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha() 
+    ]
     
     # -----------------------------
     # POSICIONES ALEATORIAS PARA BASURAS
     # -----------------------------
     # Lista de coordenadas posibles
     posiciones_basura = [
-        (200, 350),  
-        (620, 400),  
-        (420, 640),  
-        (920, 280),  
-        (360, 250),  
-        (50, 600)
+        (729, 521),  
+        (552, 200),  
+        (565, 671),  
+        (900, 300),  
+        (107, 193),  
+        (287, 300),
+        (220, 682),
+        (29, 500),
+        (940, 690)
     ]
 
     # Función para obtener posiciones aleatorias únicas
@@ -135,16 +188,42 @@ def run_tutorial():
     
 
     # Obtener 6 posiciones aleatorias únicas (una para cada basura)
-    posiciones_aleatorias = obtener_posiciones_aleatorias(6)
+    posiciones_aleatorias = obtener_posiciones_aleatorias(9)
 
     # Definir basuras con animaciones
     basura = [
-       
+        {
+            "frames": frames_banana, 
+            "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
+            "nombre": "un Plátano", 
+            "tipo": "organica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_botella_agua, 
+            "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
+            "nombre": "una Botella de agua", 
+            "tipo": "inorganica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
         {
             "frames": frames_foco, 
             "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
-            "nombre": "Foco", 
+            "nombre": "un Foco", 
             "tipo": "peligrosa",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_lata, 
+            "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
+            "nombre": "una Lata", 
+            "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
@@ -152,26 +231,89 @@ def run_tutorial():
         {
             "frames": frames_manzana, 
             "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]), 
-            "nombre": "Manzana", 
+            "nombre": "una Manzana", 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
+        },
+        {
+            "frames": frames_bateria, 
+            "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
+            "nombre": "una Batería", 
+            "tipo": "peligrosa",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_cascara_huevo, 
+            "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]), 
+            "nombre": "Cascaras de huevo", 
+            "tipo": "organica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_jeringa, 
+            "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]), 
+            "nombre": "una Jeringa", 
+            "tipo": "peligrosa",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_periodico, 
+            "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]), 
+            "nombre": "un Periodico", 
+            "tipo": "inorganica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_surprice, 
+            "rect": frames_surprice[0].get_rect(topleft=(600, 100)),
+            "nombre": "a Larry", 
+            "tipo": "segura",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
         }
-    ]
+
+        
+        ]
 
     botes = [
-        {"imagen": inorganico, "nombre": "Inorganico", "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
-        {"imagen": organico, "nombre": "Organico", "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
-        {"imagen": peligroso, "nombre": "Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
+        {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(770, 110, 20, 20)},
+        {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(940, 110, 20, 20)},
+        {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(525, 100, 40, 25)}
     ]
-
 
     colisiones = [
-        pygame.Rect(9, 150, 30, 601), pygame.Rect(10, 725, 1005, 50), pygame.Rect(1003, 11, 10, 734),
-    ]
+        #paredes
+        pygame.Rect(0, 0, 1024, 100), pygame.Rect(670, 0, 45, 290), pygame.Rect(670, 460, 45, 297), 
+        pygame.Rect(1002, 0, 22, 290), pygame.Rect(1022, 344, 2, 124), pygame.Rect(1002, 456, 22, 300), 
+        pygame.Rect(700, 756, 324, 5), pygame.Rect(733, 580, 30, 170), pygame.Rect(960, 485, 51, 130), 
+        pygame.Rect(0, 732, 684, 25), pygame.Rect(0, 0, 19, 768),
+        #MESAS
+        pygame.Rect(105, 380, 85, 35), pygame.Rect(300, 380, 85, 35), pygame.Rect(492, 380, 85, 35), pygame.Rect(105, 570, 85, 35),
+        pygame.Rect(300, 570, 85, 35), pygame.Rect(493, 570, 85, 35),
+        #sillas
+        pygame.Rect(130, 444, 40, 2),pygame.Rect(320, 444, 40, 2), pygame.Rect(515, 444, 40, 2), pygame.Rect(133, 636, 38, 2),
+        pygame.Rect(320, 636, 80, 2),pygame.Rect(512, 636, 40, 2),
+        #muebles
+        pygame.Rect(245, 160, 190, 60),pygame.Rect(20, 104, 146, 20), pygame.Rect(600, 120, 10, 1),
+        #botes
+        pygame.Rect(525, 100, 40, 25), pygame.Rect(770, 110, 20, 20), pygame.Rect(940, 110, 20, 20),
+        
+    ]   
+    
+
     # -----------------------------
-    # ANIMACIONES DEL PERSONAJE
+    # ANIMACIONES
     # -----------------------------
     frames_dano = [
         pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha1.png").convert_alpha(),
@@ -331,16 +473,33 @@ def run_tutorial():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 120
+    tiempo = 180
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
 
-    # Verificar si gano
+   # Verificar si gano
     def ganar(basura, objeto_en_mano):
-        return len(basura) == 0 and objeto_en_mano is None
+        
+        # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
+        #    Excluye explícitamente el objeto "a Larry" (la sorpresa).
+        basura_esencial_restante = [
+            obj for obj in basura if obj["nombre"] != "a Larry"
+        ]
+        
+        # 2. Verifica si el objeto en la mano NO es la basura esencial.
+        #    El jugador PUEDE tener el objeto "a Larry" en la mano al ganar.
+        objeto_en_mano_esencial = (
+            objeto_en_mano is not None and 
+            objeto_en_mano["nombre"] != "a Larry"
+        )
+        
+        # 3. La condición de victoria es:
+        #    - La lista de basura esencial en el suelo debe estar vacía.
+        #    - Y el jugador no debe tener otra basura esencial en la mano.
+        return len(basura_esencial_restante) == 0 and not objeto_en_mano_esencial
 
     # Variable para el while infinito, para las teclas pulsadas y un contador de errores
     running = True
@@ -445,7 +604,7 @@ def run_tutorial():
                                 "tipo": obj["tipo"]
                             }
                             basura.remove(obj)
-                            mensaje = f"Recogiste: {obj['nombre']}"
+                            mensaje = f"Recogiste {obj['nombre']}"
                         else:
                             mensaje = "Ya tienes un objeto en la mano"
                         mensaje_tiempo = pygame.time.get_ticks()
@@ -475,13 +634,13 @@ def run_tutorial():
                         if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                             # Tiro CORRECTO
                             bote_correcto_encontrado = True
-                            mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']} {bote_actual['nombre']}"
                             objeto_en_mano = None
                             sonido_tirar_correcto.play()
                         else:
                             # Tiro INCORRECTO - NO tirar pero recibir daño
                             errores += 1
-                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
                             animando_dano = True
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
@@ -531,7 +690,7 @@ def run_tutorial():
         # -----------------------------
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
-
+        
         # BARRA DE VIDA
         if vida_actual == 3:
             screen.blit(barra_vida, (20, -20))
@@ -540,8 +699,11 @@ def run_tutorial():
         elif vida_actual == 1:
             screen.blit(barra_vida1, (20, -20))
 
-        # DIBUJAR BASURAS CON ANIMACIONES
         for obj in basura:
+         # Evitar que el índice se salga del rango
+            if obj["frame_actual"] >= len(obj["frames"]):
+
+                obj["frame_actual"] = 0
             frame_actual = obj["frames"][obj["frame_actual"]]
             screen.blit(frame_actual, obj["rect"])
 
@@ -618,7 +780,9 @@ def run_tutorial():
                 "delante": quieto_delante
             }
             frame = posturas_quieto.get(ultima_direccion, quieto_delante)
-
+            
+         #casillero
+        screen.blit(casillero,(592, 51))     
         # --- DIBUJAR PERSONAJE ---
         personaje_draw_rect = frame.get_rect(center=hitbox.center)
         
@@ -645,14 +809,16 @@ def run_tutorial():
         else:
             # Dibujar personaje normal
             screen.blit(frame, personaje_draw_rect)
-
+       
+        #capas  
+        screen.blit(pared, (0, 741))
+        screen.blit(pared2,(660, 471))   
+        screen.blit(pared3, (660,0))
         # DIBUJAR OBJETO EN LA MANO
         if objeto_en_mano is not None and not animando_muerte:
             mano_x = personaje_draw_rect.centerx + 20
             mano_y = personaje_draw_rect.centery 
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
-
-       
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
@@ -731,7 +897,7 @@ def run_tutorial():
                             return "main"  # volver al menú
 
         def mostrar_pantalla_victoria():
-            pygame.mixer.music.load("assets_PI/musica/musica_victoria.mp3")
+            pygame.mixer.music.load("assets_PI\musica\musica_victoria.mp3")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
 
@@ -851,4 +1017,4 @@ def run_tutorial():
     pygame.quit()
 
 if __name__ == "__main__":
-    run_tutorial()
+    run_level3()

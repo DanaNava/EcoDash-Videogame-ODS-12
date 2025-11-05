@@ -401,9 +401,9 @@ def run_level2():
         ]
 
     botes = [
-        {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
-        {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
-        {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
+        {"nombre": " al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
+        {"nombre": " al bote Organico", "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
+        {"nombre": " al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
         {"nombre": " al arbol", "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
 
     ]
@@ -760,33 +760,55 @@ def run_level2():
 
                     # SEGUNDO: Procesar el tiro solo si hay un bote cercano
                     if tiro_valido and bote_actual:
-                        # Verificar si es el bote CORRECTO para este objeto
-                        if objeto_en_mano["tipo"] == bote_actual["tipo"]:
-                            # Tiro CORRECTO
-                            bote_correcto_encontrado = True
-                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
-                            objeto_en_mano = None
-                            sonido_tirar_correcto.play()
+                    
+                    # --- INICIO DE LA MODIFICACIÓN PARA LARRY ---
+                    # Revisar primero si el objeto es "a Larry"
+                        if objeto_en_mano["nombre"] == "a Larry":
+                            # Si es Larry, verificar si el bote es el árbol ("segura")
+                            if bote_actual["tipo"] == "segura":
+                                # Caso 1: Larry en el árbol (Correcto)
+                                bote_correcto_encontrado = True
+                                mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                                objeto_en_mano = None
+                                sonido_tirar_correcto.play()
+                            else:
+                                # Caso 2: Larry en CUALQUIER OTRO bote (Incorrecto pero especial)
+                                # Usamos el nombre del "tipo" de bote para el mensaje
+                             nombre_bote_incorrecto = bote_actual["nombre"].replace("al ", "").replace(" bote ", "")
+                             mensaje = f"Tiraste a Larry en el bote {nombre_bote_incorrecto}, muy mal"
+                             sonido_tirar_incorrecto.play()
+                             objeto_en_mano = None # Larry se tira de todas formas
+                              # ¡Importante! No sumamos error ni restamos vida por esto.
+                            mensaje_tiempo = pygame.time.get_ticks()
                         else:
-                            # Tiro INCORRECTO - NO tirar pero recibir daño
-                            errores += 1
-                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
-                            animando_dano = True
-                            frame_actual_dano = 0
-                            tiempo_frame = pygame.time.get_ticks()
-                            # IMPORTANTE: NO liberar el objeto - el jugador lo mantiene en la mano
-                            sonido_tirar_incorrecto.play()
-                
-                            # BARRA DE VIDA
-                            vida_actual -= 1
+                             # --- LÓGICA ORIGINAL PARA EL RESTO DE BASURAS ---
+                            # Si no es Larry, funciona como antes
+                            if objeto_en_mano["tipo"] == bote_actual["tipo"]:
+                              # Tiro CORRECTO
+                             bote_correcto_encontrado = True
+                             mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                             objeto_en_mano = None
+                             sonido_tirar_correcto.play()
+                            else:
+                             # Tiro INCORRECTO
+                             errores += 1
+                             mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
+                             animando_dano = True
+                             frame_actual_dano = 0
+                             tiempo_frame = pygame.time.get_ticks()
+                             sonido_tirar_incorrecto.play()
+            
+                             # BARRA DE VIDA
+                             vida_actual -= 1
                             if vida_actual < 0:
-                                vida_actual = 0
-
-                        mensaje_tiempo = pygame.time.get_ticks()
+                             vida_actual = 0
+                        
+                            mensaje_tiempo = pygame.time.get_ticks()
+                                 # --- FIN DE LA MODIFICACIÓN ---
                     else:
-                        # No hay bote cercano
-                        mensaje = "No hay un bote cerca"
-                        mensaje_tiempo = pygame.time.get_ticks()
+                         # No hay bote cercano
+                         mensaje = "No hay un bote cerca"
+                         mensaje_tiempo = pygame.time.get_ticks()
 
         # -----------------------------
         # ACTUALIZAR ANIMACIONES DE BASURA

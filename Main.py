@@ -8,7 +8,9 @@ from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
 from nivel_1 import run_level1
 from nivel_2 import run_level2
+from Nivel_3 import run_level3
 from tutorial import run_tutorial
+
 
 def main():
     pygame.init()  # Inicializa todos los módulos de pygame
@@ -77,7 +79,7 @@ def main():
                     reiniciar_nivel = False
 
         elif resultado  == "nivel2":
-            # Manejar el nivel 1 con posibilidad de reintento
+            # Manejar el nivel 2 con posibilidad de reintento
             reiniciar_nivel = True
             while reiniciar_nivel:
                 resultado_nivel = run_level2()  # Ejecuta el nivel y espera un resultado
@@ -93,6 +95,32 @@ def main():
 
                 elif resultado_nivel == "reintentar":
                     reiniciar_nivel = True  # Se reinicia el nivel
+        elif resultado  == "nivel3":
+            # Manejar el nivel 3 con posibilidad de reintento
+            reiniciar_nivel = True
+            while reiniciar_nivel:
+                resultado_nivel = run_level3()  # Ejecuta el nivel y espera un resultado
+
+                if resultado_nivel == "main":
+                    # Si el se quiere volver al menú principal
+                    pygame.mixer.music.stop()  # Se detiene la música del nivel
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")  # Se carga la música del menú
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Main(screen)
+                    reiniciar_nivel = False  # Sale del bucle del nivel
+
+                elif resultado_nivel == "reintentar":
+                    reiniciar_nivel = True  # Se reinicia el nivel
+
+                else:
+                    # Si no se especifica nada, regresa al menú por defecto
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Main(screen)
+                    reiniciar_nivel = False 
         elif resultado == "salir" or resultado is None:
             break  # Sale del juego si se elige "salir" o si no hay respuesta válida
 
