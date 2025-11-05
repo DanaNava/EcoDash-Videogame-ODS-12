@@ -768,7 +768,7 @@ def run_level2():
                             if bote_actual["tipo"] == "segura":
                                 # Caso 1: Larry en el árbol (Correcto)
                                 bote_correcto_encontrado = True
-                                mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                                mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']} muy bien!!!"
                                 objeto_en_mano = None
                                 sonido_tirar_correcto.play()
                             else:
