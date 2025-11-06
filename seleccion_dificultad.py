@@ -1,0 +1,145 @@
+import pygame
+import os # <-- AÑADIDO
+
+pygame.init()   # Inicializa pygame
+pygame.mixer.init()   # Inicializa el sistema de sonido
+
+# --- AÑADIDO ---
+# Ruta base para encontrar los assets
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Sonido general de clic para los botones
+click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
+click_sound.set_volume(0.5)   # Ajusta el volumen (0.0 a 1.0)
+
+# ----------- Clase Button Reutilizable -----------
+class Button:
+    def __init__(self, rect, normal_path, hover_path, action, sound=None):
+        self.rect = pygame.Rect(rect)   # Zona clickeable del botón
+        self.normal = pygame.image.load(normal_path).convert_alpha()   # Imagen normal
+        self.hover = pygame.image.load(hover_path).convert_alpha()   # Imagen con hover
+        self.action = action   # Acción que devuelve al hacer clic
+        self.sound = sound   # Sonido opcional al presionar
+
+    def draw(self, screen):
+        mouse_pos = pygame.mouse.get_pos()   # Obtener posición del mouse
+        # Si el mouse está encima del botón, mostrar hover, si no la imagen normal
+        if self.rect.collidepoint(mouse_pos):
+            screen.blit(self.hover, self.rect)
+        else:
+            screen.blit(self.normal, self.rect)
+
+    def check_click(self, pos):
+        # Revisa si se hizo clic dentro del botón
+        if self.rect.collidepoint(pos):
+            if self.sound:   # Reproducir sonido al hacer clic si se configuró
+                self.sound.play()
+            return self.action   # Devuelve la acción asignada
+        return None   # Si no se clickeó el botón no hace nada
+
+# ----------- Clase de Interfaz -----------
+class Seleccion_dificultad:   # Pantalla para elegir dificultad
+    # --- MODIFICADO: Acepta el idioma y volumen actual ---
+    def __init__(self, screen, idioma_actual, volumen_actual):
+        self.screen = screen
+        self.running = True
+        
+        # --- AÑADIDO: Guarda el idioma y volumen ---
+        self.idioma = idioma_actual
+        self.volumen = volumen_actual # <-- AÑADIDO
+
+        # --- AÑADIDO: Cargar la fuente para el botón ---
+        try:
+            # Fuente para el BOTÓN "Volver"
+            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") # Cambia "tu_fuente_pixel.ttf"
+            self.font_boton = pygame.font.Font(font_boton_path, 32) # Tamaño más pequeño
+        except FileNotFoundError:
+            self.font_boton = pygame.font.Font(None, 40)
+
+        # --- AÑADIDO: Cargar fuente para el TÍTULO ---
+        try:
+            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
+            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Ajusta el tamaño
+        except FileNotFoundError:
+            self.font_titulo = pygame.font.Font(None, 60)
+
+        # --- AÑADIDO: Cargar fuente para OPCIONES ---
+        try:
+            font_opcion_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
+            self.font_opcion = pygame.font.Font(font_opcion_path, 42) # Ajusta el tamaño
+        except FileNotFoundError:
+            self.font_opcion = pygame.font.Font(None, 48)
+
+
+        # Fondo de la interfaz (ahora sin texto)
+        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_dificultad/fondo/fondo_interfaz_elegir_dificultad_2.png").convert()
+
+        # Lista de botones con sus acciones (ahora sin texto)
+        self.botones = [
+            Button((152, 313, 333, 97),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil_hover.png","facil", click_sound ),
+
+            Button((152, 482, 330, 98),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio_hover.png","medio", click_sound ),
+
+            # Este es el botón de "volver"
+            Button((0, 35, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","select_character", click_sound )
+        ]
+
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.running = False
+            return "salir"   # Si se cierra la ventana, se sale del juego
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for boton in self.botones:
+                accion = boton.check_click(event.pos)
+                if accion:
+                    return accion # Devuelve la acción del botón y cambia de pantalla
+
+    def update(self):
+        pass   
+
+    def draw(self):
+        self.screen.blit(self.fondo, (0, 0))   # Dibujar el fondo
+
+        # --- AÑADIDO: Dibujar TÍTULO dinámico ---
+        titulo_str = "DIFFICULTY" if self.idioma == "en" else "DIFICULTAD"
+        titulo_surf = self.font_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
+        self.screen.blit(titulo_surf, (348, 165)) # Coordenadas que diste
+        # --- FIN TÍTULO ---
+
+        # Textos para los botones (se dibujarán encima)
+        texto_facil_str = "BEGINNER" if self.idioma == "en" else "PRINCIPIANTE"
+        texto_facil_surf = self.font_opcion.render(texto_facil_str, True, (0, 0, 0))
+        
+        texto_medio_str = "INTERMEDIATE" if self.idioma == "en" else "INTERMEDIO"
+        texto_medio_surf = self.font_opcion.render(texto_medio_str, True, (0, 0, 0))
+
+        # Bucle para dibujar botones y sus textos
+        for boton in self.botones:
+            boton.draw(self.screen)   # Dibujar cada botón
+
+            # --- Lógica para dibujar texto en el botón "Back" ---
+            if boton.action == "select_character":
+                texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
+                texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
+                coordenadas_boton_texto = (18, 58) 
+                self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
+            
+            # --- AÑADIDO: Lógica para dibujar texto "PRINCIPIANTE" ---
+            elif boton.action == "facil":
+                self.screen.blit(texto_facil_surf, (195, 345)) # Coordenadas que diste
+            
+            # --- AÑADIDO: Lógica para dibujar texto "INTERMEDIO" ---
+            elif boton.action == "medio":
+                self.screen.blit(texto_medio_surf, (192, 519)) # Coordenadas que diste
+
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                cambio = self.handle_event(event)
+                if cambio:   # Si se seleccionó alguna opción
+                    return cambio
+
+            self.update()
+            self.draw()
+            pygame.display.flip()   # Actualiza la pantalla con los cambios
