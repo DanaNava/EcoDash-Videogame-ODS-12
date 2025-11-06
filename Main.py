@@ -6,7 +6,7 @@ from configuracion import Configuracion
 from select_character import Select_character
 from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
-from nivel_1 import run_level1
+from nivel_1 import run_level1 
 
 def main():
     pygame.init()  # Inicializa todos los módulos de pygame
@@ -71,7 +71,7 @@ def main():
                     pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen)
                     reiniciar_nivel = False
-
+                    
         elif resultado == "salir" or resultado is None:
             break  # Sale del juego si se elige "salir" o si no hay respuesta válida
 
