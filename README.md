@@ -47,8 +47,8 @@ Desechos como baterías, medicamentos o químicos.
 ### ✋ **Mecanismo de recolección y depósito**
 El jugador puede levantar un solo residuo a la vez y deberá depositarlo en el contenedor correcto.  
 Si intenta recoger otro objeto sin haber tirado el actual, se mostrará un aviso o animación.  
-*<img width="202" height="162" alt="PI_SOSTENER_1" src="https://github.com/user-attachments/assets/5d4ea7bd-9b59-4de9-a3a3-3b7412c61cca" /> <img width="202" height="162" alt="PI_SOSTENER_2" src="https://github.com/user-attachments/assets/20edc586-d095-4fcd-b9b1-877434f20547" /> *
-<img width="202" height="162" alt="PI_TIRAR_BASURA_1" src="https://github.com/user-attachments/assets/95677fde-71d8-4d8f-9652-737851e981b5" /> <img width="606" height="52" alt="PI_TIRAR_BASURA_2" src="https://github.com/user-attachments/assets/93431118-0e94-461a-bde7-85450cebc55c" />*
+*<img width="202" height="162" alt="PI_SOSTENER_1" src="https://github.com/user-attachments/assets/5d4ea7bd-9b59-4de9-a3a3-3b7412c61cca"/> <img width="202" height="162" alt="PI_SOSTENER_2" src="https://github.com/user-attachments/assets/20edc586-d095-4fcd-b9b1-877434f20547"/> <img width="202" height="162" alt="PI_TIRAR_BASURA_1" src="https://github.com/user-attachments/assets/95677fde-71d8-4d8f-9652-737851e981b5"/>*
+*<img width="606" height="52" alt="PI_TIRAR_BASURA_2" src="https://github.com/user-attachments/assets/93431118-0e94-461a-bde7-85450cebc55c" />*
 
 ---
 
