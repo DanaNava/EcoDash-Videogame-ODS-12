@@ -46,16 +46,19 @@ Desechos como baterías, medicamentos o químicos.
 
 ### ✋ **Mecanismo de recolección y depósito**
 El jugador puede levantar un solo residuo a la vez y deberá depositarlo en el contenedor correcto.  
-Si intenta recoger otro objeto sin haber tirado el actual, se mostrará un aviso o animación.  
+Si intenta recoger otro objeto sin haber tirado el actual, se mostrará un aviso.  
 *<img width="202" height="162" alt="PI_SOSTENER_1" src="https://github.com/user-attachments/assets/5d4ea7bd-9b59-4de9-a3a3-3b7412c61cca"/> <img width="202" height="162" alt="PI_SOSTENER_2" src="https://github.com/user-attachments/assets/20edc586-d095-4fcd-b9b1-877434f20547"/> <img width="202" height="162" alt="PI_TIRAR_BASURA_1" src="https://github.com/user-attachments/assets/95677fde-71d8-4d8f-9652-737851e981b5"/>*
-*<img width="606" height="52" alt="PI_TIRAR_BASURA_2" src="https://github.com/user-attachments/assets/93431118-0e94-461a-bde7-85450cebc55c" />*
+*<img width="616" height="52" alt="PI_TIRAR_BASURA_2" src="https://github.com/user-attachments/assets/93431118-0e94-461a-bde7-85450cebc55c" />*
+
+*<img width="201" height="177" alt="PI_NO_SOSTENER_1" src="https://github.com/user-attachments/assets/42e5b2c1-5c7d-4896-98f5-e287275881db" /> <img width="427" height="45" alt="PI_NO_SOSTENER_2" src="https://github.com/user-attachments/assets/63df8051-3c62-4be9-b8cc-41fea70d781f" />*
 
 ---
 
 ### 💔 **Sistema de daño**
 Cada vez que el jugador tira basura en un contenedor incorrecto, pierde una vida.  
 Si se equivoca tres veces, pierde el nivel.  
-*(Agrega aquí tus imágenes/gifs de daño o pérdida de vida)*
+*<img width="180" height="182" alt="PI_DAÑO_1" src="https://github.com/user-attachments/assets/eab35f07-0967-4a32-a275-fd7b1a45aba7" /> ![PI_DAÑO_2_DE_VERDAD](https://github.com/user-attachments/assets/fec983a8-722d-406b-89b4-74405e4b82ed)*
+<img width="738" height="48" alt="PI_DAÑO_2" src="https://github.com/user-attachments/assets/86a68a45-0347-4d94-b3d8-7f8307eac540" />*
 
 ---
 
@@ -78,11 +81,21 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 1. **Clona este repositorio:**  
    ```bash
    git clone https://github.com/tu_usuario/eco-dash.git
-
+---
 ## 🧩 **Tecnologías utilizadas**
 
-- Lenguaje: **Python**  
- 
+El desarrollo de **ECO DASH** se realizó utilizando herramientas accesibles y de código abierto, ideales para la creación de videojuegos 2D educativos.
+
+- 🐍 **Lenguaje de programación:** [Python](https://www.python.org/)  
+  Utilizado para la lógica del juego, control de eventos, detección de colisiones y gestión del tiempo.
+
+- 🎮 **Motor / Librería principal:** [Pygame](https://www.pygame.org/)  
+  Librería utilizada para la creación del entorno gráfico, manejo de sprites, animaciones y sonidos.
+
+- 🎨 **Recursos visuales:** [LibreSprite](https://libresprite.github.io/)  
+  Herramienta empleada para el diseño y animación de sprites, personajes, objetos y elementos del entorno.
+
+Estas tecnologías permitieron desarrollar un videojuego educativo liviano, multiplataforma y con énfasis en la enseñanza del reciclaje mediante la interacción y el juego.
 
 ---
 
@@ -90,9 +103,12 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 
 | Nombre | Rol | Contacto |
 |--------|------|-----------|
-| Ibarra Heredia Alan Alejandro | Programador / Diseñador | aibarra9@ucol.mx |
-| Compañero 1 | Artista / Animador |  |
-| Compañero 2 | Documentación / Diseño educativo |  |
+| Ibarra Heredia Alan Alejandro | Programador principal / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
+| Vazquez Atanacio Diego Alejandro| Programador / Artista de objetos | dvazquez52@ucol.mx  |
+| Martinez zuñiga Carolina | Diseñador UI/UX / Documentador / Traductor | caro.zuniga.006@gmail.com |
+| Nava Montiel Dana Paola |Programador / Diseñador de interfaz / Guionista | dananavamontiel@gmail.com |
+| Salgado Zepeda David | Diseñador de niveles / Programador / Diseñador de sonido | dsalgadozepeda@gmail.com |
+| Escobar Nuñez Cristian Alexander | Diseñador de interfaz / Encargado de idioma / Documentador | cescobar2@ucol.mx |
 
 ---
 
