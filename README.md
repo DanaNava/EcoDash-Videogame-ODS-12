@@ -1,5 +1,8 @@
 # 🌱 ECO DASH
 
+<img width="1030" height="200" alt="Titulo_README" src="https://github.com/user-attachments/assets/de14d33f-ebce-46a6-af05-557642895c56" />
+
+
 ---
 
 ## 📖 **Descripción General**
@@ -17,6 +20,18 @@ El objetivo principal es enseñar, de manera divertida e interactiva, la importa
 - 🌍 **Educar** sobre la correcta separación de residuos.  
 - 🔄 **Promover** hábitos sostenibles de una forma entretenida.  
 - 💡 **Concientizar** sobre el impacto ambiental de no reciclar adecuadamente.
+
+---
+
+## 🕹️ **Características principales**
+
+Eco-Dash incluye diversas funciones que enriquecen la experiencia de juego y refuerzan su propósito educativo:
+
+- 🌳 **Tres niveles distintos:** Casa, parque y salón de clase.  
+- ⏸️ **Función de pausa:** Permite reanudar, reiniciar el nivel o volver al menú principal.  
+- ⚙️ **Selección de dificultad:** Dos modos disponibles: *Principiante* y *Retador*.  
+- 🧍‍♂️🧍‍♀️ **Elección de personaje:** Opción de jugar con un personaje masculino o femenino.  
+- 🌐 **Cambio de idioma:** Disponible en **español** e **inglés**.
 
 ---
 
@@ -57,22 +72,27 @@ Si intenta recoger otro objeto sin haber tirado el actual, se mostrará un aviso
 ### 💔 **Sistema de daño**
 Cada vez que el jugador tira basura en un contenedor incorrecto, pierde una vida.  
 Si se equivoca tres veces, pierde el nivel.  
-*<img width="180" height="182" alt="PI_DAÑO_1" src="https://github.com/user-attachments/assets/eab35f07-0967-4a32-a275-fd7b1a45aba7" /> ![PI_DAÑO_2_DE_VERDAD](https://github.com/user-attachments/assets/fec983a8-722d-406b-89b4-74405e4b82ed)*
-<img width="738" height="48" alt="PI_DAÑO_2" src="https://github.com/user-attachments/assets/86a68a45-0347-4d94-b3d8-7f8307eac540" />*
+*<img width="180" height="182" alt="PI_DAÑO_1" src="https://github.com/user-attachments/assets/eab35f07-0967-4a32-a275-fd7b1a45aba7" /> ![PI_DAÑO_2_DE_VERDAD](https://github.com/user-attachments/assets/fec983a8-722d-406b-89b4-74405e4b82ed) <img width="205" height="80" alt="Pi_vida_1" src="https://github.com/user-attachments/assets/381371b4-a0d7-4be4-bf3c-a6ce8027edeb" /> <img width="205" height="80" alt="Pi_vida_2" src="https://github.com/user-attachments/assets/ffbe4ebf-c3b6-47a1-b21a-12a3ad5c8d72" /> <img width="205" height="80" alt="Pi_vida_3" src="https://github.com/user-attachments/assets/45848d87-f773-4eed-8133-bd44f835872a" />*
+*<img width="990" height="48" alt="PI_DAÑO_2" src="https://github.com/user-attachments/assets/86a68a45-0347-4d94-b3d8-7f8307eac540"/>*
 
 ---
 
 ### ⏱️ **Cronómetro**
-El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jugador pierde automáticamente.  
+El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jugador pierde automáticamente. Además, cuando el cronómetro alcanza los 30 segundos restantes, el color de los números cambia a rojo para alertar al jugador del poco tiempo disponible.
+*![Cronometro_2](https://github.com/user-attachments/assets/88d3b922-37d3-4a0d-abf6-edc02681b48e) ![Cronometro_rojo](https://github.com/user-attachments/assets/77676650-f4c2-4369-8ade-488192afd688)
+*
 
 ---
 
 ### 🏁 **Condiciones de victoria y derrota**
 
-- ✅ **Ganar:** Reciclar correctamente todos los residuos antes de que termine el tiempo.  
+- ✅ **Ganar:** Reciclar correctamente todos los residuos antes de que termine el tiempo.
+  - *<img width="500" height="400" alt="Pantalla_victoria (2)" src="https://github.com/user-attachments/assets/4e065162-d3f4-4c9f-8c3f-3a4e863b4ce6" />*  
 - ❌ **Perder:**  
   - Tirar basura incorrectamente tres veces.  
   - O dejar que el cronómetro llegue a cero.
+  - *<img width="500" height="400" alt="game over 2 0 (1)" src="https://github.com/user-attachments/assets/4df0962c-0cfc-4eaa-b325-de9edaca6690" />*
+
 
 ---
 
@@ -81,6 +101,46 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 1. **Clona este repositorio:**  
    ```bash
    git clone https://github.com/tu_usuario/eco-dash.git
+
+2. **Accede a la carpeta del proyecto:**  
+   ```bash
+   python -m venv venv
+
+3. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**  
+   ```bash
+   git clone https://github.com/tu_usuario/eco-dash.git
+
+ Actívalo:
+  - En Windows:
+    ```bash
+    venv\Scripts\activate
+   
+  - En macOS / Linux:
+    ```bash
+    source venv/bin/activate
+
+4. **Instala las dependencias:**  
+   ```bash
+   pip install pygame
+
+5. **Ejecuta el juego:**  
+   ```bash
+   python main.py
+---
+## 🧪 Requisitos del sistema
+
+Antes de ejecutar el juego, asegúrate de cumplir con los siguientes requisitos mínimos:
+
+- **Sistema operativo:** Windows 10 / macOS / Linux  
+- **Versión de Python:** 3.8 o superior  
+- **Bibliotecas necesarias:**  
+  - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)  
+- **Memoria RAM recomendada:** 4 GB o más  
+- **Espacio en disco:** Al menos 200 MB libres  
+- **Resolución mínima:** 1280x720  
+
+> 💡 *Nota:* Para un mejor rendimiento, se recomienda ejecutar el juego en pantalla completa y cerrar otras aplicaciones en segundo plano.
+
 ---
 ## 🧩 **Tecnologías utilizadas**
 
