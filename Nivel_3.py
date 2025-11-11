@@ -14,9 +14,10 @@ def run_level3():
     #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
     fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
-    
-    #Capas
+    #Charcos
     charco = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pega.png").convert_alpha()
+    jugo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/jugo.png").convert_alpha()
+    #Capas
     casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
     pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
     pared2= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared.png")
@@ -473,7 +474,9 @@ def run_level3():
     clock = pygame.time.Clock()
     #Charco
     charco_pos = (485,265)
-    charco_rect = pygame.Rect(charco_pos[0], charco_pos[1], 85,2)
+    charco_rect = pygame.Rect(charco_pos[0], charco_pos[1], 85,10)
+    jugo_pos = (395,490)
+    jugo_rect = pygame.Rect(jugo_pos[0],jugo_pos[1],80,10 )
     # Barra de vida 
     vida_max = 3
     vida_actual = vida_max
@@ -787,15 +790,20 @@ def run_level3():
             }
             frame = posturas_quieto.get(ultima_direccion, quieto_delante)
         
-        # Dibuja el charco
+        # Dibujar los charcos
         screen.blit(charco, charco_pos)
-
-        # Detección de colisión del charco
+        screen.blit(jugo, jugo_pos)
+        # Detección de colisión del charco pegamento
         if hitbox.colliderect(charco_rect):
             velocidad = velocidad_reducida
         else:
             velocidad = velocidad_normal
-            
+        #jugo charco
+            if hitbox.colliderect(jugo_rect):
+                velocidad = velocidad_reducida
+            else:
+                velocidad = velocidad_normal
+    
          #casillero
         screen.blit(casillero,(592, 51))     
         # --- DIBUJAR PERSONAJE ---
