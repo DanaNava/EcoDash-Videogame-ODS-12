@@ -68,19 +68,21 @@ class Configuracion:
         # Centramos el panel en la pantalla
         self.panel_rect = self.panel.get_rect(center=(self.W // 2, self.H // 2))
 
-        # --- AÑADIDO: Cargar fuentes una vez ---
+        # --- Cargar las DOS fuentes ---
         try:
-            # Fuente para el TÍTULO
-            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 64) 
+            # Fuente para el TÍTULO (Stay Pixel DEMO.otf)
+            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
+            self.font_titulo = pygame.font.Font(font_titulo_path, 64) # Tamaño 64 para el título
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Stay Pixel DEMO.ttf'")
             self.font_titulo = pygame.font.Font(None, 72)
             
         try:
-            # Fuente para el BOTÓN
-            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
-            self.font_boton = pygame.font.Font(font_boton_path, 32) 
+            # Fuente para el TEXTO NORMAL (Pixel.ttf)
+            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
+            self.font_boton = pygame.font.Font(font_boton_path, 20) # Tamaño 32 para el botón
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
 
 
@@ -104,6 +106,21 @@ class Configuracion:
         self.bandera_en = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "configuracion", "botones", "bandera_inglaterra.png")).convert_alpha()
         # Cerrar (X)
         self.icono_cerrar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "configuracion", "botones", "boton_cerrar.png")).convert_alpha()
+
+        # --- Cargar imágenes HOVER para las banderas ---
+        try:
+            self.bandera_es_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "configuracion", "botones", "bandera_españa_hover.png")).convert_alpha()
+            self.bandera_en_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "configuracion", "botones", "bandera_inglaterra_hover.png")).convert_alpha()
+        except pygame.error:
+            print("ADVERTENCIA: No se encontraron las imágenes hover de las banderas. Se usará un recuadro.")
+            self.bandera_es_hover = self.bandera_es.copy()
+            pygame.draw.rect(self.bandera_es_hover, (255, 255, 0), self.bandera_es_hover.get_rect(), 5) 
+            self.bandera_en_hover = self.bandera_en.copy()
+            pygame.draw.rect(self.bandera_en_hover, (255, 255, 0), self.bandera_en_hover.get_rect(), 5)
+
+        # Temporizador para el parpadeo
+        self.tiempo_parpadeo = pygame.time.get_ticks()
+        self.mostrar_seleccion = True 
 
         # --- Obtenemos los tamaños REALES de las imágenes ---
         self.BW = self.barra_vacia.get_width()
@@ -129,7 +146,7 @@ class Configuracion:
         # --------- BOTÓN BACK ----------
         self.botones = [
             Button(
-                rect=(self.BACK_POS[0], self.BACK_POS[1], 96, 40), # Asegúrate que 96x40 es el tamaño
+                rect=(self.BACK_POS[0], self.BACK_POS[1], 96, 50), # <-- PUEDES CAMBIAR 96 y 40 AQUÍ
                 normal_path=os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),
                 hover_path=os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),
                 action="main",
@@ -200,10 +217,15 @@ class Configuracion:
         # Panel de madera
         self.screen.blit(self.panel, self.panel_rect)
 
-        # --- Título dinámico con coordenadas fijas ---
-        titulo_texto = "SETTINGS" if self.idioma == "en" else "CONFIGURACIÓN"
-        texto_surface = self.font_titulo.render(titulo_texto, True, (0, 0, 0)) # Color negro
-        coordenadas_titulo = (345, 153) 
+        # --- Título dinámico con coordenadas dinámicas y FUENTE DE TÍTULO ---
+        if self.idioma == "en":
+            titulo_texto = "SETTINGS"
+            coordenadas_titulo = (380, 153) 
+        else:
+            titulo_texto = "CONFIGURACIÓN"
+            coordenadas_titulo = (345, 153) 
+            
+        texto_surface = self.font_titulo.render(titulo_texto, True, (0, 0, 0)) 
         self.screen.blit(texto_surface, coordenadas_titulo)
         # --- FIN Título dinámico ---
 
@@ -233,29 +255,47 @@ class Configuracion:
         self.slider_click_rect.topleft = (slider_x, self.SLIDER_Y)
         self.slider_click_rect.size = self.icono_slider.get_size()
 
-        # Banderas
-        self.screen.blit(self.bandera_es, self.BANDERA_ES_POS)
-        self.screen.blit(self.bandera_en, self.BANDERA_UK_POS)
+        # --- Lógica de dibujo de Banderas con parpadeo ---
+        mouse_pos = pygame.mouse.get_pos()
+        es_rect = pygame.Rect(self.BANDERA_ES_POS[0], self.BANDERA_ES_POS[1], self.FLAG_W, self.FLAG_H)
+        uk_rect = pygame.Rect(self.BANDERA_UK_POS[0], self.BANDERA_UK_POS[1], self.FLAG_W, self.FLAG_H)
+
+        # --- Bandera Española ---
+        if es_rect.collidepoint(mouse_pos):
+            self.screen.blit(self.bandera_es_hover, self.BANDERA_ES_POS)
+        elif self.idioma == "es" and self.mostrar_seleccion:
+            self.screen.blit(self.bandera_es_hover, self.BANDERA_ES_POS)
+        else:
+            self.screen.blit(self.bandera_es, self.BANDERA_ES_POS)
+
+        # --- Bandera Inglesa ---
+        if uk_rect.collidepoint(mouse_pos):
+            self.screen.blit(self.bandera_en_hover, self.BANDERA_UK_POS)
+        elif self.idioma == "en" and self.mostrar_seleccion:
+            self.screen.blit(self.bandera_en_hover, self.BANDERA_UK_POS)
+        else:
+            self.screen.blit(self.bandera_en, self.BANDERA_UK_POS)
 
         # Botón cerrar (X)
         self.screen.blit(self.icono_cerrar, self.CERRAR_POS)
 
-        # --- MODIFICADO: Botón volver con texto dinámico ---
+        # --- Botón volver con texto dinámico ---
         for boton in self.botones:
             boton.draw(self.screen) # Dibuja el fondo (normal o hover)
             
-            # --- AÑADIDO: Texto dinámico encima del botón ---
-            if boton.action == "main": # Identifica el botón "main"
+            # --- ¡¡¡MODIFICADO AQUÍ!!! ---
+            if boton.action == "main": 
                 texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
                 
-                # Renderizar (usamos la fuente de botón cargada en __init__)
+                # --- Usa la FUENTE DE TEXTO NORMAL ---
                 texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
                 
-                # --- MODIFICADO: Usar coordenadas fijas (53, 66) ---
-                coordenadas_boton_texto = (53, 66)
+                # --- Usa las coordenadas fijas (43, 66) de tu código original ---
+                coordenadas_boton_texto = (57, 57)
                 
                 # Dibujar el texto
                 self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
+            # --- FIN DE LA MODIFICACIÓN ---
             
             
         # Actualizar pantalla
@@ -265,6 +305,13 @@ class Configuracion:
     def run(self):
         clock = pygame.time.Clock()
         while self.running:
+
+            # --- Lógica de Parpadeo ---
+            ahora = pygame.time.get_ticks()
+            if ahora - self.tiempo_parpadeo > 500: # Parpadea cada 500ms (medio segundo)
+                self.mostrar_seleccion = not self.mostrar_seleccion
+                self.tiempo_parpadeo = ahora
+
             for event in pygame.event.get():
                 cambio = self.handle_event(event)
                 if cambio:

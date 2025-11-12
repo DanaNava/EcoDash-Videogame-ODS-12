@@ -17,7 +17,6 @@ except pygame.error:
     click_sound = None
 
 # ----------- Clase Button Reutilizable -----------
-# (Copiada de tus otros archivos para consistencia)
 class Button:
     def __init__(self, rect, normal_path, hover_path, action, sound = None):
         self.rect = pygame.Rect(rect)   # Área interactiva del botón
@@ -65,17 +64,26 @@ class Creditos:
             self.fondo = pygame.Surface(self.screen.get_size())
             self.fondo.fill((0, 0, 0)) # Fondo negro si falla
 
+        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
         # --- Cargar Fuentes ---
         try:
-            font_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf")
-            self.font_titulo = pygame.font.Font(font_path, 48) # Para "DESARROLLADORES"
-            self.font_nombres = pygame.font.Font(font_path, 30) # Para la lista de nombres
-            self.font_boton = pygame.font.Font(font_path, 32) # Para el botón "Volver"
+            # Fuente para Títulos
+            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
+            self.font_titulo = pygame.font.Font(font_titulo_path, 48) # Para "DESARROLLADORES"
         except FileNotFoundError:
-            print("Fuente pixel no encontrada, usando fuentes por defecto.")
+            print("ERROR: No se encontró 'Stay Pixel DEMO.ttf', usando fuente por defecto.")
             self.font_titulo = pygame.font.Font(None, 55)
+
+        try:
+            # Fuente para Texto Normal
+            font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
+            self.font_nombres = pygame.font.Font(font_texto_path, 15) # Para la lista de nombres
+            self.font_boton = pygame.font.Font(font_texto_path, 20) # Para el botón "Volver"
+        except FileNotFoundError:
+            print("ERROR: No se encontró 'Pixel.ttf', usando fuentes por defecto.")
             self.font_nombres = pygame.font.Font(None, 36)
             self.font_boton = pygame.font.Font(None, 40)
+        # --- FIN DE LA MODIFICACIÓN ---
 
         # --- Botón de Volver ---
         self.boton_volver = Button((0, 2, 120, 67),
@@ -111,17 +119,17 @@ class Creditos:
         self.boton_volver.draw(self.screen)
         texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
         texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0))
-        self.screen.blit(texto_boton_surf, (18, 25)) # Coordenadas fijas para el texto del botón
+        self.screen.blit(texto_boton_surf, (14, 18)) # Coordenadas fijas para el texto del botón
 
-        # --- MODIFICADO: Título en dos líneas con coordenadas dinámicas ---
+        # 3. Título en dos líneas con coordenadas dinámicas
         if self.idioma == "en":
             titulo_str_1 = "GAME"
             titulo_str_2 = "DEVELOPERS"
-            coordenadas_titulo_1 = (460, 180) # <-- Coordenadas para Inglés
+            coordenadas_titulo_1 = (395, 183) # Coordenadas para Inglés
         else:
             titulo_str_1 = "DESARROLLADORES"
             titulo_str_2 = "del JUEGO"
-            coordenadas_titulo_1 = (291, 183) # <-- Coordenadas para Español
+            coordenadas_titulo_1 = (291, 183) # Coordenadas para Español
             
         titulo_surf_1 = self.font_titulo.render(titulo_str_1, True, (0,0,0)) # Color negro
         titulo_surf_2 = self.font_titulo.render(titulo_str_2, True, (0,0,0)) # Color negro

@@ -9,7 +9,7 @@ pygame.mixer.init()   # Inicializa el sistema de sonido
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Sonido general de clic para los botones
-click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
+click_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "sonido_click.wav"))
 click_sound.set_volume(0.5)   # Ajusta el volumen (0.0 a 1.0)
 
 # ----------- Clase Button Reutilizable -----------
@@ -48,40 +48,44 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
         self.idioma = idioma_actual
         self.volumen = volumen_actual # <-- AÑADIDO
 
-        # --- AÑADIDO: Cargar la fuente para el botón ---
+        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
+        # --- Cargar la fuente para el botón "Volver" (Texto Normal) ---
         try:
-            # Fuente para el BOTÓN "Volver"
-            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") # Cambia "tu_fuente_pixel.ttf"
-            self.font_boton = pygame.font.Font(font_boton_path, 32) # Tamaño más pequeño
+            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
+            self.font_boton = pygame.font.Font(font_boton_path, 19) # Tamaño más pequeño
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
 
-        # --- AÑADIDO: Cargar fuente para el TÍTULO ---
+        # --- Cargar fuente para el TÍTULO ---
         try:
-            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
+            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
             self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Ajusta el tamaño
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Stay Pixel DEMO.tff'")
             self.font_titulo = pygame.font.Font(None, 60)
 
-        # --- AÑADIDO: Cargar fuente para OPCIONES ---
+        # --- Cargar fuente para OPCIONES (Texto Normal) ---
         try:
-            font_opcion_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
-            self.font_opcion = pygame.font.Font(font_opcion_path, 42) # Ajusta el tamaño
+            font_opcion_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
+            self.font_opcion = pygame.font.Font(font_opcion_path, 25) # Ajusta el tamaño
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_opcion = pygame.font.Font(None, 48)
+        # --- FIN DE LA MODIFICACIÓN ---
 
 
         # Fondo de la interfaz (ahora sin texto)
-        self.fondo = pygame.image.load("assets_PI/interfaces/eleguir_dificultad/fondo/fondo_interfaz_elegir_dificultad_2.png").convert()
+        self.fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "fondo", "fondo_interfaz_elegir_dificultad_2.png")).convert()
 
         # Lista de botones con sus acciones (ahora sin texto)
         self.botones = [
-            Button((152, 313, 333, 97),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_facil_hover.png","facil", click_sound ),
+            Button((152, 313, 333, 97),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_facil.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_facil_hover.png"),"facil", click_sound ),
 
-            Button((152, 482, 330, 98),"assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio.png","assets_PI/interfaces/eleguir_dificultad/botones/boton_interfaz_eleguir_dificultad_medio_hover.png","medio", click_sound ),
+            Button((152, 482, 330, 98),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_medio.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_medio_hover.png"),"medio", click_sound ),
 
             # Este es el botón de "volver"
-            Button((0, 35, 120, 67),"assets_PI/sprites/boton_back.png","assets_PI/sprites/boton_back_hover.png","select_character", click_sound )
+            Button((0, 35, 120, 67),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),"select_character", click_sound )
         ]
 
     def handle_event(self, event):
@@ -122,7 +126,7 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
             if boton.action == "select_character":
                 texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
                 texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
-                coordenadas_boton_texto = (18, 58) 
+                coordenadas_boton_texto = (15, 49) 
                 self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
             
             # --- AÑADIDO: Lógica para dibujar texto "PRINCIPIANTE" ---

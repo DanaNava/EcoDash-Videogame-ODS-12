@@ -54,21 +54,25 @@ class Select_character:
         self.idioma = idioma_actual
         self.volumen = volumen_actual 
 
-        # --- AÑADIDO: Cargar la fuente para el botón ---
+        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
+        # --- Cargar la fuente para el botón ---
         try:
-            # Fuente para el BOTÓN "Volver"
-            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") # Cambia "tu_fuente_pixel.ttf"
-            self.font_boton = pygame.font.Font(font_boton_path, 32) # Tamaño más pequeño
+            # Fuente para el BOTÓN "Volver" (Pixel.ttf)
+            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
+            self.font_boton = pygame.font.Font(font_boton_path, 20) # tamaño de la letra
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
             
-        # --- AÑADIDO: Cargar la fuente para el TÍTULO ---
+        # --- Cargar la fuente para el TÍTULO ---
         try:
-            # Fuente para el TÍTULO (puedes usar la misma fuente o una diferente)
-            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Tamaño más grande
+            # Fuente para el TÍTULO (Stay Pixel DEMO.otf)
+            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
+            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Tamaño 52
         except FileNotFoundError:
+            print("ERROR: No se encontró 'Stay Pixel DEMO.ttf'")
             self.font_titulo = pygame.font.Font(None, 60)
+        # --- FIN DE LA MODIFICACIÓN ---
 
 
         # Cargar imágenes del fondo y botones
@@ -135,7 +139,7 @@ class Select_character:
             # --- AÑADIDO: Texto dinámico para el botón "Back" ---
             texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
             texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
-            coordenadas_boton_texto = (18, 25) 
+            coordenadas_boton_texto = (15, 18) 
             self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
             # --- FIN texto dinámico ---
 

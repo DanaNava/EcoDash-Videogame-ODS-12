@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os 
+import random 
 
 # Ruta base para encontrar los assets
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -14,32 +15,32 @@ def run_level1(idioma_actual, volumen_actual):
     pygame.display.set_caption("Nivel 1")
 
     # -----------------------------
-    # CARGA DE IMÁGENES
+    # CARGA DE IMÁGENES (CON RUTAS CORREGIDAS)
     # -----------------------------
-    fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_3.png")).convert_alpha()
-    capa_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_derecha.png")).convert_alpha()
-    capa_delante_2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/puerta_izquierda_fondo.png")).convert_alpha()
-    capa_delante_3 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_arriba.png")).convert_alpha()
-    capa_delante_4 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_sillon_1.png")).convert_alpha()
-    capa_delante_5 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_sillon_2.png")).convert_alpha()
-    capa_delante_6 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_sillon_3.png")).convert_alpha()
-    capa_delante_7 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_sillon_4.png")).convert_alpha()
-    capa_delante_8 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_1.png")).convert_alpha()
-    capa_delante_9 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_mesa_derecha_2.png")).convert_alpha()
-    capa_delante_10 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_1.png")).convert_alpha()
-    capa_delante_11 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/diseyo_nivel/nivel1/fondo_mesa_izquierda_2.png")).convert_alpha()
+    fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_3.png")).convert_alpha()
+    capa_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_derecha.png")).convert_alpha()
+    capa_delante_2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "puerta_izquierda_fondo.png")).convert_alpha()
+    capa_delante_3 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_arriba.png")).convert_alpha()
+    capa_delante_4 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_sillon_1.png")).convert_alpha()
+    capa_delante_5 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_sillon_2.png")).convert_alpha()
+    capa_delante_6 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_sillon_3.png")).convert_alpha()
+    capa_delante_7 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_sillon_4.png")).convert_alpha()
+    capa_delante_8 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_derecha_1.png")).convert_alpha()
+    capa_delante_9 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_derecha_2.png")).convert_alpha()
+    capa_delante_10 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_izquierda_1.png")).convert_alpha()
+    capa_delante_11 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_izquierda_2.png")).convert_alpha()
     
     # Pantalla de vistoria y barras de vida
-    w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/victoria/Pantalla_victoria.jpeg"))
-    bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/sprites/barra_vida_completa.png"))
-    bv2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/sprites/barra_vida_2co.png"))
-    bv1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/sprites/barra_vida_1co.png"))
+    w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "Pantalla_victoria.jpeg"))
+    bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
+    bv2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_2co.png"))
+    bv1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_1co.png"))
 
     # Posturas estáticas para quieto (como respaldo)
-    quieto_derecha = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_derecha.png")).convert_alpha()
-    quieto_izquierda = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_izquierda.png")).convert_alpha()
-    quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_detras.png")).convert_alpha()
-    quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_delante.png")).convert_alpha()
+    quieto_derecha = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_derecha.png")).convert_alpha()
+    quieto_izquierda = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_izquierda.png")).convert_alpha()
+    quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_detras.png")).convert_alpha()
+    quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_delante.png")).convert_alpha()
 
     #Escalar imagenes
     win = pygame.transform.scale(w, (1024, 768))
@@ -48,18 +49,18 @@ def run_level1(idioma_actual, volumen_actual):
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
 
     #Cargar botones (Asumimos que las imágenes ya no tienen texto)
-    boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/perdida/boton_intenta_otra_vez.png")).convert_alpha()
-    boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/perdida/boton_intenta_otra_vez_hover.png")).convert_alpha()
-    boton_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/perdida/boton_menu.png")).convert_alpha()
-    boton_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/perdida/boton_menu_hover.png")).convert_alpha()
+    boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez.png")).convert_alpha()
+    boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez_hover.png")).convert_alpha()
+    boton_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_menu.png")).convert_alpha()
+    boton_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_menu_hover.png")).convert_alpha()
 
-    boton_win_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/victoria/boton_menu_hover_pantalla_victoria.png"))
-    boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/victoria/boton_menu_pantalla_victoria.png"))
-    boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria.png"))
-    boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria_hover.png"))
+    boton_win_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_hover_pantalla_victoria.png"))
+    boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_pantalla_victoria.png"))
+    boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
+    boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
 
-    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) # Corregido: 'intentar' es el amarillo
-    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) # Corregido: 'menu' es el azul
+    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
+    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
@@ -73,19 +74,19 @@ def run_level1(idioma_actual, volumen_actual):
     # -----------------------------
     # CARGA musica de fondo
     # -----------------------------
-    pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI/musica/musica_nivel.wav"))
-    pygame.mixer.music.set_volume(volumen_actual) # <-- MODIFICADO
+    pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
+    pygame.mixer.music.set_volume(volumen_actual) 
     pygame.mixer.music.play(-1)
 
     # -----------------------------
     # CARGA efectos de sonido
     # -----------------------------
-    sonido_caminar = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/pasos_madera.wav"))
-    sonido_dano = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/recibir_daño.wav"))
-    sonido_morir = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/morir.wav"))
-    sonido_recoger = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/recoger_basura.wav"))
-    sonido_tirar_correcto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/tirar_basura_sonido_bien.wav"))
-    sonido_tirar_incorrecto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/tirar_basura_sonido_error.wav"))
+    sonido_caminar = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "pasos_madera.wav"))
+    sonido_dano = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "recibir_daño.wav"))
+    sonido_morir = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "morir.wav"))
+    sonido_recoger = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "recoger_basura.wav"))
+    sonido_tirar_correcto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "tirar_basura_sonido_bien.wav"))
+    sonido_tirar_incorrecto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "tirar_basura_sonido_error.wav"))
 
     # Volúmenes (basados en el volumen global)
     sonido_caminar.set_volume(1 * volumen_actual)
@@ -96,14 +97,14 @@ def run_level1(idioma_actual, volumen_actual):
     sonido_tirar_incorrecto.set_volume(1 * volumen_actual)
 
     # -----------------------------
-    # BASURA (CON TRADUCCIONES)
+    # BASURA (CON TRADUCCIONES Y NOMBRES CORREGIDOS)
     # -----------------------------
-    platano = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/organica/banano.png")).convert_alpha()
-    agua = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/inorganica/botella agua.png")).convert_alpha()
-    foco = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/residuos_peligrosos/Foquito item-a975.png")).convert_alpha()
-    lata = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/inorganica/lata.png")).convert_alpha()
-    manzana = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/organica/manzene.png")).convert_alpha()
-    bateria = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/basura/residuos_peligrosos/batería item -9c3f.png")).convert_alpha()
+    platano = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "banano.png")).convert_alpha()
+    agua = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella agua.png")).convert_alpha()
+    foco = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foquito item-a975.png")).convert_alpha()
+    lata = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata.png")).convert_alpha()
+    manzana = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "manzene.png")).convert_alpha()
+    bateria = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "batería item -9c3f.png")).convert_alpha()
    
     basura = [
         {"imagen": platano, "rect": platano.get_rect(topleft=(200, 350)), "nombre": {"es": "Plátano", "en": "Banana"}, "tipo": "organica"},
@@ -132,100 +133,100 @@ def run_level1(idioma_actual, volumen_actual):
     ]
 
     # -----------------------------
-    # ANIMACIONES
+    # ANIMACIONES (CON RUTAS CORREGIDAS)
     # -----------------------------
     frames_dano = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha2.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_daño_derecha", "Pi_personaje_m_daño_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_daño_derecha", "Pi_personaje_m_daño_derecha2.png")).convert_alpha()
     ]
     frames_muerte_derecha = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte5.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte5.png")).convert_alpha()
     ]
     frames_muerte_izquierda = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda5.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda5.png")).convert_alpha()
     ]
     frames_muerte_delante = frames_muerte_derecha
     frames_muerte_detras = frames_muerte_derecha
     frames_caminar_delante = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante6.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante6.png")).convert_alpha()
     ]
     frames_caminar_derecha = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha6.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha6.png")).convert_alpha()
     ]
     frames_caminar_detras = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras6.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras6.png")).convert_alpha()
     ]
     frames_caminar_izquierda = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda6.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda6.png")).convert_alpha()
     ]
 
     # ANIMACIONES DE QUIETO
     frames_quieto_detras = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras6.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras7.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras8.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras9.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras9.png")).convert_alpha()
     ]
     frames_quieto_derecha = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha6.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha7.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha8.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha9.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha9.png")).convert_alpha()
     ]
     frames_quieto_izquierda = [
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda1.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda3.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda4.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda5.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda6.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda7.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda8.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda9.png")).convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda9.png")).convert_alpha()
     ]
 
     # Para delante postura estática
     frames_quieto_delante = [quieto_delante]
 
-    pantalla_perdida = pygame.image.load(os.path.join(BASE_DIR, "assets_PI/interfaces/perdida/game over 2.0.png")).convert_alpha()
+    pantalla_perdida = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0.png")).convert_alpha()
 
     # Banderas para activar animaciones
     animando_dano = False
@@ -270,7 +271,6 @@ def run_level1(idioma_actual, volumen_actual):
     mensaje = ""
     mensaje_tiempo = 0
     duracion_mensaje = 3000  # Aumentar a 3 segundos
-    fuente = pygame.font.Font(None, 32)  # Fuente más pequeña
     
     # velocidad del juego y personaje
     velocidad = 5
@@ -283,30 +283,37 @@ def run_level1(idioma_actual, volumen_actual):
     # Tiempo
     tiempo = 60
     inicio_tiempo = pygame.time.get_ticks()
-    fuente_tiempo = pygame.font.Font(None, 48)
+    fuente_tiempo = pygame.font.Font(None, 48) # <-- Esta fuente se mantiene por defecto (temporizador)
 
-    # --- AÑADIDO: Fuentes para la pantalla de Game Over Y VICTORIA ---
+    # --- ¡¡¡MODIFICADO AQUÍ!!! ---
+    # --- Cargar las DOS fuentes ---
     try:
-        # Asegúrate de tener una fuente en esta ruta
-        font_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "tu_fuente_pixel.ttf") 
-        fuente_subtitulo_gameover = pygame.font.Font(font_path, 32)
-        fuente_boton_gameover = pygame.font.Font(font_path, 28) # <-- TAMAÑO AJUSTADO
-        
-        # Fuentes de Victoria
-        fuente_victoria_titulo = pygame.font.Font(font_path, 48) # Tamaño grande para "FELICIDADES"
-        fuente_victoria_subtitulo = pygame.font.Font(font_path, 32) # Tamaño mediano para "PUNTO VERDE..."
-        fuente_victoria_botones = pygame.font.Font(font_path, 21) # Tamaño 21 como pediste
-        
+        # Fuente para Títulos (Game Over / Victoria)
+        font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
+        fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
+        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 48) 
+        fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
+
+        # Fuente para Texto Normal (Botones / Mensajes)
+        font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
+        fuente_boton_gameover = pygame.font.Font(font_texto_path, 14) 
+        fuente_victoria_botones = pygame.font.Font(font_texto_path, 21)
+        fuente_mensajes = pygame.font.Font(font_texto_path, 15) # Para "Recogiste: Plátano"
+
     except FileNotFoundError:
-        print("Fuente pixel no encontrada, usando fuentes por defecto.")
+        print("ERROR: No se encontraron las fuentes 'Stay Pixel DEMO.ttf' o 'Pixel.ttf'. Usando fuentes por defecto.")
+        # Fallback a fuentes por defecto
         fuente_subtitulo_gameover = pygame.font.Font(None, 36)
-        fuente_boton_gameover = pygame.font.Font(None, 21) # <-- TAMAÑO AJUSTADO
+        fuente_victoria_titulo = pygame.font.Font(None, 55)
+        fuente_victoria_subtitulo = pygame.font.Font(None, 38)
         
-        # Fuentes de Victoria (Fallback)
-        fuente_victoria_titulo = pygame.font.Font(None, 70)
-        fuente_victoria_subtitulo = pygame.font.Font(None, 50)
-        fuente_victoria_botones = pygame.font.Font(None, 30) # Fallback para 21
-    # --- FIN AÑADIDO ---
+        fuente_boton_gameover = pygame.font.Font(None, 32) 
+        fuente_victoria_botones = pygame.font.Font(None, 24)
+        fuente_mensajes = pygame.font.Font(None, 32)
+    
+    # Asignar la fuente de mensajes a la variable 'fuente' que usa el resto del código
+    fuente = fuente_mensajes
+    # --- FIN DE LA MODIFICACIÓN ---
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
@@ -606,7 +613,7 @@ def run_level1(idioma_actual, volumen_actual):
         tiempo_restante = max(0, tiempo - segundos)
 
         if tiempo_restante <= 30 and not musica_cambiada:
-            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI/musica/musica_apresurada.ogg"))
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))
             pygame.mixer.music.set_volume(volumen_actual) # <-- MODIFICADO
             pygame.mixer.music.play(-1)
             musica_cambiada = True
@@ -621,7 +628,7 @@ def run_level1(idioma_actual, volumen_actual):
 
         # --- MODIFICADO: Pasa el idioma a la pantalla de pérdida ---
         def mostrar_pantalla_perdida(idioma):
-            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI/sonidos/musica de perdida.mp3"))
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "sonidos", "musica de perdida.mp3"))
             pygame.mixer.music.set_volume(volumen_actual) # <-- MODIFICADO
             pygame.mixer.music.play(-1)
             sonido_morir.play()
@@ -649,13 +656,17 @@ def run_level1(idioma_actual, volumen_actual):
                 if idioma == "en":
                     subtitulo_str_1 = "THE PLANET NEEDS YOUR HELP"
                     subtitulo_str_2 = "KEEP TRYING"
+                    coordenadas_titulo = (352, 320) # <-- Coordenadas para Inglés
                 else:
                     subtitulo_str_1 = "EL PLANETA NECESITA TU AYUDA"
                     subtitulo_str_2 = "SIGUE INTENTANDO"
+                    coordenadas_titulo = (296, 332) # <-- Coordenadas originales Español
 
                 subtitulo1_surf = fuente_subtitulo_gameover.render(subtitulo_str_1, True, (255, 255, 255))
                 subtitulo2_surf = fuente_subtitulo_gameover.render(subtitulo_str_2, True, (255, 255, 255))
-                subtitulo1_rect = subtitulo1_surf.get_rect(topleft=(296, 332))
+                
+                subtitulo1_rect = subtitulo1_surf.get_rect(topleft=coordenadas_titulo)
+
                 subtitulo2_rect = subtitulo2_surf.get_rect(centerx=subtitulo1_rect.centerx + 20, top=subtitulo1_rect.bottom + 5)
                 screen.blit(subtitulo1_surf, subtitulo1_rect)
                 screen.blit(subtitulo2_surf, subtitulo2_rect)
@@ -682,7 +693,7 @@ def run_level1(idioma_actual, volumen_actual):
 
         # --- MODIFICADO: Pasa el idioma a la pantalla de victoria ---
         def mostrar_pantalla_victoria(idioma):
-            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI/musica/musica_victoria.mp3"))
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_victoria.mp3"))
             pygame.mixer.music.set_volume(volumen_actual) # <-- MODIFICADO
             pygame.mixer.music.play(-1)
 
@@ -705,21 +716,25 @@ def run_level1(idioma_actual, volumen_actual):
                 
                 # 3. Textos (encima)
                 # 3a. Título y subtítulos
+                
                 if idioma == "en":
                     titulo_str = "CONGRATULATIONS!"
                     sub1_str = "GREEN DOT FOR"
                     sub2_str = "YOU!"
+                    coordenadas_titulo = (320, 260) # <-- Coordenadas para Inglés
                 else:
                     titulo_str = "FELICIDADES"
                     sub1_str = "PUNTO VERDE PARA"
                     sub2_str = "TI"
+                    coordenadas_titulo = (363, 213) # <-- Coordenadas para Español
 
                 titulo_surf = fuente_victoria_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
                 sub1_surf = fuente_victoria_subtitulo.render(sub1_str, True, (0, 0, 0)) # Color negro
                 sub2_surf = fuente_victoria_subtitulo.render(sub2_str, True, (0, 0, 0)) # Color negro
 
                 # Posición del título
-                titulo_rect = titulo_surf.get_rect(topleft=(363, 213)) # Coordenadas que diste
+                titulo_rect = titulo_surf.get_rect(topleft=coordenadas_titulo) # <-- MODIFICADO
+                
                 # Posición de subtítulos (centrados debajo del título)
                 sub1_rect = sub1_surf.get_rect(centerx=titulo_rect.centerx, top=titulo_rect.bottom + 10)
                 sub2_rect = sub2_surf.get_rect(centerx=titulo_rect.centerx, top=sub1_rect.bottom + 5)
