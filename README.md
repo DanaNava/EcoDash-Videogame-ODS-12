@@ -1,6 +1,6 @@
 # 🌱 ECO DASH
 
-<img width="1030" height="200" alt="Titulo_README" src="https://github.com/user-attachments/assets/de14d33f-ebce-46a6-af05-557642895c56" />
+![Imagen_logo](https://github.com/user-attachments/assets/e0cdc07f-7e9b-4758-993c-e32d60466b97)
 
 
 ---
