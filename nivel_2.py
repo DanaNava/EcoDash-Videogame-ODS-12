@@ -2,13 +2,197 @@ import pygame
 import sys
 import random
 
+# ========== SISTEMA DE PAUSA ==========
+class SistemaPausa:
+    def __init__(self, pantalla):
+        self.pantalla = pantalla
+        self.juego_pausado = False
+        self.musica_pausada = False
+        self.return_value = None
+        
+        # Botón de pausa en esquina superior derecha
+        self.boton_pausa_rect = pygame.Rect(910, 20, 60, 60)
+        self.boton_reanudar_rect = pygame.Rect(0, 0, 120, 120)
+        self.boton_reiniciar_rect = pygame.Rect(0, 0, 120, 120)
+        self.boton_menu_rect = pygame.Rect(0, 0, 120, 120)
+        
+        # Estados hover
+        self.boton_pausa_hover = False
+        self.boton_reanudar_hover = False
+        self.boton_reiniciar_hover = False
+        self.boton_menu_hover = False
+        
+        try:
+            self.sprite_boton_pausa = pygame.image.load("assets_PI/pausa/minipausa.png").convert_alpha()
+            self.sprite_boton_pausa_hover = pygame.image.load("assets_PI/pausa/minipausa_hover.png").convert_alpha()
+            
+            # Escalar botón de pausa pequeño
+            escala = 3.0
+            nuevo_ancho = int(self.sprite_boton_pausa.get_width() * escala)
+            nuevo_alto = int(self.sprite_boton_pausa.get_height() * escala)
+            self.sprite_boton_pausa = pygame.transform.scale(self.sprite_boton_pausa, (nuevo_ancho, nuevo_alto))
+            self.sprite_boton_pausa_hover = pygame.transform.scale(self.sprite_boton_pausa_hover, (nuevo_ancho, nuevo_alto))
+            
+            # Cargar otros sprites
+            self.sprite_boton_reanudar = pygame.image.load("assets_PI/pausa/volver.png").convert_alpha()
+            self.sprite_boton_reanudar_hover = pygame.image.load("assets_PI/pausa/volver_hover.png").convert_alpha()
+            self.sprite_boton_reiniciar = pygame.image.load("assets_PI/pausa/reinicio.png").convert_alpha()
+            self.sprite_boton_reiniciar_hover = pygame.image.load("assets_PI/pausa/reinicio_hover.png").convert_alpha()
+            self.sprite_boton_menu = pygame.image.load("assets_PI/pausa/almenu.png").convert_alpha()
+            self.sprite_boton_menu_hover = pygame.image.load("assets_PI/pausa/almenu_hover.png").convert_alpha()
+            self.sprite_fondo_pausa = pygame.image.load("assets_PI/pausa/interfaz_de_pausa.png").convert_alpha()
 
+            # Escalar botones del menú de pausa x2.0
+            escala_menu = 4.0
+            botones_menu = ['reanudar', 'reiniciar', 'menu']
+            for sprite_name in botones_menu:
+                sprite_normal = getattr(self, f'sprite_boton_{sprite_name}')
+                sprite_hover = getattr(self, f'sprite_boton_{sprite_name}_hover')
+
+                if sprite_normal and sprite_hover:
+                    nuevo_ancho = int(sprite_normal.get_width() * escala_menu)
+                    nuevo_alto = int(sprite_normal.get_height() * escala_menu)
+                    setattr(self, f'sprite_boton_{sprite_name}', pygame.transform.scale(sprite_normal, (nuevo_ancho, nuevo_alto)))
+                    setattr(self, f'sprite_boton_{sprite_name}_hover', pygame.transform.scale(sprite_hover, (nuevo_ancho, nuevo_alto)))
+
+        except: 
+            self.sprite_boton_pausa = None
+            self.sprite_boton_pausa_hover = None
+            self.sprite_boton_reanudar = None
+            self.sprite_boton_reanudar_hover = None
+            self.sprite_boton_reiniciar = None
+            self.sprite_boton_reiniciar_hover = None
+            self.sprite_boton_menu = None
+            self.sprite_boton_menu_hover = None
+            self.sprite_fondo_pausa = None
+
+    def manejar_eventos(self, event, nivel_instance):
+        mouse_pos = pygame.mouse.get_pos()
+        # Actualizar estados hover
+        self.boton_pausa_hover = self.boton_pausa_rect.collidepoint(mouse_pos)
+        
+        # Calcular posiciones de botones del menú de pausa
+        if self.juego_pausado:
+            ancho_pantalla, alto_pantalla = self.pantalla.get_size()
+            ancho_pausa = 800
+            alto_pausa = 400
+            x_pausa = (ancho_pantalla - ancho_pausa) // 2 +50
+            y_pausa = (alto_pantalla - alto_pausa) // 2 +50
+
+            # Botones en línea horizontal
+            boton_ancho = 180
+            boton_alto = 180
+            espacio_entre_botones = 30
+            total_ancho_botones = (boton_ancho * 3) + (espacio_entre_botones * 2)
+            inicio_x = x_pausa + (ancho_pausa - total_ancho_botones) // 2
+            pos_y = y_pausa + (alto_pausa - boton_alto) // 2
+
+            self.boton_reanudar_rect = pygame.Rect(inicio_x, pos_y, boton_ancho, boton_alto)
+            self.boton_reiniciar_rect = pygame.Rect(inicio_x + boton_ancho + espacio_entre_botones, pos_y, boton_ancho, boton_alto)
+            self.boton_menu_rect = pygame.Rect(inicio_x + (boton_ancho + espacio_entre_botones) * 2, pos_y, boton_ancho, boton_alto)
+            
+            self.boton_reanudar_hover = self.boton_reanudar_rect.collidepoint(mouse_pos)
+            self.boton_reiniciar_hover = self.boton_reiniciar_rect.collidepoint(mouse_pos)
+            self.boton_menu_hover = self.boton_menu_rect.collidepoint(mouse_pos)
+        
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if self.juego_pausado:
+                    self.reanudar()
+                else:
+                    self.pausar()
+        
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            pos = pygame.mouse.get_pos()
+            
+            if self.juego_pausado:
+                if self.boton_reanudar_rect.collidepoint(pos):
+                    self.reanudar()
+                elif self.boton_reiniciar_rect.collidepoint(pos):
+                    self.reiniciar_nivel(nivel_instance)
+                elif self.boton_menu_rect.collidepoint(pos):
+                    self.ir_al_menu(nivel_instance)
+            else:
+                if self.boton_pausa_rect.collidepoint(pos):
+                    self.pausar()
+
+    def pausar(self):
+        self.juego_pausado = True
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.pause()
+            self.musica_pausada = True
+
+    def reanudar(self):
+        self.juego_pausado = False
+        if self.musica_pausada:
+            pygame.mixer.music.unpause()
+            self.musica_pausada = False
+
+    def reiniciar_nivel(self, nivel_instance):
+        self.juego_pausado = False
+        nivel_instance.return_value = "reintentar"
+        self.return_value = "reintentar"
+        nivel_instance.running = False
+
+    def ir_al_menu(self, nivel_instance):
+        self.juego_pausado = False
+        nivel_instance.return_value = "main"
+        self.return_value = "main"
+        nivel_instance.running = False
+
+    def dibujar(self):
+        if not self.juego_pausado:
+            if self.sprite_boton_pausa:
+                if self.boton_pausa_hover and self.sprite_boton_pausa_hover:
+                    self.pantalla.blit(self.sprite_boton_pausa_hover, self.boton_pausa_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_pausa, self.boton_pausa_rect)
+        else:
+            # Pantalla de pausa centrada EDITAR TAMANO
+            ancho_pantalla, alto_pantalla = self.pantalla.get_size()
+            ancho_pausa = 800
+            alto_pausa = 400
+            x_pausa = (ancho_pantalla - ancho_pausa) // 2
+            y_pausa = (alto_pantalla - alto_pausa) // 2
+
+            # Fondo semi-transparente centrado
+            fondo_pausa = pygame.Surface((ancho_pausa, alto_pausa), pygame.SRCALPHA)
+            fondo_pausa.fill((0, 0, 0, 200))
+            self.pantalla.blit(fondo_pausa, (x_pausa, y_pausa))
+            pygame.draw.rect(self.pantalla, (255, 255, 255), (x_pausa, y_pausa, ancho_pausa, alto_pausa), 3)
+            
+            # DIBUJAR INTERFAZ DE PAUSA - AGREGAR ESTA LÍNEA
+            if self.sprite_fondo_pausa:
+            # Escalar y centrar el sprite de fondo
+                fondo_escalado = pygame.transform.scale(self.sprite_fondo_pausa, (ancho_pausa, alto_pausa))
+                self.pantalla.blit(fondo_escalado, (x_pausa, y_pausa))
+            
+            if self.sprite_boton_reanudar:
+                if self.boton_reanudar_hover and self.sprite_boton_reanudar_hover:
+                    self.pantalla.blit(self.sprite_boton_reanudar_hover, self.boton_reanudar_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_reanudar, self.boton_reanudar_rect)
+            
+            if self.sprite_boton_reiniciar:
+                if self.boton_reiniciar_hover and self.sprite_boton_reiniciar_hover:
+                    self.pantalla.blit(self.sprite_boton_reiniciar_hover, self.boton_reiniciar_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_reiniciar, self.boton_reiniciar_rect)
+            
+            if self.sprite_boton_menu:
+                if self.boton_menu_hover and self.sprite_boton_menu_hover:
+                    self.pantalla.blit(self.sprite_boton_menu_hover, self.boton_menu_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_menu, self.boton_menu_rect)
+# ========== FIN SISTEMA DE PAUSA ==========
 
 def run_level2():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Nivel 2")
+    
+    sistema_pausa = SistemaPausa(screen)
 
     # -----------------------------
     # CARGA DE IMÁGENES
@@ -200,7 +384,7 @@ def run_level2():
     sonido_tirar_correcto.set_volume(0.5)
     sonido_tirar_incorrecto.set_volume(1)
 
-     # -----------------------------
+    # -----------------------------
     # BASURA CON ANIMACIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
@@ -603,14 +787,19 @@ def run_level2():
     vida_actual = vida_max
 
     # Tiempo
-    tiempo = 250
+    tiempo_total= 250
     inicio_tiempo = pygame.time.get_ticks()
+    tiempo_pausa_acumulado = 0
+    tiempo_ultima_pausa = 0
+    tiempo_visual = tiempo_total 
     fuente_tiempo = pygame.font.Font(None, 48)
+    tiempo_visual = tiempo_total
+    
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
 
-   # Verificar si gano
+# Verificar si gano
     def ganar(basura, objeto_en_mano):
         
         # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
@@ -647,10 +836,86 @@ def run_level2():
             if event.type == pygame.QUIT:
                 running = False
 
+    # MANEJAR EVENTOS DE PAUSA
+            sistema_pausa.manejar_eventos(event, sys.modules[__name__])
+
+        # Verificar si la pausa quiere salir del nivel
+        if sistema_pausa.return_value is not None:
+            return sistema_pausa.return_value
+
+        # CALCULAR TIEMPO - SISTEMA SIMPLIFICADO
+        tiempo_actual = pygame.time.get_ticks()
+        if sistema_pausa.juego_pausado:
+            if tiempo_ultima_pausa == 0:
+                tiempo_ultima_pausa = tiempo_actual
+        else:
+            # ACTUALIZAR tiempo_visual SOLO cuando NO está en pausa
+            if tiempo_ultima_pausa > 0:
+                tiempo_pausa_acumulado += tiempo_actual - tiempo_ultima_pausa
+                tiempo_ultima_pausa = 0
+        tiempo_transcurrido = (tiempo_actual - inicio_tiempo - tiempo_pausa_acumulado) // 1000
+        tiempo_restante = max(0, tiempo_total - tiempo_transcurrido)
+        
+        if not sistema_pausa.juego_pausado:
+            tiempo_visual = tiempo_restante
+
+        # Si el juego está pausado, saltar el resto de la lógica
+        if sistema_pausa.juego_pausado:
+            # Dibujar todo el juego congelado
+            screen.fill((0, 0, 0))
+            screen.blit(fondo, (0, 0))
+
+            # BARRA DE VIDA
+            if vida_actual == 3:
+                screen.blit(barra_vida, (20, -20))
+            elif vida_actual == 2:
+                screen.blit(barra_vida2, (20, -20))
+            elif vida_actual == 1:
+                screen.blit(barra_vida1, (20, -20))
+
+            # DIBUJAR BASURAS CON ANIMACIONES
+            for obj in basura:
+                frame_actual = obj["frames"][obj["frame_actual"]]
+                screen.blit(frame_actual, obj["rect"])
+
+            # Dibujar personaje congelado
+            if not animando_dano and not animando_muerte:
+                posturas_quieto = {
+                    "derecha": quieto_derecha,
+                    "izquierda": quieto_izquierda,
+                    "detras": quieto_detras,
+                    "delante": quieto_delante
+                }
+                frame = posturas_quieto.get(ultima_direccion, quieto_delante)
+                personaje_draw_rect = frame.get_rect(center=hitbox.center)
+                screen.blit(frame, personaje_draw_rect)
+
+            # DIBUJAR OBJETO EN LA MANO
+            if objeto_en_mano is not None and not animando_muerte:
+                mano_x = personaje_draw_rect.centerx + 20
+                mano_y = personaje_draw_rect.centery 
+                screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
+
+            #Tiempo congelado - usar tiempo_visual que ya está congelado
+            minutos = tiempo_visual // 60
+            segundos_restantes = tiempo_visual % 60
+            tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
+            color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+            pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+            texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
+            screen.blit(texto_tiempo, (20, 90))
+
+            # DIBUJAR SISTEMA DE PAUSA
+            sistema_pausa.dibujar()
+
+            pygame.display.flip()
+            clock.tick(60)
+            continue
+
         keys = pygame.key.get_pressed()
         old_hitbox = hitbox.copy()
 
-       # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
+    # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
         if not animando_muerte and not tiempo_fin_animacion:
             moving = False
             # Movimiento
@@ -852,7 +1117,7 @@ def run_level2():
             screen.blit(barra_vida1, (20, -20))
 
         for obj in basura:
-         # Evitar que el índice se salga del rango
+        # Evitar que el índice se salga del rango
             if obj["frame_actual"] >= len(obj["frames"]):
 
                 obj["frame_actual"] = 0
@@ -862,7 +1127,7 @@ def run_level2():
 
         # Actualizar animación
         ahora = pygame.time.get_ticks()
-       
+        
         # --- Animaciones de movimiento ---
         if not animando_dano and not animando_muerte:
             if animacion_correr_izquierda:
@@ -1080,11 +1345,8 @@ def run_level2():
         screen.blit(cosa_11, (649, 242))
         screen.blit(cosa_12, (646, 243))
         screen.blit(cosa_13, (643, 252))
-        screen.blit(cosa_14, (636, 253))
-     
+        screen.blit(cosa_14, (636, 253))    
 
-
-   
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
@@ -1104,7 +1366,7 @@ def run_level2():
         # [Nuevo] TIEMPO
         tiempo_actual = pygame.time.get_ticks()
         segundos = (tiempo_actual - inicio_tiempo) // 1000
-        tiempo_restante = max(0, tiempo - segundos)
+        tiempo_restante = max(0, tiempo_total - segundos)
 
         if tiempo_restante <= 30 and not musica_cambiada:
             pygame.mixer.music.load("assets_PI/musica/musica_apresurada.ogg")
@@ -1124,6 +1386,9 @@ def run_level2():
         pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
         screen.blit(texto_tiempo, (20, 90))
+
+        # DIBUJAR BOTÓN DE PAUSA
+        sistema_pausa.dibujar()
 
         def mostrar_pantalla_perdida():
             pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
@@ -1206,8 +1471,6 @@ def run_level2():
             elif resultado == "reintentar":
                 return "reintentar" # Reiniciar nivel
                 
-
-         
         # -----------------------------
         # ANIMACIÓN DE MUERTE CORREGIDA
         # -----------------------------
