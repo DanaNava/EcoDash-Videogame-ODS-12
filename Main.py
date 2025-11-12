@@ -7,6 +7,7 @@ from select_character import Select_character
 from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
 from nivel_1 import run_level1 
+from tutorial import run_tutorial
 
 def main():
     pygame.init()  # Inicializa todos los módulos de pygame
@@ -30,6 +31,10 @@ def main():
         resultado = pantalla_actual.run()  # Se ejecuta la pantalla actual
 
         # Lógica de navegación entre pantallas
+        
+        if resultado == "tutorial":
+            run_tutorial()
+        
         if resultado == "select_character":
             pantalla_actual = Select_character(screen)  # Ir a la pantalla de selección de personaje
 
