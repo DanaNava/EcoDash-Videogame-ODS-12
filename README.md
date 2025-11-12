@@ -27,11 +27,59 @@ El objetivo principal es enseñar, de manera divertida e interactiva, la importa
 
 Eco-Dash incluye diversas funciones que enriquecen la experiencia de juego y refuerzan su propósito educativo:
 
-- 🌳 **Tres niveles distintos:** Casa, parque y salón de clase.  
-- ⏸️ **Función de pausa:** Permite reanudar, reiniciar el nivel o volver al menú principal.  
-- ⚙️ **Selección de dificultad:** Dos modos disponibles: *Principiante* y *Retador*.  
-- 🧍‍♂️🧍‍♀️ **Elección de personaje:** Opción de jugar con un personaje masculino o femenino.  
-- 🌐 **Cambio de idioma:** Disponible en **español** e **inglés**.
+---
+
+### 🌳 **Tres niveles distintos**
+Casa, parque y salón de clase.  
+Cada nivel presenta entornos diferentes y nuevos tipos de residuos que el jugador debe identificar y reciclar correctamente.  
+
+*Ejemplo visual:*  
+<img width="300" height="200" alt="fondo_3" src="https://github.com/user-attachments/assets/b127a273-9045-4048-861d-4790c0ee6092" />
+<img width="300" height="200" alt="fondo_nivel2" src="https://github.com/user-attachments/assets/3e4c02a4-aa02-4a49-a822-951d7bfa59fa" />
+<img width="300" height="200" alt="Fondo level3" src="https://github.com/user-attachments/assets/15bcea79-ba8a-4cb7-8120-e094dd10a491" />
+
+
+---
+
+### ⏸️ **Función de pausa**
+Permite **reanudar**, **reiniciar** el nivel o **volver al menú principal**.  
+
+*Ejemplo visual:*  
+![Menu_pausa](https://github.com/user-attachments/assets/6a568c03-198e-4f1c-851c-f190e741bae9)
+
+
+
+---
+
+### ⚙️ **Selección de dificultad**
+Dos modos disponibles:  
+- *Principiante* 🐢 (tiempo más largo, menos basura).  
+- *Retador* ⚡ (tiempo reducido, más residuos por clasificar).  
+
+*Ejemplo visual:*  
+<img width="413" height="118" alt="Boton_de_facil_PI" src="https://github.com/user-attachments/assets/8fff9f0e-4ffd-4f5a-b49f-939e5bbaebe3" />
+   <img width="413" height="118" alt="Retador_boton_PI" src="https://github.com/user-attachments/assets/72d730ff-bd9a-47af-ae25-bbba36dc0fc1" />
+
+
+---
+
+### 🧍‍♂️🧍‍♀️ **Elección de personaje**
+El jugador puede escoger entre un **personaje masculino o femenino**, ambos con animaciones completas de movimiento.  
+
+*Ejemplo visual:*  
+<img width="78" height="84" alt="PI_personaje_m_ver_delante" src="https://github.com/user-attachments/assets/07d57745-5c0c-46ab-86fd-3547c4f0997e" /> <img width="80" height="84" alt="PI_personaje_m_ver_derecha" src="https://github.com/user-attachments/assets/ec2dc5ff-1b65-4c3f-bb10-016e6e4b11e5" /> <img width="74" height="84" alt="PI_personaje_m_ver_detras" src="https://github.com/user-attachments/assets/bafe2dbe-e24e-4eaf-9a9d-b8a9a0d3ac62" /> <img width="80" height="84" alt="PI_personaje_m_ver_izquierda" src="https://github.com/user-attachments/assets/e53e091b-e9dc-4244-8731-bf3a80bd19d1" />
+
+<img width="106" height="100" alt="personaje_PI_femenino" src="https://github.com/user-attachments/assets/b4b9f0be-e7dd-47f0-851c-93b56969030a" /> <img width="106" height="100" alt="personaje_PI_femenino_derecha" src="https://github.com/user-attachments/assets/c43d1aad-88d6-41c5-ac2d-68de82d14349" /> <img width="106" height="100" alt="personaje_PI_femenino_detras" src="https://github.com/user-attachments/assets/0f959b93-3609-4929-a051-7001d998fba4" /> <img width="104" height="97" alt="personaje_PI_femenino_izquierda" src="https://github.com/user-attachments/assets/0627990f-6289-4433-bf3e-7ce27723486c" />
+
+
+---
+
+### 🌐 **Cambio de idioma**
+Disponible en **español** e **inglés**, tanto en los textos de interfaz como en los mensajes dentro del juego.  
+
+*Ejemplo visual:*  
+<img width="313" height="229" alt="bandera_españa" src="https://github.com/user-attachments/assets/394b7d17-7e33-4b04-93c4-6139fce1edf6" />
+<img width="313" height="229" alt="bandera_inglaterra" src="https://github.com/user-attachments/assets/175d6ab5-db2a-4588-9ad6-51581610b5ed" />
 
 ---
 
@@ -40,6 +88,8 @@ Eco-Dash incluye diversas funciones que enriquecen la experiencia de juego y ref
 ### 👣 **Movimiento del personaje**
 El jugador puede moverse en las cuatro direcciones principales dentro del mapa del nivel.  
 *![PI_m_delante](https://github.com/user-attachments/assets/7d113607-2c7e-4f84-8c82-056c500e83cd) ![PI_M_DERECHA](https://github.com/user-attachments/assets/ba07a52a-09dd-428a-9363-3119a39e0c33) ![PI_M_DETRAS](https://github.com/user-attachments/assets/58202042-8af2-4bc5-8a91-2077e63a3b7b) ![PI_M_IZQUIERDA](https://github.com/user-attachments/assets/55432321-61ec-464d-8faa-f4550df55a3f)*
+
+**
 
 ---
 
@@ -87,11 +137,11 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 ### 🏁 **Condiciones de victoria y derrota**
 
 - ✅ **Ganar:** Reciclar correctamente todos los residuos antes de que termine el tiempo.
-  - *<img width="500" height="400" alt="Pantalla_victoria (2)" src="https://github.com/user-attachments/assets/4e065162-d3f4-4c9f-8c3f-3a4e863b4ce6" />*  
+  - *<img width="300" height="200" alt="Pantalla_victoria (2)" src="https://github.com/user-attachments/assets/4e065162-d3f4-4c9f-8c3f-3a4e863b4ce6" />*  
 - ❌ **Perder:**  
   - Tirar basura incorrectamente tres veces.  
   - O dejar que el cronómetro llegue a cero.
-  - *<img width="500" height="400" alt="game over 2 0 (1)" src="https://github.com/user-attachments/assets/4df0962c-0cfc-4eaa-b325-de9edaca6690" />*
+  - *<img width="300" height="200" alt="game over 2 0 (1)" src="https://github.com/user-attachments/assets/4df0962c-0cfc-4eaa-b325-de9edaca6690" />*
 
 
 ---
