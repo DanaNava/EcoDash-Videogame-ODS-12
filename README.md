@@ -25,7 +25,7 @@ El objetivo principal es enseñar, de manera divertida e interactiva, la importa
 
 ## 🎬 **Tráiler / Demostración**
 Mira el tráiler oficial de **ECO DASH**:  
-[![Ver tráiler](https://img.youtube.com/vi/ID_DEL_VIDEO/maxresdefault.jpg)](https://youtu.be/ID_DEL_VIDEO)
+**(no disponible ahora mismo)**
 
 ---
 
