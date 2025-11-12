@@ -296,7 +296,7 @@ def run_level1(idioma_actual, volumen_actual):
 
         # Fuente para Texto Normal (Botones / Mensajes)
         font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
-        fuente_boton_gameover = pygame.font.Font(font_texto_path, 14) 
+        fuente_boton_gameover = pygame.font.Font(font_texto_path, 11) 
         fuente_victoria_botones = pygame.font.Font(font_texto_path, 21)
         fuente_mensajes = pygame.font.Font(font_texto_path, 15) # Para "Recogiste: Plátano"
 
