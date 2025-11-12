@@ -23,6 +23,12 @@ El objetivo principal es enseñar, de manera divertida e interactiva, la importa
 
 ---
 
+## 🎬 **Tráiler / Demostración**
+Mira el tráiler oficial de **ECO DASH**:  
+[![Ver tráiler](https://img.youtube.com/vi/ID_DEL_VIDEO/maxresdefault.jpg)](https://youtu.be/ID_DEL_VIDEO)
+
+---
+
 ## 🕹️ **Características principales**
 
 Eco-Dash incluye diversas funciones que enriquecen la experiencia de juego y refuerzan su propósito educativo:
@@ -83,13 +89,21 @@ Disponible en **español** e **inglés**, tanto en los textos de interfaz como e
 
 ---
 
+## 🧭 **Controles del juego**        
+*⬆️ ⬅️ ⬇️ ➡️ --- **W A S D**   : Mover al personaje*
+- **O** u **Z** — Recoger residuos
+- **P** o **X** —  Depositar residuos
+- **ESC** — Pausar el juego  
+
+---
+
 ## 🕹️ **Mecánicas del Juego**
 
 ### 👣 **Movimiento del personaje**
 El jugador puede moverse en las cuatro direcciones principales dentro del mapa del nivel.  
 *![PI_m_delante](https://github.com/user-attachments/assets/7d113607-2c7e-4f84-8c82-056c500e83cd) ![PI_M_DERECHA](https://github.com/user-attachments/assets/ba07a52a-09dd-428a-9363-3119a39e0c33) ![PI_M_DETRAS](https://github.com/user-attachments/assets/58202042-8af2-4bc5-8a91-2077e63a3b7b) ![PI_M_IZQUIERDA](https://github.com/user-attachments/assets/55432321-61ec-464d-8faa-f4550df55a3f)*
 
-**
+*![Mujer_animacion_delante_PI](https://github.com/user-attachments/assets/0ff723d2-ee25-449f-a934-19f239f813ea) ![Mujer_animacion_derecha_PI](https://github.com/user-attachments/assets/0bc7ec88-8973-46c4-8e07-7db7435801d2) ![Mujer_animacion_detras_PI](https://github.com/user-attachments/assets/7f2fb3de-f813-4641-8711-9bc8b32e64c9) ![Mujer_animacion_izquierda_PI](https://github.com/user-attachments/assets/c9ea92dd-889a-4ef0-b035-ef90035d7ea3)*
 
 ---
 
@@ -146,6 +160,47 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 
 ---
 
+## 📂 **Estructura del proyecto**
+    
+      EcoDash-Videogame-ODS-12/
+      ├── LICENSE
+      ├── README.md
+      ├── nivel_1.py
+      ├── proyecto.py
+      ├── seleccion_dificultad.py
+      ├── seleccion_nivel.py
+      ├── select_character/
+      │
+      └── assets_PI/
+          ├── basura/
+          │   ├── inorganica/
+          │   ├── organica/
+          │   └── residuos_peligrosos/
+          │
+          ├── botes/
+          ├── diseyo_nivel/
+          │   ├── nivel1/
+          │   ├── nivel2/
+          │   └── nivel3/
+          │
+          ├── interfaces/
+          │   ├── configuracion/
+          │   ├── eleguir_dificultad/
+          │   ├── eleguir_nivel/
+          │   ├── main/
+          │   ├── perdida/
+          │   └── victoria/
+          │
+          ├── musica/
+          ├── pausa/
+          ├── personajes/
+          │   ├── femenino/
+          │   └── masculino/
+          │
+          ├── sonidos/
+          └── sprites/
+
+---
 ## ⚙️ **Instalación y ejecución**
 
 1. **Clona este repositorio:**  
@@ -223,8 +278,10 @@ Estas tecnologías permitieron desarrollar un videojuego educativo liviano, mult
 ---
 
 ## 🧠 **Créditos y agradecimientos**
-
 - Inspirado en los **Objetivos de Desarrollo Sostenible (ODS)** de la ONU.  
+- Sonidos y música recopilados de bibliotecas de uso libre.  
+- Sprites y animaciones creados por el equipo de desarrollo en **LibreSprite**.  
+- Agradecimientos especiales a nuestros profesores y compañeros por su retroalimentación durante el desarrollo.    
 
 ---
 
