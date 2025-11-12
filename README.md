@@ -136,7 +136,9 @@ Si intenta recoger otro objeto sin haber tirado el actual, se mostrará un aviso
 ### 💔 **Sistema de daño**
 Cada vez que el jugador tira basura en un contenedor incorrecto, pierde una vida.  
 Si se equivoca tres veces, pierde el nivel.  
-*<img width="180" height="182" alt="PI_DAÑO_1" src="https://github.com/user-attachments/assets/eab35f07-0967-4a32-a275-fd7b1a45aba7" /> ![PI_DAÑO_2_DE_VERDAD](https://github.com/user-attachments/assets/fec983a8-722d-406b-89b4-74405e4b82ed) <img width="205" height="80" alt="Pi_vida_1" src="https://github.com/user-attachments/assets/381371b4-a0d7-4be4-bf3c-a6ce8027edeb" /> <img width="205" height="80" alt="Pi_vida_2" src="https://github.com/user-attachments/assets/ffbe4ebf-c3b6-47a1-b21a-12a3ad5c8d72" /> <img width="205" height="80" alt="Pi_vida_3" src="https://github.com/user-attachments/assets/45848d87-f773-4eed-8133-bd44f835872a" />*
+*<img width="180" height="182" alt="PI_DAÑO_1" src="https://github.com/user-attachments/assets/eab35f07-0967-4a32-a275-fd7b1a45aba7" /> ![PI_DAÑO_2_DE_VERDAD](https://github.com/user-attachments/assets/fec983a8-722d-406b-89b4-74405e4b82ed)* 
+
+*<img width="205" height="80" alt="Pi_vida_1" src="https://github.com/user-attachments/assets/381371b4-a0d7-4be4-bf3c-a6ce8027edeb" /> <img width="205" height="80" alt="Pi_vida_2" src="https://github.com/user-attachments/assets/ffbe4ebf-c3b6-47a1-b21a-12a3ad5c8d72" /> <img width="205" height="80" alt="Pi_vida_3" src="https://github.com/user-attachments/assets/45848d87-f773-4eed-8133-bd44f835872a" />*
 *<img width="990" height="48" alt="PI_DAÑO_2" src="https://github.com/user-attachments/assets/86a68a45-0347-4d94-b3d8-7f8307eac540"/>*
 
 ---
