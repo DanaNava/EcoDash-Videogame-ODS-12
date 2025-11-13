@@ -85,10 +85,13 @@ class Configuracion:
             print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
 
+        # --------- MÚSICA DE FONDO ----------
+        # Cargar música de fondo
+        pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_main.wav"))
+        pygame.mixer.music.set_volume(self.volumen)
+        pygame.mixer.music.play(-1)  # Reproducir en loop
 
         # --------- VOLÚMEN Y CONTROLES ----------
-        pygame.mixer.music.set_volume(self.volumen) # Ajusta el volumen inicial
-        
         self.dragging_slider = False
         self.slider_click_rect = pygame.Rect(0, 0, 0, 0) 
 
@@ -316,6 +319,8 @@ class Configuracion:
                 cambio = self.handle_event(event)
                 if cambio:
                     self.running = False 
+                    # Detener la música al salir
+                    pygame.mixer.music.stop()
                     # --- MODIFICADO: Devuelve la acción, idioma Y VOLUMEN ---
                     return cambio, self.idioma, self.volumen
             
@@ -323,6 +328,8 @@ class Configuracion:
             self.draw() 
             clock.tick(60)
         
+        # Detener la música al salir
+        pygame.mixer.music.stop()
         # --- MODIFICADO: Devuelve la acción, idioma Y VOLUMEN ---
         return "salir", self.idioma, self.volumen
 

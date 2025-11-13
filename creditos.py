@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Sonido para los botones
 try:
-    click_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI/sonidos/sonido_click.wav"))
+    click_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "sonido_click.wav"))
     click_sound.set_volume(0.5)
 except pygame.error:
     print("No se pudo cargar 'sonido_click.wav'")
@@ -53,11 +53,19 @@ class Creditos:
         self.screen = screen
         self.running = True
         self.idioma = idioma_actual
-        self.volumen = volumen_actual # Lo guardamos por si acaso
+        self.volumen = volumen_actual
+
+        # --------- MÚSICA DE FONDO ----------
+        try:
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_main.wav"))
+            pygame.mixer.music.set_volume(self.volumen)
+            pygame.mixer.music.play(-1)  # Reproducir en loop
+        except pygame.error:
+            print("No se pudo cargar la música de fondo")
 
         # --- Cargar Fondo ---
         try:
-            fondo_path = os.path.join(BASE_DIR, "assets_PI/interfaces/creditos/fondos/creditos.png") # Nombre corregido
+            fondo_path = os.path.join(BASE_DIR, "assets_PI", "interfaces", "creditos", "fondos", "creditos.png")
             self.fondo = pygame.image.load(fondo_path).convert()
         except pygame.error:
             print("No se encontró 'creditos.png', usando fondo negro.")
@@ -87,8 +95,8 @@ class Creditos:
 
         # --- Botón de Volver ---
         self.boton_volver = Button((0, 2, 120, 67),
-                                   os.path.join(BASE_DIR, "assets_PI/sprites/boton_back.png"),
-                                   os.path.join(BASE_DIR, "assets_PI/sprites/boton_back_hover.png"),
+                                   os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),
+                                   os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),
                                    "main", 
                                    click_sound)
         
@@ -159,11 +167,15 @@ class Creditos:
             for event in pygame.event.get():
                 cambio = self.handle_event(event)
                 if cambio:
+                    # Detener la música al salir
+                    pygame.mixer.music.stop()
                     return cambio # Devuelve "main" o "salir"
 
             self.draw()
             pygame.display.flip()
         
+        # Detener la música al salir
+        pygame.mixer.music.stop()
         return "salir" 
 
 # Para probar este archivo de forma independiente
