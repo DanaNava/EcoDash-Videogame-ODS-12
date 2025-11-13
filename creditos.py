@@ -56,12 +56,8 @@ class Creditos:
         self.volumen = volumen_actual
 
         # --------- MÚSICA DE FONDO ----------
-        try:
-            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_main.wav"))
-            pygame.mixer.music.set_volume(self.volumen)
-            pygame.mixer.music.play(-1)  # Reproducir en loop
-        except pygame.error:
-            print("No se pudo cargar la música de fondo")
+        # ¡NO CARGAR MÚSICA NUEVA! Solo actualizar el volumen de la que ya está sonando
+        pygame.mixer.music.set_volume(self.volumen)
 
         # --- Cargar Fondo ---
         try:
@@ -72,7 +68,6 @@ class Creditos:
             self.fondo = pygame.Surface(self.screen.get_size())
             self.fondo.fill((0, 0, 0)) # Fondo negro si falla
 
-        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
         # --- Cargar Fuentes ---
         try:
             # Fuente para Títulos
@@ -91,7 +86,6 @@ class Creditos:
             print("ERROR: No se encontró 'Pixel.ttf', usando fuentes por defecto.")
             self.font_nombres = pygame.font.Font(None, 36)
             self.font_boton = pygame.font.Font(None, 40)
-        # --- FIN DE LA MODIFICACIÓN ---
 
         # --- Botón de Volver ---
         self.boton_volver = Button((0, 2, 120, 67),
@@ -167,15 +161,13 @@ class Creditos:
             for event in pygame.event.get():
                 cambio = self.handle_event(event)
                 if cambio:
-                    # Detener la música al salir
-                    pygame.mixer.music.stop()
+                    # ¡NO DETENER LA MÚSICA! Solo devolver la acción
                     return cambio # Devuelve "main" o "salir"
 
             self.draw()
             pygame.display.flip()
         
-        # Detener la música al salir
-        pygame.mixer.music.stop()
+        # ¡NO DETENER LA MÚSICA! Solo devolver la acción
         return "salir" 
 
 # Para probar este archivo de forma independiente

@@ -44,13 +44,11 @@ class Button:
 
 # ------------------ CLASE CONFIGURACIÓN ------------------
 class Configuracion:
-    # --- MODIFICADO: Acepta el idioma y volumen actual ---
     def __init__(self, screen, idioma_actual, volumen_actual):
         self.screen = screen
         self.running = True
-        # --- MODIFICADO: Usa los valores que recibe ---
         self.idioma = idioma_actual
-        self.volumen = volumen_actual # <-- USA EL VOLUMEN RECIBIDO
+        self.volumen = volumen_actual
 
         # Medidas ventana actuales
         self.W, self.H = self.screen.get_size()
@@ -84,12 +82,6 @@ class Configuracion:
         except FileNotFoundError:
             print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
-
-        # --------- MÚSICA DE FONDO ----------
-        # Cargar música de fondo
-        pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_main.wav"))
-        pygame.mixer.music.set_volume(self.volumen)
-        pygame.mixer.music.play(-1)  # Reproducir en loop
 
         # --------- VOLÚMEN Y CONTROLES ----------
         self.dragging_slider = False
@@ -149,7 +141,7 @@ class Configuracion:
         # --------- BOTÓN BACK ----------
         self.botones = [
             Button(
-                rect=(self.BACK_POS[0], self.BACK_POS[1], 96, 50), # <-- PUEDES CAMBIAR 96 y 40 AQUÍ
+                rect=(self.BACK_POS[0], self.BACK_POS[1], 96, 50),
                 normal_path=os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),
                 hover_path=os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),
                 action="main",
@@ -232,7 +224,6 @@ class Configuracion:
         self.screen.blit(texto_surface, coordenadas_titulo)
         # --- FIN Título dinámico ---
 
-
         # Icono de volumen
         if self.volumen == 0:
             icono_vol = self.icono_volumen_mute
@@ -286,20 +277,17 @@ class Configuracion:
         for boton in self.botones:
             boton.draw(self.screen) # Dibuja el fondo (normal o hover)
             
-            # --- ¡¡¡MODIFICADO AQUÍ!!! ---
             if boton.action == "main": 
                 texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
                 
-                # --- Usa la FUENTE DE TEXTO NORMAL ---
+                # Usa la FUENTE DE TEXTO NORMAL
                 texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
                 
-                # --- Usa las coordenadas fijas (43, 66) de tu código original ---
+                # Usa las coordenadas fijas
                 coordenadas_boton_texto = (57, 57)
                 
                 # Dibujar el texto
                 self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
-            # --- FIN DE LA MODIFICACIÓN ---
-            
             
         # Actualizar pantalla
         pygame.display.flip()
@@ -319,18 +307,14 @@ class Configuracion:
                 cambio = self.handle_event(event)
                 if cambio:
                     self.running = False 
-                    # Detener la música al salir
-                    pygame.mixer.music.stop()
-                    # --- MODIFICADO: Devuelve la acción, idioma Y VOLUMEN ---
+                    # NO DETENER LA MÚSICA - solo devolver los valores
                     return cambio, self.idioma, self.volumen
             
             self.update()
             self.draw() 
             clock.tick(60)
         
-        # Detener la música al salir
-        pygame.mixer.music.stop()
-        # --- MODIFICADO: Devuelve la acción, idioma Y VOLUMEN ---
+        # NO DETENER LA MÚSICA - solo devolver los valores
         return "salir", self.idioma, self.volumen
 
 # ------------------ EJECUCIÓN PRINCIPAL ------------------
@@ -346,13 +330,10 @@ if __name__ == '__main__':
     while running_main:
         print(f"Estás en el 'menú principal' (simulado). Idioma: {idioma_actual}, Vol: {volumen_actual}")
         
-        # --- MODIFICADO: Pasa el idioma y volumen guardados ---
         cfg = Configuracion(screen, idioma_actual, volumen_actual)
         
-        # --- MODIFICADO: Recibe TRES valores ---
         accion_salida, idioma_nuevo, volumen_nuevo = cfg.run() 
         
-        # --- MODIFICADO: Actualiza el estado guardado ---
         idioma_actual = idioma_nuevo
         volumen_actual = volumen_nuevo 
         

@@ -16,18 +16,17 @@ def main():
     pygame.init()   # Inicializa todos los módulos de pygame
     pygame.mixer.init()   # Inicializa el sistema de sonido de pygame
 
-    # Cargar música de fondo del menú principal
-    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
-    
     # Variables de estado para el volumen e idioma
     volumen_juego = 0.5
     idioma_juego = "es"
     
-    pygame.mixer.music.set_volume(volumen_juego)   # Ajusta el volumen de la música (0.0 a 1.0)
-    pygame.mixer.music.play(-1)   # Reproduce la música en loop infinito (-1)
-
     screen = pygame.display.set_mode((1024, 768))   # Crea la ventana del juego con resolución 1024x768
     pygame.display.set_caption("Eco Dash")   # Título de la ventana
+
+    # Cargar música de fondo del menú principal UNA SOLA VEZ al inicio
+    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+    pygame.mixer.music.set_volume(volumen_juego)
+    pygame.mixer.music.play(-1)
 
     # Cargar efecto de sonido para los clics
     click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
@@ -43,16 +42,12 @@ def main():
         # La pantalla actual (que ya tiene el idioma) se ejecuta
         resultado = pantalla_actual.run()
         
-
         # Lógica de navegación entre pantallas
         if resultado == "select_character":
             pantalla_actual = Select_character(screen, idioma_juego, volumen_juego)   # Ir a la pantalla de selección de personaje
 
         elif resultado == "configuracion":
-            # Ir al menú de configuración
-            pygame.mixer.music.pause()   # Pausa la música del menú principal
-            
-            # Pasar el idioma y volumen actual
+            # Ir al menú de configuración - NO PAUSAR LA MÚSICA
             pantalla_actual = Configuracion(screen, idioma_juego, volumen_juego)
             
             # Recibir TRES valores de vuelta
@@ -63,9 +58,7 @@ def main():
             volumen_juego = nuevo_volumen
             
             # Actualiza el volumen de la música principal por si cambió
-            pygame.mixer.music.set_volume(volumen_juego) 
-            
-            pygame.mixer.music.unpause()   # Reanuda la música al volver
+            pygame.mixer.music.set_volume(volumen_juego)
             
             if resultado_config == "main":
                 pantalla_actual = Main(screen, idioma_juego, volumen_juego)
@@ -77,6 +70,9 @@ def main():
             pantalla_actual = Creditos(screen, idioma_juego, volumen_juego)
 
         elif resultado == "main":
+            # Asegurar que la música esté sonando al volver al main
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play(-1)
             pantalla_actual = Main(screen, idioma_juego, volumen_juego)   # Volver al menú principal
 
         elif resultado == "seleccion_dificultad":
