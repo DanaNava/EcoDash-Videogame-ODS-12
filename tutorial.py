@@ -117,6 +117,7 @@ def run_tutorial():
     # -----------------------------
     # BASURA CON ANIMACIONES
     # -----------------------------
+    
     # Cargar frames de animación para cada basura
 
     # Periódico
@@ -156,7 +157,7 @@ def run_tutorial():
                                               int(peligroso.get_height() * escala_botes)))
 
     pos_x = 100  # Misma posición X para todos
-    espacio_vertical = 150  # Espacio entre botes
+    espacio_vertical = 150  # Espacio entre botes verticales
     
     letrero_escalado = pygame.transform.scale(letrero, (344, 768))
     
@@ -831,7 +832,7 @@ def run_tutorial():
         else:
             mensaje = ""
 
-        # TIEMPO
+        # TIEMPO ACTUAL
         tiempo_actual = pygame.time.get_ticks()
         segundos = (tiempo_actual - inicio_tiempo) // 1000
         tiempo_restante = max(0, tiempo - segundos)
@@ -922,6 +923,7 @@ def run_tutorial():
                     clock.tick(60)
         
         muerte_por_tiempo = False
+        
         # Perder si se acaba el tiempo
         if tiempo_restante <= 0 and not muerte_por_tiempo:
             muerte_por_tiempo = True
