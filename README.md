@@ -41,7 +41,7 @@ Cada nivel presenta entornos diferentes y nuevos tipos de residuos que el jugado
 
 *Ejemplo visual:*  
 <img width="250" height="200" alt="fondo_3" src="https://github.com/user-attachments/assets/b127a273-9045-4048-861d-4790c0ee6092" />
-<img width="250" height="200" alt="fondo_nivel2" src="https://github.com/user-attachments/assets/3e4c02a4-aa02-4a49-a822-951d7bfa59fa" />
+<img width="250" height="200" alt="fondo_nivel2" src="https://github.com/user-attachments/assets/272bc74f-a91d-453b-87e2-a95762f5004a" />
 <img width="250" height="200" alt="Fondo level3" src="https://github.com/user-attachments/assets/15bcea79-ba8a-4cb7-8120-e094dd10a491" />
 
 
