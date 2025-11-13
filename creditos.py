@@ -57,7 +57,7 @@ class Creditos:
 
         # --- Cargar Fondo ---
         try:
-            fondo_path = os.path.join(BASE_DIR, "assets_PI/interfaces/creditos/fondo/creditos.png") # Nombre corregido
+            fondo_path = os.path.join(BASE_DIR, "assets_PI/interfaces/creditos/fondos/creditos.png") # Nombre corregido
             self.fondo = pygame.image.load(fondo_path).convert()
         except pygame.error:
             print("No se encontró 'creditos.png', usando fondo negro.")
