@@ -165,42 +165,55 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 ## 📂 **Estructura del proyecto**
     
       EcoDash-Videogame-ODS-12/
+      │
+      ├── assets_PI/                     # Recursos del juego (imágenes, sonidos, música, personajes, etc.)
+      │   ├── basura/
+      │   │   ├── inorganica/
+      │   │   ├── organica/
+      │   │   └── residuos_peligrosos/
+      │   │
+      │   ├── botes/
+      │   ├── diseyo_nivel/
+      │   │   ├── nivel1/
+      │   │   ├── nivel2/
+      │   │   └── nivel3/
+      │   │
+      │   ├── interfaces/
+      │   │   ├── configuracion/
+      │   │   ├── eleguir_dificultad/
+      │   │   ├── eleguir_nivel/
+      │   │   ├── main/
+      │   │   ├── perdida/
+      │   │   └── victoria/
+      │   │
+      │   ├── musica/
+      │   ├── pausa/
+      │   ├── personajes/
+      │   │   ├── femenino/
+      │   │   └── masculino/
+      │   │
+      │   ├── sonidos/
+      │   └── sprites/
+      │
+      ├── .vscode/                       # Configuración del entorno de desarrollo
+      │   └── settings.json
+      │
+      ├── .gitignore
       ├── LICENSE
-      ├── README.md
+      ├── Main.py
       ├── nivel_1.py
+      ├── nivel_2.py
+      ├── Nivel_3.py
       ├── proyecto.py
       ├── seleccion_dificultad.py
       ├── seleccion_nivel.py
-      ├── select_character/
+      ├── select_character.py
+      ├── configuracion.py
+      ├── creditos.py
+      ├── tutorial.py
       │
-      └── assets_PI/
-          ├── basura/
-          │   ├── inorganica/
-          │   ├── organica/
-          │   └── residuos_peligrosos/
-          │
-          ├── botes/
-          ├── diseyo_nivel/
-          │   ├── nivel1/
-          │   ├── nivel2/
-          │   └── nivel3/
-          │
-          ├── interfaces/
-          │   ├── configuracion/
-          │   ├── eleguir_dificultad/
-          │   ├── eleguir_nivel/
-          │   ├── main/
-          │   ├── perdida/
-          │   └── victoria/
-          │
-          ├── musica/
-          ├── pausa/
-          ├── personajes/
-          │   ├── femenino/
-          │   └── masculino/
-          │
-          ├── sonidos/
-          └── sprites/
+      └── README.md
+
 
 ---
 ## ⚙️ **Instalación y ejecución**
