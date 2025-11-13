@@ -86,7 +86,7 @@ def main():
             reiniciar_tutorial = True
             while reiniciar_tutorial and running:
                 # Pasar idioma y volumen al tutorial
-                resultado_tutorial = run_tutorial(idioma_juego, volumen_juego)
+                resultado_tutorial = run_tutorial()
 
                 if resultado_tutorial == "main":
                     # Volver al menú principal
