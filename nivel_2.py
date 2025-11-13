@@ -1065,13 +1065,13 @@ def run_level2(idioma_actual, volumen_actual):
                             if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                               # Tiro CORRECTO
                              bote_correcto_encontrado = True
-                             mensaje = f"✓ llevaste {obj_nombre}{bote_nombre}" if idioma_actual == "es" else f"✓ You took {obj_nombre}{bote_nombre}"
+                             mensaje = f"✓ llevaste {obj_nombre} {bote_nombre}" if idioma_actual == "es" else f"✓ You took {obj_nombre}{bote_nombre}"
                              objeto_en_mano = None
                              sonido_tirar_correcto.play()
                             else:
                              # Tiro INCORRECTO
                              errores += 1
-                             mensaje = f"✗ No puedes tirar {obj_nombre} en {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre}"
+                             mensaje = f"✗ No puedes tirar {obj_nombre} {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} {bote_nombre}"
                              animando_dano = True
                              frame_actual_dano = 0
                              tiempo_frame = pygame.time.get_ticks()

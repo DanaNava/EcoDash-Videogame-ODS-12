@@ -1,7 +1,10 @@
 import pygame
 import sys
+import os
 import random
 
+# Ruta base para encontrar los assets
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ========== SISTEMA DE PAUSA ==========
 class SistemaPausa:
@@ -24,8 +27,8 @@ class SistemaPausa:
         self.boton_menu_hover = False
         
         try:
-            self.sprite_boton_pausa = pygame.image.load("assets_PI/pausa/minipausa.png").convert_alpha()
-            self.sprite_boton_pausa_hover = pygame.image.load("assets_PI/pausa/minipausa_hover.png").convert_alpha()
+            self.sprite_boton_pausa = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "minipausa.png")).convert_alpha()
+            self.sprite_boton_pausa_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "minipausa_hover.png")).convert_alpha()
             
             # Escalar botón de pausa pequeño
             escala = 3.0
@@ -35,13 +38,13 @@ class SistemaPausa:
             self.sprite_boton_pausa_hover = pygame.transform.scale(self.sprite_boton_pausa_hover, (nuevo_ancho, nuevo_alto))
             
             # Cargar otros sprites
-            self.sprite_boton_reanudar = pygame.image.load("assets_PI/pausa/volver.png").convert_alpha()
-            self.sprite_boton_reanudar_hover = pygame.image.load("assets_PI/pausa/volver_hover.png").convert_alpha()
-            self.sprite_boton_reiniciar = pygame.image.load("assets_PI/pausa/reinicio.png").convert_alpha()
-            self.sprite_boton_reiniciar_hover = pygame.image.load("assets_PI/pausa/reinicio_hover.png").convert_alpha()
-            self.sprite_boton_menu = pygame.image.load("assets_PI/pausa/almenu.png").convert_alpha()
-            self.sprite_boton_menu_hover = pygame.image.load("assets_PI/pausa/almenu_hover.png").convert_alpha()
-            self.sprite_fondo_pausa = pygame.image.load("assets_PI/pausa/interfaz_de_pausa.png").convert_alpha()
+            self.sprite_boton_reanudar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "volver.png")).convert_alpha()
+            self.sprite_boton_reanudar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "volver_hover.png")).convert_alpha()
+            self.sprite_boton_reiniciar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "reinicio.png")).convert_alpha()
+            self.sprite_boton_reiniciar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "reinicio_hover.png")).convert_alpha()
+            self.sprite_boton_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "almenu.png")).convert_alpha()
+            self.sprite_boton_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "almenu_hover.png")).convert_alpha()
+            self.sprite_fondo_pausa = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "interfaz_de_pausa.png")).convert_alpha()
 
             # Escalar botones del menú de pausa x2.0
             escala_menu = 4.0
@@ -187,7 +190,7 @@ class SistemaPausa:
                     self.pantalla.blit(self.sprite_boton_menu, self.boton_menu_rect)
 # ========== FIN SISTEMA DE PAUSA ==========
 
-def run_level3():
+def run_level3(idioma_actual, volumen_actual):
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
@@ -197,31 +200,31 @@ def run_level3():
     sistema_pausa = SistemaPausa(screen)
 
     # -----------------------------
-    # CARGA DE IMÁGENES
-    #nombre = pygame.image.load("").convert_alpha()
+    # CARGA DE IMÁGENES (CON RUTAS CORREGIDAS)
     # -----------------------------
-    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
+    fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "Fondo level3.png")).convert_alpha()
 
     #Charcos
-    charco = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pega.png").convert_alpha()
-    jugo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/jugo.png").convert_alpha()
+    charco = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "pega.png")).convert_alpha()
+    jugo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "jugo.png")).convert_alpha()
     
     #Capas
-    casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
-    pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
-    pared2= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared.png")
-    pared3= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared3.png")
+    casillero= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "casilla.png"))
+    pared= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "Sprite-0004.png"))
+    pared2= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "pared.png"))
+    pared3= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "pared3.png"))
+    
     # Pantalla de victoria y barras de vida
-    w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
-    bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
-    bv2 = pygame.image.load("assets_PI/sprites/barra_vida_2co.png")
-    bv1 = pygame.image.load("assets_PI/sprites/barra_vida_1co.png")
+    w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "Pantalla_victoria.jpeg"))
+    bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
+    bv2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_2co.png"))
+    bv1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_1co.png"))
 
     # Posturas estáticas para quieto (como respaldo)
-    quieto_derecha = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_derecha.png").convert_alpha()
-    quieto_izquierda = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_izquierda.png").convert_alpha()
-    quieto_detras = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_detras.png").convert_alpha()
-    quieto_delante = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_delante.png").convert_alpha()
+    quieto_derecha = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_derecha.png")).convert_alpha()
+    quieto_izquierda = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_izquierda.png")).convert_alpha()
+    quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_detras.png")).convert_alpha()
+    quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_delante.png")).convert_alpha()
 
     #Escalar imagenes
     win = pygame.transform.scale(w, (1024, 768))
@@ -229,19 +232,19 @@ def run_level3():
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
 
-    #Cargar botones
-    boton_reintentar = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez.png").convert_alpha()
-    boton_reintentar_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez_hover.png").convert_alpha()
-    boton_menu = pygame.image.load("assets_PI/interfaces/perdida/boton_menu.png").convert_alpha()
-    boton_menu_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_menu_hover.png").convert_alpha()
+    #Cargar botones (Asumimos que las imágenes ya no tienen texto)
+    boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez.png")).convert_alpha()
+    boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez_hover.png")).convert_alpha()
+    boton_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_menu.png")).convert_alpha()
+    boton_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_menu_hover.png")).convert_alpha()
 
-    boton_win_menu_hover = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_hover_pantalla_victoria.png")
-    boton_win_menu = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_pantalla_victoria.png")
-    boton_win_intentar = pygame.image.load("assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria.png")
-    boton_win_intentar_hover = pygame.image.load("assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria_hover.png")
+    boton_win_menu_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_hover_pantalla_victoria.png"))
+    boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_pantalla_victoria.png"))
+    boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
+    boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
 
-    rect_reintentar_victoria = boton_win_menu.get_rect(center=(515, 487))
-    rect_menu_victoria = boton_win_intentar.get_rect(center=(515, 570))
+    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
+    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
@@ -255,106 +258,98 @@ def run_level3():
     # -----------------------------
     # CARGA musica de fondo
     # -----------------------------
-    pygame.mixer.music.load("assets_PI/musica/musica_nivel.wav")
-    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
+    pygame.mixer.music.set_volume(volumen_actual) 
     pygame.mixer.music.play(-1)
 
     # -----------------------------
     # CARGA efectos de sonido
     # -----------------------------
-    sonido_caminar = pygame.mixer.Sound("assets_PI/sonidos/pasos_madera.wav")
-    sonido_dano = pygame.mixer.Sound("assets_PI/sonidos/recibir_daño.wav")
-    sonido_morir = pygame.mixer.Sound("assets_PI/sonidos/morir.wav")
-    sonido_recoger = pygame.mixer.Sound("assets_PI/sonidos/recoger_basura.wav")
-    sonido_tirar_correcto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_bien.wav")
-    sonido_tirar_incorrecto = pygame.mixer.Sound("assets_PI/sonidos/tirar_basura_sonido_error.wav")
+    sonido_caminar = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "pasos_madera.wav"))
+    sonido_dano = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "recibir_daño.wav"))
+    sonido_morir = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "morir.wav"))
+    sonido_recoger = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "recoger_basura.wav"))
+    sonido_tirar_correcto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "tirar_basura_sonido_bien.wav"))
+    sonido_tirar_incorrecto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "tirar_basura_sonido_error.wav"))
 
-    # Volúmenes
-    sonido_caminar.set_volume(1)
-    sonido_dano.set_volume(0.5)
-    sonido_morir.set_volume(1)
-    sonido_recoger.set_volume(0.4)
-    sonido_tirar_correcto.set_volume(0.5)
-    sonido_tirar_incorrecto.set_volume(1)
+    # Volúmenes (basados en el volumen global)
+    sonido_caminar.set_volume(1 * volumen_actual)
+    sonido_dano.set_volume(0.5 * volumen_actual)
+    sonido_morir.set_volume(1 * volumen_actual)
+    sonido_recoger.set_volume(0.4 * volumen_actual)
+    sonido_tirar_correcto.set_volume(0.5 * volumen_actual)
+    sonido_tirar_incorrecto.set_volume(1 * volumen_actual)
 
     # -----------------------------
-    # BASURA CON ANIMACIONES
+    # BASURA CON ANIMACIONES Y TRADUCCIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
-    # Botella de agua
     frames_botella_agua = [
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua4.png")).convert_alpha()
     ]
     
-    # Lata
     frames_lata = [
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/lata/lata4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata4.png")).convert_alpha()
     ]
     
-    # Periódico
     frames_periodico = [
-        pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande4.png")).convert_alpha()
     ]
     
-    # Banana
     frames_banana = [
-        pygame.image.load("assets_PI/basura/organica/Banana/banano1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Banana/banano4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano4.png")).convert_alpha()
     ]
     
-    # Cascara de huevo
     frames_cascara_huevo = [
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_4.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_5.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_5.png")).convert_alpha()
     ]
     
-    # Manzana
     frames_manzana = [
-        pygame.image.load("assets_PI/basura/organica/Manzana/manzene1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Manzana/manzene2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Manzana/manzene3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/organica/Manzana/manzene4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene4.png")).convert_alpha()
     ]
     
-    # Batería
     frames_bateria = [
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f4.png")).convert_alpha()
     ]
     
-    # Foco
     frames_foco = [
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a975.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a976.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a977.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a978.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a975.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a976.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a977.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a978.png")).convert_alpha()
     ]
     
-    # Jeringa
     frames_jeringa = [
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa1.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa2.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa3.png").convert_alpha(),
-        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa4.png")).convert_alpha()
     ]
+    
     frames_surprice = [
-        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha(),
-        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha() 
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "surprice2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "surprice1.png")).convert_alpha() 
     ]
     
     # -----------------------------
@@ -381,12 +376,12 @@ def run_level3():
     # Obtener 6 posiciones aleatorias únicas (una para cada basura)
     posiciones_aleatorias = obtener_posiciones_aleatorias(9)
 
-    # Definir basuras con animaciones
+    # Definir basuras con animaciones y traducciones
     basura = [
         {
             "frames": frames_banana, 
             "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
-            "nombre": "un Plátano", 
+            "nombre": {"es": "Plátano", "en": "Banana"}, 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -395,7 +390,7 @@ def run_level3():
         {
             "frames": frames_botella_agua, 
             "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
-            "nombre": "una Botella de agua", 
+            "nombre": {"es": "Botella de agua", "en": "Water Bottle"}, 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -404,7 +399,7 @@ def run_level3():
         {
             "frames": frames_foco, 
             "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
-            "nombre": "un Foco", 
+            "nombre": {"es": "Foco", "en": "Light Bulb"}, 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -413,7 +408,7 @@ def run_level3():
         {
             "frames": frames_lata, 
             "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
-            "nombre": "una Lata", 
+            "nombre": {"es": "Lata", "en": "Can"}, 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -422,7 +417,7 @@ def run_level3():
         {
             "frames": frames_manzana, 
             "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]), 
-            "nombre": "una Manzana", 
+            "nombre": {"es": "Manzana", "en": "Apple"}, 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -431,7 +426,7 @@ def run_level3():
         {
             "frames": frames_bateria, 
             "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
-            "nombre": "una Batería", 
+            "nombre": {"es": "Batería", "en": "Battery"}, 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -440,7 +435,7 @@ def run_level3():
         {
             "frames": frames_cascara_huevo, 
             "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]), 
-            "nombre": "Cascaras de huevo", 
+            "nombre": {"es": "Cáscaras de huevo", "en": "Egg Shells"}, 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -449,7 +444,7 @@ def run_level3():
         {
             "frames": frames_jeringa, 
             "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]), 
-            "nombre": "una Jeringa", 
+            "nombre": {"es": "Jeringa", "en": "Syringe"}, 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -458,7 +453,7 @@ def run_level3():
         {
             "frames": frames_periodico, 
             "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]), 
-            "nombre": "un Periodico", 
+            "nombre": {"es": "Periódico", "en": "Newspaper"}, 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -467,20 +462,18 @@ def run_level3():
         {
             "frames": frames_surprice, 
             "rect": frames_surprice[0].get_rect(topleft=(600, 100)),
-            "nombre": "a Larry", 
+            "nombre": {"es": "a Larry", "en": "Larry"}, 
             "tipo": "segura",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         }
-
-        
-        ]
+    ]
 
     botes = [
-        {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(770, 110, 20, 20)},
-        {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(940, 110, 20, 20)},
-        {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(525, 100, 40, 25)}
+        {"nombre": {"es": "al bote Inorgánico", "en": "in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(770, 110, 20, 20)},
+        {"nombre": {"es": "al bote Orgánico", "en": "in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(940, 110, 20, 20)},
+        {"nombre": {"es": "al bote Residuos peligrosos", "en": "in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(525, 100, 40, 25)}
     ]
 
     colisiones = [
@@ -499,116 +492,104 @@ def run_level3():
         pygame.Rect(245, 160, 190, 60),pygame.Rect(20, 104, 146, 20), pygame.Rect(600, 120, 10, 1),
         #botes
         pygame.Rect(525, 100, 40, 25), pygame.Rect(770, 110, 20, 20), pygame.Rect(940, 110, 20, 20),
-        
     ]   
     
 
     # -----------------------------
-    # ANIMACIONES
+    # ANIMACIONES DEL PERSONAJE (CON RUTAS CORREGIDAS)
     # -----------------------------
     frames_dano = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha2.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_daño_derecha", "Pi_personaje_m_daño_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_daño_derecha", "Pi_personaje_m_daño_derecha2.png")).convert_alpha()
     ]
-
-    # ANIMACIONES DE MUERTE POR DIRECCIÓN
     frames_muerte_derecha = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte/Pi_personaje_m_muerte5.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte", "Pi_personaje_m_muerte5.png")).convert_alpha()
     ]
-
     frames_muerte_izquierda = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_muerte_izquierda/Pi_personaje_m_muerte_izquierda5.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_muerte_izquierda", "Pi_personaje_m_muerte_izquierda5.png")).convert_alpha()
     ]
-
-    # Para delante y detrás, usar las mismas que derecha
     frames_muerte_delante = frames_muerte_derecha
     frames_muerte_detras = frames_muerte_derecha
-
     frames_caminar_delante = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_caminar_delante/PI_personaje_m_caminar_delante6.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_caminar_delante", "PI_personaje_m_caminar_delante6.png")).convert_alpha()
     ]
-
     frames_caminar_derecha = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_derecha/Pi_personaje_m_caminar_derecha6.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_derecha", "Pi_personaje_m_caminar_derecha6.png")).convert_alpha()
     ]
-
     frames_caminar_detras = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_detras/Pi_personaje_m_caminar_detras6.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_detras", "Pi_personaje_m_caminar_detras6.png")).convert_alpha()
     ]
-
     frames_caminar_izquierda = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_caminar_izquierda/Pi_personaje_m_caminar_izquierda6.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_m_caminar_izquierda", "Pi_personaje_m_caminar_izquierda6.png")).convert_alpha()
     ]
 
     # ANIMACIONES DE QUIETO
     frames_quieto_detras = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras6.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras7.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras8.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/PI_personaje_m_animacion_quieto_detras/PI_personaje_m_animacion_quieto_detras9.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "PI_personaje_m_animacion_quieto_detras", "PI_personaje_m_animacion_quieto_detras9.png")).convert_alpha()
     ]
-
     frames_quieto_derecha = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha6.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha7.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha8.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_derecha/Pi_personaje_animacion_quieto_derecha9.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_derecha", "Pi_personaje_animacion_quieto_derecha9.png")).convert_alpha()
     ]
-
     frames_quieto_izquierda = [
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda1.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda2.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda3.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda4.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda5.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda6.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda7.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda8.png").convert_alpha(),
-        pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_animacion_quieto_izquierda/Pi_personaje_animacion_quieto_izquierda9.png").convert_alpha()
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda1.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda2.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda3.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda4.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda5.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda6.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda7.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda8.png")).convert_alpha(),
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "animaciones", "Pi_personaje_animacion_quieto_izquierda", "Pi_personaje_animacion_quieto_izquierda9.png")).convert_alpha()
     ]
 
     # Para delante postura estática
     frames_quieto_delante = [quieto_delante]
 
-    pantalla_perdida = pygame.image.load("assets_PI/interfaces/perdida/game over 2.0.png").convert_alpha()
+    pantalla_perdida = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0.png")).convert_alpha()
 
     # Banderas para activar animaciones
     animando_dano = False
@@ -653,7 +634,6 @@ def run_level3():
     mensaje = ""
     mensaje_tiempo = 0
     duracion_mensaje = 3000  # Aumentar a 3 segundos
-    fuente = pygame.font.Font(None, 32)  # Fuente más pequeña
     
     # velocidad del juego y personaje
     velocidad = 5
@@ -671,31 +651,61 @@ def run_level3():
     vida_max = 3
     vida_actual = vida_max
 
-    # Tiempo - VARIABLES SIMPLIFICADAS
+    # Tiempo - SISTEMA MEJORADO CON PAUSA
     tiempo_total = 180
     inicio_tiempo = pygame.time.get_ticks()
-    fuente_tiempo = pygame.font.Font(None, 48)
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
+    fuente_tiempo = pygame.font.Font(None, 48)
+
+    # --- ¡¡¡MODIFICADO AQUÍ!!! ---
+    # --- Cargar las DOS fuentes ---
+    try:
+        # Fuente para Títulos (Game Over / Victoria)
+        font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
+        fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
+        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 48) 
+        fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
+
+        # Fuente para Texto Normal (Botones / Mensajes)
+        font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
+        fuente_boton_gameover = pygame.font.Font(font_texto_path, 11) 
+        fuente_victoria_botones = pygame.font.Font(font_texto_path, 21)
+        fuente_mensajes = pygame.font.Font(font_texto_path, 15) # Para "Recogiste: Plátano"
+
+    except FileNotFoundError:
+        print("ERROR: No se encontraron las fuentes 'Stay Pixel DEMO.ttf' o 'Pixel.ttf'. Usando fuentes por defecto.")
+        # Fallback a fuentes por defecto
+        fuente_subtitulo_gameover = pygame.font.Font(None, 36)
+        fuente_victoria_titulo = pygame.font.Font(None, 55)
+        fuente_victoria_subtitulo = pygame.font.Font(None, 38)
+        
+        fuente_boton_gameover = pygame.font.Font(None, 32) 
+        fuente_victoria_botones = pygame.font.Font(None, 24)
+        fuente_mensajes = pygame.font.Font(None, 32)
+    
+    # Asignar la fuente de mensajes a la variable 'fuente' que usa el resto del código
+    fuente = fuente_mensajes
+    # --- FIN DE LA MODIFICACIÓN ---
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
 
-# Verificar si gano
+    # Verificar si gano
     def ganar(basura, objeto_en_mano):
-        
         # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
         #    Excluye explícitamente el objeto "a Larry" (la sorpresa).
         basura_esencial_restante = [
-            obj for obj in basura if obj["nombre"] != "a Larry"
+            obj for obj in basura if obj["nombre"][idioma_actual] != "Larry" and obj["nombre"][idioma_actual] != "a Larry"
         ]
         
         # 2. Verifica si el objeto en la mano NO es la basura esencial.
-        #    El jugador PUEDE tener el objeto "a Larry" en la mano al ganar.
+        #    El jugador PUEDE tener el objeto "Larry" en la mano al ganar.
         objeto_en_mano_esencial = (
             objeto_en_mano is not None and 
-            objeto_en_mano["nombre"] != "a Larry"
+            objeto_en_mano["nombre"][idioma_actual] != "Larry" and 
+            objeto_en_mano["nombre"][idioma_actual] != "a Larry"
         )
         
         # 3. La condición de victoria es:
@@ -705,6 +715,7 @@ def run_level3():
 
     # Variable para el while infinito, para las teclas pulsadas y un contador de errores
     running = True
+    return_value = None
     prev_keys = pygame.key.get_pressed()
     errores = 0
 
@@ -718,15 +729,16 @@ def run_level3():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                return "salir" # <-- AÑADIDO: Salir correctamente si se cierra la ventana
 
-    # MANEJAR EVENTOS DE PAUSA
+            # MANEJAR EVENTOS DE PAUSA
             sistema_pausa.manejar_eventos(event, sys.modules[__name__])
 
         # Verificar si la pausa quiere salir del nivel
         if sistema_pausa.return_value is not None:
             return sistema_pausa.return_value
 
-        # CALCULAR TIEMPO - SISTEMA SIMPLIFICADO
+        # CALCULAR TIEMPO - SISTEMA MEJORADO CON PAUSA
         tiempo_actual = pygame.time.get_ticks()
         if sistema_pausa.juego_pausado:
             if tiempo_ultima_pausa == 0:
@@ -882,16 +894,19 @@ def run_level3():
                                 "tipo": obj["tipo"]
                             }
                             basura.remove(obj)
-                            mensaje = f"Recogiste {obj['nombre']}"
+                            # --- MODIFICADO: Mensaje dinámico ---
+                            obj_nombre = obj['nombre'][idioma_actual]
+                            mensaje = f"Recogiste: {obj_nombre}" if idioma_actual == "es" else f"You picked up: {obj_nombre}"
                         else:
-                            mensaje = "Ya tienes un objeto en la mano"
+                            mensaje = "Ya tienes un objeto en la mano" if idioma_actual == "es" else "You are already holding an item"
                         mensaje_tiempo = pygame.time.get_ticks()
                         break
 
-            # Tirar basura - VERSIÓN CORREGIDA
+            # Tirar basura - VERSIÓN CORREGIDA CON TRADUCCIÓN
             if pressed_p or pressed_x:
                 if objeto_en_mano is None:
-                    mensaje = "No tienes ningún objeto en la mano"
+                    # --- MODIFICADO: Mensaje dinámico ---
+                    mensaje = "No tienes ningún objeto en la mano" if idioma_actual == "es" else "You are not holding an item"
                     mensaje_tiempo = pygame.time.get_ticks()
                 else:
                     proximity = hitbox.inflate(24, 24)
@@ -909,37 +924,43 @@ def run_level3():
                     # SEGUNDO: Procesar el tiro solo si hay un bote cercano
                     if tiro_valido and bote_actual:
                         # --- INICIO DE LA MODIFICACIÓN PARA LARRY ---
-                    # Revisar primero si el objeto es "a Larry"
-                        if objeto_en_mano["nombre"] == "a Larry":
+                    # Revisar primero si el objeto es "Larry"
+                        if objeto_en_mano["nombre"][idioma_actual] == "Larry" or objeto_en_mano["nombre"][idioma_actual] == "a Larry":
                             # Si es Larry, verificar si el bote es el árbol ("segura")
                             if bote_actual["tipo"] == "segura":
                                 # Caso 1: Larry en el árbol (Correcto)
                                 bote_correcto_encontrado = True
-                                mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']} muy bien!!!"
+                                obj_nombre = objeto_en_mano['nombre'][idioma_actual]
+                                bote_nombre = bote_actual['nombre'][idioma_actual]
+                                mensaje = f"✓ llevaste {obj_nombre}{bote_nombre} muy bien!!!" if idioma_actual == "es" else f"✓ You took {obj_nombre}{bote_nombre} very well!!!"
                                 objeto_en_mano = None
                                 sonido_tirar_correcto.play()
                             else:
                                 # Caso 2: Larry en CUALQUIER OTRO bote (Incorrecto pero especial)
                                 # Usamos el nombre del "tipo" de bote para el mensaje
-                             nombre_bote_incorrecto = bote_actual["nombre"].replace("al ", "").replace(" bote ", "")
-                             mensaje = f"Tiraste a Larry en el bote {nombre_bote_incorrecto}, muy mal"
-                             sonido_tirar_incorrecto.play()
-                             objeto_en_mano = None # Larry se tira de todas formas
+                                obj_nombre = objeto_en_mano['nombre'][idioma_actual]
+                                bote_nombre = bote_actual['nombre'][idioma_actual].replace("al ", "").replace(" bote ", "").replace(" in ", "").replace(" bin", "")
+                                mensaje = f"Tiraste {obj_nombre} en {bote_nombre}, muy mal" if idioma_actual == "es" else f"You threw {obj_nombre} in {bote_nombre}, very bad"
+                                sonido_tirar_incorrecto.play()
+                                objeto_en_mano = None # Larry se tira de todas formas
                               # ¡Importante! No sumamos error ni restamos vida por esto.
                             mensaje_tiempo = pygame.time.get_ticks()
                         else:
                              # --- LÓGICA ORIGINAL PARA EL RESTO DE BASURAS ---
                             # Si no es Larry, funciona como antes
+                            obj_nombre = objeto_en_mano['nombre'][idioma_actual]
+                            bote_nombre = bote_actual['nombre'][idioma_actual]
+                            
                             if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                               # Tiro CORRECTO
                              bote_correcto_encontrado = True
-                             mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                             mensaje = f"✓ llevaste {obj_nombre} {bote_nombre}" if idioma_actual == "es" else f"✓ You took {obj_nombre} {bote_nombre}"
                              objeto_en_mano = None
                              sonido_tirar_correcto.play()
                             else:
                              # Tiro INCORRECTO
                              errores += 1
-                             mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
+                             mensaje = f"✗ No puedes tirar {obj_nombre} en {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} {bote_nombre}"
                              animando_dano = True
                              frame_actual_dano = 0
                              tiempo_frame = pygame.time.get_ticks()
@@ -953,9 +974,9 @@ def run_level3():
                             mensaje_tiempo = pygame.time.get_ticks()
                                  # --- FIN DE LA MODIFICACIÓN ---
                     else:
-                        # No hay bote cercano
-                        mensaje = "No hay un bote cerca"
-                        mensaje_tiempo = pygame.time.get_ticks()
+                         # No hay bote cercano
+                         mensaje = "No hay un bote cerca" if idioma_actual == "es" else "No bin is nearby"
+                         mensaje_tiempo = pygame.time.get_ticks()
 
         # -----------------------------
         # ACTUALIZAR ANIMACIONES DE BASURA
@@ -1001,11 +1022,9 @@ def run_level3():
         for obj in basura:
         # Evitar que el índice se salga del rango
             if obj["frame_actual"] >= len(obj["frames"]):
-
                 obj["frame_actual"] = 0
             frame_actual = obj["frames"][obj["frame_actual"]]
             screen.blit(frame_actual, obj["rect"])
-
 
         # Actualizar animación
         ahora = pygame.time.get_ticks()
@@ -1120,18 +1139,23 @@ def run_level3():
             frame_dano = frames_dano[frame_actual_dano]
             rect_dano = frame_dano.get_rect(center=hitbox.center)
             screen.blit(frame_dano, rect_dano)
-        else:
-            # Dibujar personaje normal
+        
+        # --- CORRECCIÓN: NO dibujar personaje normal durante muerte ---
+        elif not animando_muerte and not tiempo_fin_animacion:
+            # Dibujar personaje normal solo si no está en animación de muerte
             screen.blit(frame, personaje_draw_rect)
+            
         #capas  
         screen.blit(pared, (0, 741))
         screen.blit(pared2,(660, 471))   
         screen.blit(pared3, (660,0))
+        
         # DIBUJAR OBJETO EN LA MANO
-        if objeto_en_mano is not None and not animando_muerte:
+        if objeto_en_mano is not None and not animando_muerte and not tiempo_fin_animacion:
             mano_x = personaje_draw_rect.centerx + 20
             mano_y = personaje_draw_rect.centery 
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
+            
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
@@ -1148,22 +1172,18 @@ def run_level3():
         else:
             mensaje = ""
 
-        # [Nuevo] TIEMPO
-        tiempo_actual = pygame.time.get_ticks()
-        segundos = (tiempo_actual - inicio_tiempo) // 1000
-        tiempo_restante = max(0, tiempo_total - segundos)
-
+        # MOSTRAR TIEMPO
         if tiempo_restante <= 30 and not musica_cambiada:
-            pygame.mixer.music.load("assets_PI/musica/musica_apresurada.ogg")
-            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))
+            pygame.mixer.music.set_volume(volumen_actual) 
             pygame.mixer.music.play(-1)
             musica_cambiada = True
 
-        color_tiempo = (255, 0, 0) if tiempo_restante <= 30 else (255, 255, 255)
+        color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
 
         # Convertir a minutos y segundos
-        minutos = tiempo_restante // 60
-        segundos_restantes = tiempo_restante % 60
+        minutos = tiempo_visual // 60
+        segundos_restantes = tiempo_visual % 60
 
         # Formato mm:ss con ceros (01:05)
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
@@ -1175,19 +1195,21 @@ def run_level3():
         # DIBUJAR BOTÓN DE PAUSA
         sistema_pausa.dibujar()
 
-        def mostrar_pantalla_perdida():
-            pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
-            pygame.mixer.music.set_volume(0.5)
+        # --- MODIFICADO: Pasa el idioma a la pantalla de pérdida ---
+        def mostrar_pantalla_perdida(idioma):
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "sonidos", "musica de perdida.mp3"))
+            pygame.mixer.music.set_volume(volumen_actual)
             pygame.mixer.music.play(-1)
             sonido_morir.play()
 
             while True:
                 screen.fill((0, 0, 0))
-                screen.blit(pantalla_perdida, (0, 0))
-
+                screen.blit(pantalla_perdida, (0, 0)) # Fondo (con "GAME OVER")
                 mouse_pos = pygame.mouse.get_pos()
 
-                # Botones
+                # --- ¡MODIFICACIÓN DE ORDEN DE DIBUJADO! ---
+                
+                # 1. DIBUJAR LOS BOTONES (IMAGEN VACÍA) PRIMERO
                 if rect_reintentar.collidepoint(mouse_pos):
                     screen.blit(boton_reintentar_hover, rect_reintentar)
                 else:
@@ -1197,76 +1219,146 @@ def run_level3():
                     screen.blit(boton_menu_hover, rect_menu)
                 else:
                     screen.blit(boton_menu, rect_menu)
+                
+                # 2. DIBUJAR EL TEXTO DESPUÉS (ENCIMA DE LOS BOTONES)
+                # 2a. Subtítulo (en dos líneas)
+                if idioma == "en":
+                    subtitulo_str_1 = "THE PLANET NEEDS YOUR HELP"
+                    subtitulo_str_2 = "KEEP TRYING"
+                    coordenadas_titulo = (352, 320) # <-- Coordenadas para Inglés
+                else:
+                    subtitulo_str_1 = "EL PLANETA NECESITA TU AYUDA"
+                    subtitulo_str_2 = "SIGUE INTENTANDO"
+                    coordenadas_titulo = (296, 332) # <-- Coordenadas originales Español
+
+                subtitulo1_surf = fuente_subtitulo_gameover.render(subtitulo_str_1, True, (255, 255, 255))
+                subtitulo2_surf = fuente_subtitulo_gameover.render(subtitulo_str_2, True, (255, 255, 255))
+                
+                subtitulo1_rect = subtitulo1_surf.get_rect(topleft=coordenadas_titulo)
+
+                subtitulo2_rect = subtitulo2_surf.get_rect(centerx=subtitulo1_rect.centerx + 20, top=subtitulo1_rect.bottom + 5)
+                screen.blit(subtitulo1_surf, subtitulo1_rect)
+                screen.blit(subtitulo2_surf, subtitulo2_rect)
+
+                # 2b. Texto Botón "Intentar de nuevo"
+                boton_str = "TRY AGAIN" if idioma == "en" else "INTENTAR DE NUEVO"
+                boton_surf = fuente_boton_gameover.render(boton_str, True, (0, 0, 0)) # Color negro
+                boton_rect_texto = boton_surf.get_rect(center=rect_reintentar.center) 
+                screen.blit(boton_surf, boton_rect_texto)
+                # --- FIN MODIFICACIÓN DE ORDEN ---
 
                 pygame.display.flip()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
+                        return "salir" 
                     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if rect_reintentar.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "reintentar"  # reiniciar nivel
+                            return "reintentar"
                         elif rect_menu.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "main"  # volver al menú
+                            return "main"
 
-        def mostrar_pantalla_victoria():
-            pygame.mixer.music.load("assets_PI\musica\musica_victoria.mp3")
-            pygame.mixer.music.set_volume(0.5)
+        # --- MODIFICADO: Pasa el idioma a la pantalla de victoria ---
+        def mostrar_pantalla_victoria(idioma):
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_victoria.mp3"))
+            pygame.mixer.music.set_volume(volumen_actual)
             pygame.mixer.music.play(-1)
 
             while True:
                 screen.fill((0, 0, 0))
-                screen.blit(win, (0, 0))
-
+                screen.blit(win, (0, 0)) # 1. Fondo (vacío)
                 mouse_pos = pygame.mouse.get_pos()
 
-                # Botones
-                if rect_reintentar.collidepoint(mouse_pos):
+                # 2. Botones (vacíos/estáticos)
+                if rect_reintentar_victoria.collidepoint(mouse_pos):
+                    screen.blit(boton_win_intentar_hover, rect_reintentar_victoria)
+                else:
                     screen.blit(boton_win_intentar, rect_reintentar_victoria)
-                else:
-                    screen.blit( boton_win_intentar_hover, rect_reintentar_victoria)
 
-                if rect_menu.collidepoint(mouse_pos):
-                    screen.blit(boton_win_menu, rect_menu_victoria)
-                else:
+                # Dibuja el botón de menú (con el texto ya en la imagen)
+                if rect_menu_victoria.collidepoint(mouse_pos):
                     screen.blit(boton_win_menu_hover, rect_menu_victoria)
+                else:
+                    screen.blit(boton_win_menu, rect_menu_victoria)
+                
+                # 3. Textos (encima)
+                # 3a. Título y subtítulos
+                
+                if idioma == "en":
+                    titulo_str = "CONGRATULATIONS!"
+                    sub1_str = "GREEN DOT FOR"
+                    sub2_str = "YOU!"
+                    coordenadas_titulo = (320, 260) # <-- Coordenadas para Inglés
+                else:
+                    titulo_str = "FELICIDADES"
+                    sub1_str = "PUNTO VERDE PARA"
+                    sub2_str = "TI"
+                    coordenadas_titulo = (363, 213) # <-- Coordenadas para Español
+
+                titulo_surf = fuente_victoria_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
+                sub1_surf = fuente_victoria_subtitulo.render(sub1_str, True, (0, 0, 0)) # Color negro
+                sub2_surf = fuente_victoria_subtitulo.render(sub2_str, True, (0, 0, 0)) # Color negro
+
+                # Posición del título
+                titulo_rect = titulo_surf.get_rect(topleft=coordenadas_titulo) # <-- MODIFICADO
+                
+                # Posición de subtítulos (centrados debajo del título)
+                sub1_rect = sub1_surf.get_rect(centerx=titulo_rect.centerx, top=titulo_rect.bottom + 10)
+                sub2_rect = sub2_surf.get_rect(centerx=titulo_rect.centerx, top=sub1_rect.bottom + 5)
+                
+                screen.blit(titulo_surf, titulo_rect)
+                screen.blit(sub1_surf, sub1_rect)
+                screen.blit(sub2_surf, sub2_rect)
+
+                # 3b. Texto del botón Reintentar (centrado)
+                if idioma == "en":
+                    reintentar_str = "TRY AGAIN"
+                else:
+                    reintentar_str = "REINTENTAR"
+
+                reintentar_surf = fuente_victoria_botones.render(reintentar_str, True, (0, 0, 0))
+                reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
+                screen.blit(reintentar_surf, reintentar_rect_texto)
+                
+                # --- Texto "MENU" ELIMINADO ---
+                # --- FIN MODIFICACIONES VICTORIA ---
 
                 pygame.display.flip()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
+                        return "salir"
                     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                        if rect_reintentar.collidepoint(mouse_pos):
+                        if rect_reintentar_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "reintentar"  # reiniciar nivel
-                        elif rect_menu.collidepoint(mouse_pos):
+                            return "reintentar"
+                        elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "main" # volver al menú
+                            return "main"
             
         #ganar
         if ganar(basura, objeto_en_mano):
-            resultado = mostrar_pantalla_victoria()
+            # --- MODIFICADO: Pasa el idioma ---
+            resultado = mostrar_pantalla_victoria(idioma_actual)
             if resultado == "main":
-                return "main"  # Volver al menú principal
+                return "main"
             elif resultado == "reintentar":
-                return "reintentar" # Reiniciar nivel
+                return "reintentar"
+            elif resultado == "salir":
+                return "salir"
                 
         # -----------------------------
         # ANIMACIÓN DE MUERTE CORREGIDA
         # -----------------------------
-        if errores >= 3:
+        if vida_actual <= 0:
             if not animando_muerte and not tiempo_fin_animacion:
                 animando_muerte = True
                 frame_actual_muerte = 0
                 tiempo_frame_muerte = pygame.time.get_ticks()
                 tiempo_fin_animacion = None
                 sonido_morir.play()
-                # CORRECCIÓN: Detener sonido de caminar y otros sonidos
                 sonido_caminar.stop()
 
             if animando_muerte:
@@ -1275,54 +1367,48 @@ def run_level3():
                     frame_actual_muerte += 1
                     tiempo_frame_muerte = ahora
 
-                    if frame_actual_muerte >= 5:  # 5 frames de animación de muerte
+                    if frame_actual_muerte >= len(frames_muerte_derecha):
                         animando_muerte = False
                         tiempo_fin_animacion = pygame.time.get_ticks()
-                        frame_actual_muerte = 4  # Último frame
+                        frame_actual_muerte = len(frames_muerte_derecha) - 1
 
-                # CORRECCIÓN: Seleccionar animación de muerte según la dirección
+                # CORRECCIÓN: Limpiar pantalla y dibujar solo la animación de muerte
                 if ultima_direccion == "izquierda":
                     frames_muerte = frames_muerte_izquierda
                 else:
-                    frames_muerte = frames_muerte_derecha  # Para derecha, delante y detrás
-
-                screen.fill((0, 0, 0))
-                screen.blit(fondo, (0, 0))
-                frame_muerte = frames_muerte[frame_actual_muerte]
-                rect_muerte = frame_muerte.get_rect(center=hitbox.center)
-                screen.blit(frame_muerte, rect_muerte)
-                pygame.display.flip()
-                clock.tick(60)
+                    frames_muerte = frames_muerte_derecha
+                
+                if frame_actual_muerte < len(frames_muerte): 
+                    frame_muerte = frames_muerte[frame_actual_muerte]
+                    rect_muerte = frame_muerte.get_rect(center=hitbox.center)
+                    # DIBUJAR SOLO LA ANIMACIÓN DE MUERTE, no el personaje normal
+                    screen.blit(frame_muerte, rect_muerte)
 
             elif tiempo_fin_animacion:
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
-                    resultado = mostrar_pantalla_perdida()
+                    resultado = mostrar_pantalla_perdida(idioma_actual)
                     if resultado == "main":
-                        return "main"  # Volver al menú principal
+                        return "main"
                     elif resultado == "reintentar":
-                        return "reintentar"  # Reiniciar nivel
+                        return "reintentar"
+                    elif resultado == "salir":
+                        return "salir"
         
                 else:
-                    # CORRECCIÓN: Mantener la última animación de muerte según dirección
                     if ultima_direccion == "izquierda":
                         frames_muerte = frames_muerte_izquierda
                     else:
                         frames_muerte = frames_muerte_derecha
-
-                    screen.fill((0, 0, 0))
-                    screen.blit(fondo, (0, 0))
                     frame_muerte = frames_muerte[-1]
                     rect_muerte = frame_muerte.get_rect(center=hitbox.center)
+                    # DIBUJAR SOLO LA ANIMACIÓN DE MUERTE, no el personaje normal
                     screen.blit(frame_muerte, rect_muerte)
-                    pygame.display.flip()
-                    clock.tick(60)
         
         muerte_por_tiempo = False
-        # Perder si se acaba el tiempo
         if tiempo_restante <= 0 and not muerte_por_tiempo:
             muerte_por_tiempo = True
-            errores = 3
+            vida_actual = 0
 
         pygame.display.flip()
         clock.tick(60)
@@ -1331,6 +1417,7 @@ def run_level3():
     pygame.quit()
     if hasattr(sistema_pausa, 'return_value') and sistema_pausa.return_value:
         return sistema_pausa.return_value
+    return return_value
 
 if __name__ == "__main__":
-    run_level3()
+    run_level3("es", 0.5)

@@ -42,6 +42,7 @@ def main():
     while running:
         # La pantalla actual (que ya tiene el idioma) se ejecuta
         resultado = pantalla_actual.run()
+        
 
         # Lógica de navegación entre pantallas
         if resultado == "select_character":
