@@ -14,7 +14,9 @@ def run_level3():
     #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
     fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
-    
+    #Charcos
+    charco = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pega.png").convert_alpha()
+    jugo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/jugo.png").convert_alpha()
     #Capas
     casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
     pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
@@ -466,8 +468,15 @@ def run_level3():
     
     # velocidad del juego y personaje
     velocidad = 5
+    velocidad_reducida = 1
+    velocidad_normal = 5
+        
     clock = pygame.time.Clock()
-    
+    #Charco
+    charco_pos = (485,265)
+    charco_rect = pygame.Rect(charco_pos[0], charco_pos[1], 85,10)
+    jugo_pos = (395,490)
+    jugo_rect = pygame.Rect(jugo_pos[0],jugo_pos[1],80,10 )
     # Barra de vida 
     vida_max = 3
     vida_actual = vida_max
@@ -780,12 +789,25 @@ def run_level3():
                 "delante": quieto_delante
             }
             frame = posturas_quieto.get(ultima_direccion, quieto_delante)
-            
+        
+        # Dibujar los charcos
+        screen.blit(charco, charco_pos)
+        screen.blit(jugo, jugo_pos)
+        # Detección de colisión del charco pegamento
+        if hitbox.colliderect(charco_rect):
+            velocidad = velocidad_reducida
+        else:
+            velocidad = velocidad_normal
+        #jugo charco
+            if hitbox.colliderect(jugo_rect):
+                velocidad = velocidad_reducida
+            else:
+                velocidad = velocidad_normal
+    
          #casillero
         screen.blit(casillero,(592, 51))     
         # --- DIBUJAR PERSONAJE ---
         personaje_draw_rect = frame.get_rect(center=hitbox.center)
-        
         # Dibujar animación de daño en la posición correcta
         if animando_dano:
             if frame_actual_dano == 0:
