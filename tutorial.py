@@ -204,7 +204,7 @@ def run_tutorial():
             "nombre": "Periodico", 
             "tipo": "inorganica",
             "frame_actual": 0,
-            "tiempo_ultimo_frame": 0,
+            "tiempo_ultimo_frame": 0, 
             "animando": True
         },
         {
@@ -234,6 +234,7 @@ def run_tutorial():
         pygame.Rect(1023, 0, 1, 768),   # Borde derecho
         pygame.Rect(680, 0, 344, 768),  # 2/3 del lado derecho bloqueado
     ]
+    
     # -----------------------------
     # ANIMACIONES DEL PERSONAJE
     # -----------------------------
@@ -339,7 +340,7 @@ def run_tutorial():
     # Para delante postura estática
     frames_quieto_delante = [quieto_delante]
 
-        # ESCALAR TODAS LAS ANIMACIONES DEL PERSONAJE
+    # ESCALAR TODAS LAS ANIMACIONES DEL PERSONAJE
     frames_dano = escalar_frames(frames_dano, escala_personaje)
     frames_muerte_derecha = escalar_frames(frames_muerte_derecha, escala_personaje)
     frames_muerte_izquierda = escalar_frames(frames_muerte_izquierda, escala_personaje)
@@ -393,7 +394,6 @@ def run_tutorial():
     # -----------------------------
     # VARIABLES
     # -----------------------------
-    
     # Mostrar mensajes
     objeto_en_mano = None
     mensaje = ""
@@ -756,7 +756,7 @@ def run_tutorial():
         else:
             mensaje = ""
 
-        # [Nuevo] TIEMPO
+        # [Nuevo] TIEMPO ACTUAL
         tiempo_actual = pygame.time.get_ticks()
         segundos = (tiempo_actual - inicio_tiempo) // 1000
         tiempo_restante = max(0, tiempo - segundos)
@@ -853,7 +853,7 @@ def run_tutorial():
                             pygame.mixer.music.stop()
                             return "main" # volver al menú
             
-        #ganar
+        #Ganar
         if ganar(basura, objeto_en_mano):
             resultado = mostrar_pantalla_victoria()
             if resultado == "main":
@@ -925,6 +925,7 @@ def run_tutorial():
                     clock.tick(60)
         
         muerte_por_tiempo = False
+        
         # Perder si se acaba el tiempo
         if tiempo_restante <= 0 and not muerte_por_tiempo:
             muerte_por_tiempo = True
