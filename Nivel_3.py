@@ -2,17 +2,211 @@ import pygame
 import sys
 import random
 
-def run_tutorial():
+
+# ========== SISTEMA DE PAUSA ==========
+class SistemaPausa:
+    def __init__(self, pantalla):
+        self.pantalla = pantalla
+        self.juego_pausado = False
+        self.musica_pausada = False
+        self.return_value = None
+        
+        # Botón de pausa en esquina superior derecha
+        self.boton_pausa_rect = pygame.Rect(910, 20, 60, 60)
+        self.boton_reanudar_rect = pygame.Rect(0, 0, 120, 120)
+        self.boton_reiniciar_rect = pygame.Rect(0, 0, 120, 120)
+        self.boton_menu_rect = pygame.Rect(0, 0, 120, 120)
+        
+        # Estados hover
+        self.boton_pausa_hover = False
+        self.boton_reanudar_hover = False
+        self.boton_reiniciar_hover = False
+        self.boton_menu_hover = False
+        
+        try:
+            self.sprite_boton_pausa = pygame.image.load("assets_PI/pausa/minipausa.png").convert_alpha()
+            self.sprite_boton_pausa_hover = pygame.image.load("assets_PI/pausa/minipausa_hover.png").convert_alpha()
+            
+            # Escalar botón de pausa pequeño
+            escala = 3.0
+            nuevo_ancho = int(self.sprite_boton_pausa.get_width() * escala)
+            nuevo_alto = int(self.sprite_boton_pausa.get_height() * escala)
+            self.sprite_boton_pausa = pygame.transform.scale(self.sprite_boton_pausa, (nuevo_ancho, nuevo_alto))
+            self.sprite_boton_pausa_hover = pygame.transform.scale(self.sprite_boton_pausa_hover, (nuevo_ancho, nuevo_alto))
+            
+            # Cargar otros sprites
+            self.sprite_boton_reanudar = pygame.image.load("assets_PI/pausa/volver.png").convert_alpha()
+            self.sprite_boton_reanudar_hover = pygame.image.load("assets_PI/pausa/volver_hover.png").convert_alpha()
+            self.sprite_boton_reiniciar = pygame.image.load("assets_PI/pausa/reinicio.png").convert_alpha()
+            self.sprite_boton_reiniciar_hover = pygame.image.load("assets_PI/pausa/reinicio_hover.png").convert_alpha()
+            self.sprite_boton_menu = pygame.image.load("assets_PI/pausa/almenu.png").convert_alpha()
+            self.sprite_boton_menu_hover = pygame.image.load("assets_PI/pausa/almenu_hover.png").convert_alpha()
+            self.sprite_fondo_pausa = pygame.image.load("assets_PI/pausa/interfaz_de_pausa.png").convert_alpha()
+
+            # Escalar botones del menú de pausa x2.0
+            escala_menu = 4.0
+            botones_menu = ['reanudar', 'reiniciar', 'menu']
+            for sprite_name in botones_menu:
+                sprite_normal = getattr(self, f'sprite_boton_{sprite_name}')
+                sprite_hover = getattr(self, f'sprite_boton_{sprite_name}_hover')
+
+                if sprite_normal and sprite_hover:
+                    nuevo_ancho = int(sprite_normal.get_width() * escala_menu)
+                    nuevo_alto = int(sprite_normal.get_height() * escala_menu)
+                    setattr(self, f'sprite_boton_{sprite_name}', pygame.transform.scale(sprite_normal, (nuevo_ancho, nuevo_alto)))
+                    setattr(self, f'sprite_boton_{sprite_name}_hover', pygame.transform.scale(sprite_hover, (nuevo_ancho, nuevo_alto)))
+
+        except: 
+            self.sprite_boton_pausa = None
+            self.sprite_boton_pausa_hover = None
+            self.sprite_boton_reanudar = None
+            self.sprite_boton_reanudar_hover = None
+            self.sprite_boton_reiniciar = None
+            self.sprite_boton_reiniciar_hover = None
+            self.sprite_boton_menu = None
+            self.sprite_boton_menu_hover = None
+            self.sprite_fondo_pausa = None
+
+    def manejar_eventos(self, event, nivel_instance):
+        mouse_pos = pygame.mouse.get_pos()
+        # Actualizar estados hover
+        self.boton_pausa_hover = self.boton_pausa_rect.collidepoint(mouse_pos)
+        
+        # Calcular posiciones de botones del menú de pausa
+        if self.juego_pausado:
+            ancho_pantalla, alto_pantalla = self.pantalla.get_size()
+            ancho_pausa = 800
+            alto_pausa = 400
+            x_pausa = (ancho_pantalla - ancho_pausa) // 2 +50
+            y_pausa = (alto_pantalla - alto_pausa) // 2 +50
+
+            # Botones en línea horizontal
+            boton_ancho = 180
+            boton_alto = 180
+            espacio_entre_botones = 30
+            total_ancho_botones = (boton_ancho * 3) + (espacio_entre_botones * 2)
+            inicio_x = x_pausa + (ancho_pausa - total_ancho_botones) // 2
+            pos_y = y_pausa + (alto_pausa - boton_alto) // 2
+
+            self.boton_reanudar_rect = pygame.Rect(inicio_x, pos_y, boton_ancho, boton_alto)
+            self.boton_reiniciar_rect = pygame.Rect(inicio_x + boton_ancho + espacio_entre_botones, pos_y, boton_ancho, boton_alto)
+            self.boton_menu_rect = pygame.Rect(inicio_x + (boton_ancho + espacio_entre_botones) * 2, pos_y, boton_ancho, boton_alto)
+            
+            self.boton_reanudar_hover = self.boton_reanudar_rect.collidepoint(mouse_pos)
+            self.boton_reiniciar_hover = self.boton_reiniciar_rect.collidepoint(mouse_pos)
+            self.boton_menu_hover = self.boton_menu_rect.collidepoint(mouse_pos)
+        
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if self.juego_pausado:
+                    self.reanudar()
+                else:
+                    self.pausar()
+        
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            pos = pygame.mouse.get_pos()
+            
+            if self.juego_pausado:
+                if self.boton_reanudar_rect.collidepoint(pos):
+                    self.reanudar()
+                elif self.boton_reiniciar_rect.collidepoint(pos):
+                    self.reiniciar_nivel(nivel_instance)
+                elif self.boton_menu_rect.collidepoint(pos):
+                    self.ir_al_menu(nivel_instance)
+            else:
+                if self.boton_pausa_rect.collidepoint(pos):
+                    self.pausar()
+
+    def pausar(self):
+        self.juego_pausado = True
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.pause()
+            self.musica_pausada = True
+
+    def reanudar(self):
+        self.juego_pausado = False
+        if self.musica_pausada:
+            pygame.mixer.music.unpause()
+            self.musica_pausada = False
+
+    def reiniciar_nivel(self, nivel_instance):
+        self.juego_pausado = False
+        nivel_instance.return_value = "reintentar"
+        self.return_value = "reintentar"
+        nivel_instance.running = False
+
+    def ir_al_menu(self, nivel_instance):
+        self.juego_pausado = False
+        nivel_instance.return_value = "main"
+        self.return_value = "main"
+        nivel_instance.running = False
+
+    def dibujar(self):
+        if not self.juego_pausado:
+            if self.sprite_boton_pausa:
+                if self.boton_pausa_hover and self.sprite_boton_pausa_hover:
+                    self.pantalla.blit(self.sprite_boton_pausa_hover, self.boton_pausa_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_pausa, self.boton_pausa_rect)
+        else:
+            # Pantalla de pausa centrada EDITAR TAMANO
+            ancho_pantalla, alto_pantalla = self.pantalla.get_size()
+            ancho_pausa = 800
+            alto_pausa = 400
+            x_pausa = (ancho_pantalla - ancho_pausa) // 2
+            y_pausa = (alto_pantalla - alto_pausa) // 2
+
+            # Fondo semi-transparente centrado
+            fondo_pausa = pygame.Surface((ancho_pausa, alto_pausa), pygame.SRCALPHA)
+            fondo_pausa.fill((0, 0, 0, 200))
+            self.pantalla.blit(fondo_pausa, (x_pausa, y_pausa))
+            pygame.draw.rect(self.pantalla, (255, 255, 255), (x_pausa, y_pausa, ancho_pausa, alto_pausa), 3)
+            
+            # DIBUJAR INTERFAZ DE PAUSA - AGREGAR ESTA LÍNEA
+            if self.sprite_fondo_pausa:
+            # Escalar y centrar el sprite de fondo
+                fondo_escalado = pygame.transform.scale(self.sprite_fondo_pausa, (ancho_pausa, alto_pausa))
+                self.pantalla.blit(fondo_escalado, (x_pausa, y_pausa))
+            
+            if self.sprite_boton_reanudar:
+                if self.boton_reanudar_hover and self.sprite_boton_reanudar_hover:
+                    self.pantalla.blit(self.sprite_boton_reanudar_hover, self.boton_reanudar_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_reanudar, self.boton_reanudar_rect)
+            
+            if self.sprite_boton_reiniciar:
+                if self.boton_reiniciar_hover and self.sprite_boton_reiniciar_hover:
+                    self.pantalla.blit(self.sprite_boton_reiniciar_hover, self.boton_reiniciar_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_reiniciar, self.boton_reiniciar_rect)
+            
+            if self.sprite_boton_menu:
+                if self.boton_menu_hover and self.sprite_boton_menu_hover:
+                    self.pantalla.blit(self.sprite_boton_menu_hover, self.boton_menu_rect)
+                else:
+                    self.pantalla.blit(self.sprite_boton_menu, self.boton_menu_rect)
+# ========== FIN SISTEMA DE PAUSA ==========
+
+def run_level3():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
-    pygame.display.set_caption("Tutorial")
+    pygame.display.set_caption("Nivel 3")
+    
+    # SISTEMA DE PAUSA - INICIALIZAR
+    sistema_pausa = SistemaPausa(screen)
 
     # -----------------------------
     # CARGA DE IMÁGENES
+    #nombre = pygame.image.load("").convert_alpha()
     # -----------------------------
-    fondo = pygame.transform.scale(pygame.image.load("assets_PI/tutorial/semituto.png").convert_alpha(), (1024, 768))
+    fondo = pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Fondo level3.png").convert_alpha()
     
+    #Capas
+    casillero= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/casilla.png")
+    pared= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/Sprite-0004.png")
+    pared2= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared.png")
+    pared3= pygame.image.load("assets_PI/diseyo_nivel/nivel 3/pared3.png")
     # Pantalla de victoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
@@ -25,19 +219,13 @@ def run_tutorial():
     quieto_detras = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_detras.png").convert_alpha()
     quieto_delante = pygame.image.load("assets_PI/personajes/masculino/posturas/PI_personaje_m_ver_delante.png").convert_alpha()
 
-    # Escalar imágenes
+    #Escalar imagenes
     win = pygame.transform.scale(w, (1024, 768))
     barra_vida = pygame.transform.scale(bv, (150, 118))
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
 
-    # Botes
-    organico = pygame.image.load("assets_PI/botes/bote organico.png").convert_alpha()
-    inorganico = pygame.image.load("assets_PI/botes/bote inorganico.png").convert_alpha()
-    peligroso = pygame.image.load("assets_PI/botes/bote peligro (1).png").convert_alpha()
-    letrero = pygame.image.load("assets_PI/tutorial/tuto_fondo.png").convert_alpha()
-
-    # Cargar botones
+    #Cargar botones
     boton_reintentar = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez.png").convert_alpha()
     boton_reintentar_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_intenta_otra_vez_hover.png").convert_alpha()
     boton_menu = pygame.image.load("assets_PI/interfaces/perdida/boton_menu.png").convert_alpha()
@@ -48,45 +236,16 @@ def run_tutorial():
     boton_win_intentar = pygame.image.load("assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria.png")
     boton_win_intentar_hover = pygame.image.load("assets_PI/interfaces/victoria/boton_intenta_otra_vez_victoria_hover.png")
 
-    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487))
-    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570))
+    rect_reintentar_victoria = boton_win_menu.get_rect(center=(515, 487))
+    rect_menu_victoria = boton_win_intentar.get_rect(center=(515, 570))
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
 
     # Personaje inicial
     personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(489, 420))
+    personaje_draw_rect = personaje.get_rect(center=(870, 140))
     hitbox = pygame.Rect(0, 0, 70, 70)
-    hitbox.center = personaje_draw_rect.center
-    
-    # ESCALAR PERSONAJE
-    escala_personaje = 2.0
-
-    def escalar_frames(lista_frames, escala):
-        return [pygame.transform.scale(frame, 
-                                      (int(frame.get_width() * escala), 
-                                       int(frame.get_height() * escala))) 
-                for frame in lista_frames]
-
-    # Escalar posturas estáticas del personaje
-    quieto_derecha = pygame.transform.scale(quieto_derecha, 
-                                           (int(quieto_derecha.get_width() * escala_personaje), 
-                                            int(quieto_derecha.get_height() * escala_personaje)))
-    quieto_izquierda = pygame.transform.scale(quieto_izquierda, 
-                                             (int(quieto_izquierda.get_width() * escala_personaje), 
-                                              int(quieto_izquierda.get_height() * escala_personaje)))
-    quieto_detras = pygame.transform.scale(quieto_detras, 
-                                          (int(quieto_detras.get_width() * escala_personaje), 
-                                           int(quieto_detras.get_height() * escala_personaje)))
-    quieto_delante = pygame.transform.scale(quieto_delante, 
-                                           (int(quieto_delante.get_width() * escala_personaje), 
-                                            int(quieto_delante.get_height() * escala_personaje)))
-
-    # Actualizar personaje y hitbox después de escalar
-    personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(489, 420))
-    hitbox = pygame.Rect(0, 0, 70 * escala_personaje, 70 * escala_personaje)
     hitbox.center = personaje_draw_rect.center
 
     # -----------------------------
@@ -118,13 +277,44 @@ def run_tutorial():
     # BASURA CON ANIMACIONES
     # -----------------------------
     # Cargar frames de animación para cada basura
-
+    # Botella de agua
+    frames_botella_agua = [
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/botella_agua/botella agua4.png").convert_alpha()
+    ]
+    
+    # Lata
+    frames_lata = [
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/inorganica/lata/lata4.png").convert_alpha()
+    ]
+    
     # Periódico
     frames_periodico = [
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande1.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande2.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande3.png").convert_alpha(),
         pygame.image.load("assets_PI/basura/inorganica/periodico/periodico_mas_grande4.png").convert_alpha()
+    ]
+    
+    # Banana
+    frames_banana = [
+        pygame.image.load("assets_PI/basura/organica/Banana/banano1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Banana/banano4.png").convert_alpha()
+    ]
+    
+    # Cascara de huevo
+    frames_cascara_huevo = [
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_4.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/organica/Cascara_huevo/cascara_huevo_5.png").convert_alpha()
     ]
     
     # Manzana
@@ -135,6 +325,14 @@ def run_tutorial():
         pygame.image.load("assets_PI/basura/organica/Manzana/manzene4.png").convert_alpha()
     ]
     
+    # Batería
+    frames_bateria = [
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Bateria/batería item -9c3f4.png").convert_alpha()
+    ]
+    
     # Foco
     frames_foco = [
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a975.png").convert_alpha(),
@@ -143,63 +341,75 @@ def run_tutorial():
         pygame.image.load("assets_PI/basura/residuos_peligrosos/Foco/Foquito item-a978.png").convert_alpha()
     ]
     
-    # ESCALAR BOTES
-    escala_botes = 2.0
-    organico_escalado = pygame.transform.scale(organico, 
-                                            (int(organico.get_width() * escala_botes), 
-                                             int(organico.get_height() * escala_botes)))
-    inorganico_escalado = pygame.transform.scale(inorganico, 
-                                              (int(inorganico.get_width() * escala_botes), 
-                                               int(inorganico.get_height() * escala_botes)))
-    peligroso_escalado = pygame.transform.scale(peligroso, 
-                                             (int(peligroso.get_width() * escala_botes), 
-                                              int(peligroso.get_height() * escala_botes)))
-
-    pos_x = 100  # Misma posición X para todos
-    espacio_vertical = 150  # Espacio entre botes
+    # Jeringa
+    frames_jeringa = [
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa1.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa2.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa3.png").convert_alpha(),
+        pygame.image.load("assets_PI/basura/residuos_peligrosos/Jeringa/Jeringa4.png").convert_alpha()
+    ]
+    frames_surprice = [
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice2.png").convert_alpha(),
+        pygame.image.load("assets_PI/diseyo_nivel/nivel 2/surprice1.png").convert_alpha() 
+    ]
     
-    letrero_escalado = pygame.transform.scale(letrero, (344, 768))
-    
-    botes = [
-        {"imagen": inorganico_escalado, "nombre": "Inorganico", "tipo": "inorganica", 
-        "rect": inorganico_escalado.get_rect(topleft=(100, 150)).inflate(20, 20)},
-        
-        {"imagen": organico_escalado, "nombre": "Organico", "tipo": "organica", 
-        "rect": organico_escalado.get_rect(topleft=(100, 300)).inflate(20, 20)},
-        
-        {"imagen": peligroso_escalado, "nombre": "Residuos peligrosos", "tipo": "peligrosa", 
-        "rect": peligroso_escalado.get_rect(topleft=(100, 450)).inflate(20, 20)}
+    # -----------------------------
+    # POSICIONES ALEATORIAS PARA BASURAS
+    # -----------------------------
+    # Lista de coordenadas posibles
+    posiciones_basura = [
+        (729, 521),  
+        (552, 200),  
+        (565, 671),  
+        (900, 300),  
+        (107, 193),  
+        (287, 300),
+        (220, 682),
+        (29, 500),
+        (940, 690)
     ]
 
-    # Escalar SOLO las basuras con 2.0
-    escala_basura = 2.0
-
-    frames_periodico = [pygame.transform.scale(frame, 
-                                            (int(frame.get_width() * escala_basura), 
-                                             int(frame.get_height() * escala_basura))) 
-                    for frame in frames_periodico]
-
-    frames_manzana = [pygame.transform.scale(frame, 
-                                          (int(frame.get_width() * escala_basura), 
-                                           int(frame.get_height() * escala_basura))) 
-                    for frame in frames_manzana]
-
-    frames_foco = [pygame.transform.scale(frame, 
-                                       (int(frame.get_width() * escala_basura), 
-                                        int(frame.get_height() * escala_basura))) 
-                for frame in frames_foco]
+    # Función para obtener posiciones aleatorias únicas
+    def obtener_posiciones_aleatorias(cantidad):
+        return random.sample(posiciones_basura, cantidad)
     
-    # Obtener las posiciones de los botes y colocar la basura a su lado
-    pos_bote_inorganico = botes[0]["rect"].topleft  # (100, 150)
-    pos_bote_organico = botes[1]["rect"].topleft    # (100, 300) 
-    pos_bote_peligroso = botes[2]["rect"].topleft   # (100, 450)
 
-    # Basuras al lado de sus botes (ya escaladas)
+    # Obtener 6 posiciones aleatorias únicas (una para cada basura)
+    posiciones_aleatorias = obtener_posiciones_aleatorias(9)
+
+    # Definir basuras con animaciones
     basura = [
         {
-            "frames": frames_periodico, 
-            "rect": frames_periodico[0].get_rect(topleft=(250, 150)),  # Al lado del bote inorgánico
-            "nombre": "Periodico", 
+            "frames": frames_banana, 
+            "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
+            "nombre": "un Plátano", 
+            "tipo": "organica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_botella_agua, 
+            "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
+            "nombre": "una Botella de agua", 
+            "tipo": "inorganica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_foco, 
+            "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
+            "nombre": "un Foco", 
+            "tipo": "peligrosa",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_lata, 
+            "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
+            "nombre": "una Lata", 
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -207,34 +417,90 @@ def run_tutorial():
         },
         {
             "frames": frames_manzana, 
-            "rect": frames_manzana[0].get_rect(topleft=(250, 300)),  # Al lado del bote orgánico
-            "nombre": "Manzana", 
+            "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]), 
+            "nombre": "una Manzana", 
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_foco, 
-            "rect": frames_foco[0].get_rect(topleft=(250, 450)),  # Al lado del bote peligroso
-            "nombre": "Foco", 
+            "frames": frames_bateria, 
+            "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
+            "nombre": "una Batería", 
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
+        },
+        {
+            "frames": frames_cascara_huevo, 
+            "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]), 
+            "nombre": "Cascaras de huevo", 
+            "tipo": "organica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_jeringa, 
+            "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]), 
+            "nombre": "una Jeringa", 
+            "tipo": "peligrosa",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_periodico, 
+            "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]), 
+            "nombre": "un Periodico", 
+            "tipo": "inorganica",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
+        },
+        {
+            "frames": frames_surprice, 
+            "rect": frames_surprice[0].get_rect(topleft=(600, 100)),
+            "nombre": "a Larry", 
+            "tipo": "segura",
+            "frame_actual": 0,
+            "tiempo_ultimo_frame": 0,
+            "animando": True
         }
+
+        
+        ]
+
+    botes = [
+        {"nombre": "al bote Inorganico", "tipo": "inorganica", "rect": pygame.Rect(770, 110, 20, 20)},
+        {"nombre": "al bote Organico", "tipo": "organica", "rect": pygame.Rect(940, 110, 20, 20)},
+        {"nombre": "al bote Residuos peligrosos", "tipo": "peligrosa", "rect": pygame.Rect(525, 100, 40, 25)}
     ]
 
     colisiones = [
-        pygame.Rect(0, 0, 1024, 1),     # Borde superior
-        pygame.Rect(0, 767, 1024, 1),   # Borde inferior  
-        pygame.Rect(0, 0, 1, 768),      # Borde izquierdo
-        pygame.Rect(1023, 0, 1, 768),   # Borde derecho
-        pygame.Rect(680, 0, 344, 768),  # 2/3 del lado derecho bloqueado
-    ]
+        #paredes
+        pygame.Rect(0, 0, 1024, 100), pygame.Rect(670, 0, 45, 290), pygame.Rect(670, 460, 45, 297), 
+        pygame.Rect(1002, 0, 22, 290), pygame.Rect(1022, 344, 2, 124), pygame.Rect(1002, 456, 22, 300), 
+        pygame.Rect(700, 756, 324, 5), pygame.Rect(733, 580, 30, 170), pygame.Rect(960, 485, 51, 130), 
+        pygame.Rect(0, 732, 684, 25), pygame.Rect(0, 0, 19, 768),
+        #MESAS
+        pygame.Rect(105, 380, 85, 35), pygame.Rect(300, 380, 85, 35), pygame.Rect(492, 380, 85, 35), pygame.Rect(105, 570, 85, 35),
+        pygame.Rect(300, 570, 85, 35), pygame.Rect(493, 570, 85, 35),
+        #sillas
+        pygame.Rect(130, 444, 40, 2),pygame.Rect(320, 444, 40, 2), pygame.Rect(515, 444, 40, 2), pygame.Rect(133, 636, 38, 2),
+        pygame.Rect(320, 636, 80, 2),pygame.Rect(512, 636, 40, 2),
+        #muebles
+        pygame.Rect(245, 160, 190, 60),pygame.Rect(20, 104, 146, 20), pygame.Rect(600, 120, 10, 1),
+        #botes
+        pygame.Rect(525, 100, 40, 25), pygame.Rect(770, 110, 20, 20), pygame.Rect(940, 110, 20, 20),
+        
+    ]   
+    
 
     # -----------------------------
-    # ANIMACIONES DEL PERSONAJE
+    # ANIMACIONES
     # -----------------------------
     frames_dano = [
         pygame.image.load("assets_PI/personajes/masculino/animaciones/Pi_personaje_m_daño_derecha/Pi_personaje_m_daño_derecha1.png").convert_alpha(),
@@ -338,21 +604,6 @@ def run_tutorial():
     # Para delante postura estática
     frames_quieto_delante = [quieto_delante]
 
-    # ESCALAR TODAS LAS ANIMACIONES DEL PERSONAJE
-    frames_dano = escalar_frames(frames_dano, escala_personaje)
-    frames_muerte_derecha = escalar_frames(frames_muerte_derecha, escala_personaje)
-    frames_muerte_izquierda = escalar_frames(frames_muerte_izquierda, escala_personaje)
-    frames_muerte_delante = escalar_frames(frames_muerte_delante, escala_personaje)
-    frames_muerte_detras = escalar_frames(frames_muerte_detras, escala_personaje)
-    frames_caminar_delante = escalar_frames(frames_caminar_delante, escala_personaje)
-    frames_caminar_derecha = escalar_frames(frames_caminar_derecha, escala_personaje)
-    frames_caminar_detras = escalar_frames(frames_caminar_detras, escala_personaje)
-    frames_caminar_izquierda = escalar_frames(frames_caminar_izquierda, escala_personaje)
-    frames_quieto_detras = escalar_frames(frames_quieto_detras, escala_personaje)
-    frames_quieto_derecha = escalar_frames(frames_quieto_derecha, escala_personaje)
-    frames_quieto_izquierda = escalar_frames(frames_quieto_izquierda, escala_personaje)
-    frames_quieto_delante = escalar_frames(frames_quieto_delante, escala_personaje)
-
     pantalla_perdida = pygame.image.load("assets_PI/interfaces/perdida/game over 2.0.png").convert_alpha()
 
     # Banderas para activar animaciones
@@ -408,17 +659,37 @@ def run_tutorial():
     vida_max = 3
     vida_actual = vida_max
 
-    # Tiempo
-    tiempo = 300
+    # Tiempo - VARIABLES SIMPLIFICADAS
+    tiempo_total = 180
     inicio_tiempo = pygame.time.get_ticks()
     fuente_tiempo = pygame.font.Font(None, 48)
+    tiempo_pausa_acumulado = 0
+    tiempo_ultima_pausa = 0
+    tiempo_visual = tiempo_total 
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
 
-    # Verificar si gano
+# Verificar si gano
     def ganar(basura, objeto_en_mano):
-        return len(basura) == 0 and objeto_en_mano is None
+        
+        # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
+        #    Excluye explícitamente el objeto "a Larry" (la sorpresa).
+        basura_esencial_restante = [
+            obj for obj in basura if obj["nombre"] != "a Larry"
+        ]
+        
+        # 2. Verifica si el objeto en la mano NO es la basura esencial.
+        #    El jugador PUEDE tener el objeto "a Larry" en la mano al ganar.
+        objeto_en_mano_esencial = (
+            objeto_en_mano is not None and 
+            objeto_en_mano["nombre"] != "a Larry"
+        )
+        
+        # 3. La condición de victoria es:
+        #    - La lista de basura esencial en el suelo debe estar vacía.
+        #    - Y el jugador no debe tener otra basura esencial en la mano.
+        return len(basura_esencial_restante) == 0 and not objeto_en_mano_esencial
 
     # Variable para el while infinito, para las teclas pulsadas y un contador de errores
     running = True
@@ -429,82 +700,6 @@ def run_tutorial():
     ultima_direccion = "delante"
 
     # -----------------------------
-    # FUNCIONES PARA PANTALLAS DE FINAL
-    # -----------------------------
-    def mostrar_pantalla_perdida():
-        pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(-1)
-        sonido_morir.play()
-
-        while True:
-            screen.fill((0, 0, 0))
-            screen.blit(pantalla_perdida, (0, 0))
-
-            mouse_pos = pygame.mouse.get_pos()
-
-            # Botones
-            if rect_reintentar.collidepoint(mouse_pos):
-                screen.blit(boton_reintentar_hover, rect_reintentar)
-            else:
-                screen.blit(boton_reintentar, rect_reintentar)
-
-            if rect_menu.collidepoint(mouse_pos):
-                screen.blit(boton_menu_hover, rect_menu)
-            else:
-                screen.blit(boton_menu, rect_menu)
-
-            pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if rect_reintentar.collidepoint(mouse_pos):
-                        pygame.mixer.music.stop()
-                        return "tutorial"  # reiniciar tutorial
-                    elif rect_menu.collidepoint(mouse_pos):
-                        pygame.mixer.music.stop()
-                        return "main"  # volver al menú
-
-    def mostrar_pantalla_victoria():
-        pygame.mixer.music.load("assets_PI/musica/musica_victoria.mp3")
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(-1)
-
-        while True:
-            screen.fill((0, 0, 0))
-            screen.blit(win, (0, 0))
-
-            mouse_pos = pygame.mouse.get_pos()
-
-            # Botones - CORREGIDO: usar los rectángulos correctos
-            if rect_reintentar_victoria.collidepoint(mouse_pos):
-                screen.blit(boton_win_intentar_hover, rect_reintentar_victoria)
-            else:
-                screen.blit(boton_win_intentar, rect_reintentar_victoria)
-
-            if rect_menu_victoria.collidepoint(mouse_pos):
-                screen.blit(boton_win_menu_hover, rect_menu_victoria)
-            else:
-                screen.blit(boton_win_menu, rect_menu_victoria)
-
-            pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if rect_reintentar_victoria.collidepoint(mouse_pos):
-                        pygame.mixer.music.stop()
-                        return "tutorial"  # reiniciar tutorial
-                    elif rect_menu_victoria.collidepoint(mouse_pos):
-                        pygame.mixer.music.stop()
-                        return "main"  # volver al menú
-
-    # -----------------------------
     # BUCLE PRINCIPAL
     # -----------------------------
     while running:
@@ -512,10 +707,86 @@ def run_tutorial():
             if event.type == pygame.QUIT:
                 running = False
 
+    # MANEJAR EVENTOS DE PAUSA
+            sistema_pausa.manejar_eventos(event, sys.modules[__name__])
+
+        # Verificar si la pausa quiere salir del nivel
+        if sistema_pausa.return_value is not None:
+            return sistema_pausa.return_value
+
+        # CALCULAR TIEMPO - SISTEMA SIMPLIFICADO
+        tiempo_actual = pygame.time.get_ticks()
+        if sistema_pausa.juego_pausado:
+            if tiempo_ultima_pausa == 0:
+                tiempo_ultima_pausa = tiempo_actual
+        else:
+            # ACTUALIZAR tiempo_visual SOLO cuando NO está en pausa
+            if tiempo_ultima_pausa > 0:
+                tiempo_pausa_acumulado += tiempo_actual - tiempo_ultima_pausa
+                tiempo_ultima_pausa = 0
+        tiempo_transcurrido = (tiempo_actual - inicio_tiempo - tiempo_pausa_acumulado) // 1000
+        tiempo_restante = max(0, tiempo_total - tiempo_transcurrido)
+        
+        if not sistema_pausa.juego_pausado:
+            tiempo_visual = tiempo_restante
+
+        # Si el juego está pausado, saltar el resto de la lógica
+        if sistema_pausa.juego_pausado:
+            # Dibujar todo el juego congelado
+            screen.fill((0, 0, 0))
+            screen.blit(fondo, (0, 0))
+
+            # BARRA DE VIDA
+            if vida_actual == 3:
+                screen.blit(barra_vida, (20, -20))
+            elif vida_actual == 2:
+                screen.blit(barra_vida2, (20, -20))
+            elif vida_actual == 1:
+                screen.blit(barra_vida1, (20, -20))
+
+            # DIBUJAR BASURAS CON ANIMACIONES
+            for obj in basura:
+                frame_actual = obj["frames"][obj["frame_actual"]]
+                screen.blit(frame_actual, obj["rect"])
+
+            # Dibujar personaje congelado
+            if not animando_dano and not animando_muerte:
+                posturas_quieto = {
+                    "derecha": quieto_derecha,
+                    "izquierda": quieto_izquierda,
+                    "detras": quieto_detras,
+                    "delante": quieto_delante
+                }
+                frame = posturas_quieto.get(ultima_direccion, quieto_delante)
+                personaje_draw_rect = frame.get_rect(center=hitbox.center)
+                screen.blit(frame, personaje_draw_rect)
+
+            # DIBUJAR OBJETO EN LA MANO
+            if objeto_en_mano is not None and not animando_muerte:
+                mano_x = personaje_draw_rect.centerx + 20
+                mano_y = personaje_draw_rect.centery 
+                screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
+
+            #Tiempo congelado - usar tiempo_visual que ya está congelado
+            minutos = tiempo_visual // 60
+            segundos_restantes = tiempo_visual % 60
+            tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
+            color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+            pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+            texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
+            screen.blit(texto_tiempo, (20, 90))
+
+            # DIBUJAR SISTEMA DE PAUSA
+            sistema_pausa.dibujar()
+
+            pygame.display.flip()
+            clock.tick(60)
+            continue
+
         keys = pygame.key.get_pressed()
         old_hitbox = hitbox.copy()
 
-        # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
+    # CORRECCIÓN: Bloquear completamente el movimiento durante la muerte
         if not animando_muerte and not tiempo_fin_animacion:
             moving = False
             # Movimiento
@@ -599,7 +870,7 @@ def run_tutorial():
                                 "tipo": obj["tipo"]
                             }
                             basura.remove(obj)
-                            mensaje = f"Recogiste: {obj['nombre']}"
+                            mensaje = f"Recogiste {obj['nombre']}"
                         else:
                             mensaje = "Ya tienes un objeto en la mano"
                         mensaje_tiempo = pygame.time.get_ticks()
@@ -615,41 +886,34 @@ def run_tutorial():
                     tiro_valido = False
                     bote_correcto_encontrado = False
                     bote_actual = None
-                    bote_mas_cercano = None
-                    distancia_minima = float('inf')
 
-                    # ENCONTRAR EL BOTE MÁS CERCANO, no el primero
+                    # PRIMERO: Encontrar qué bote está cerca
                     for bote in botes:
                         if proximity.colliderect(bote["rect"]):
-                            # Calcular distancia al centro del bote
-                            distancia = ((hitbox.centerx - bote["rect"].centerx) ** 2 + 
-                                       (hitbox.centery - bote["rect"].centery) ** 2) ** 0.5
-                            
-                            if distancia < distancia_minima:
-                                distancia_minima = distancia
-                                bote_mas_cercano = bote
+                            tiro_valido = True
+                            bote_actual = bote  # Guardar referencia al bote cercano
+                            break  # Solo nos interesa el bote más cercano
 
-                    # Si encontramos un bote cercano
-                    if bote_mas_cercano:
-                        bote_actual = bote_mas_cercano
-                        tiro_valido = True
-
+                    # SEGUNDO: Procesar el tiro solo si hay un bote cercano
+                    if tiro_valido and bote_actual:
                         # Verificar si es el bote CORRECTO para este objeto
                         if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                             # Tiro CORRECTO
                             bote_correcto_encontrado = True
-                            mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✓ llevaste {objeto_en_mano['nombre']} {bote_actual['nombre']}"
                             objeto_en_mano = None
                             sonido_tirar_correcto.play()
                         else:
-                            # Tiro INCORRECTO
+                            # Tiro INCORRECTO - NO tirar pero recibir daño
                             errores += 1
-                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                            mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en {bote_actual['nombre']}"
                             animando_dano = True
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
+                            # IMPORTANTE: NO liberar el objeto - el jugador lo mantiene en la mano
                             sonido_tirar_incorrecto.play()
-                            
+                
+                            # BARRA DE VIDA
                             vida_actual -= 1
                             if vida_actual < 0:
                                 vida_actual = 0
@@ -692,8 +956,7 @@ def run_tutorial():
         # -----------------------------
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
-        screen.blit(letrero_escalado, (680, 0))
-
+        
         # BARRA DE VIDA
         if vida_actual == 3:
             screen.blit(barra_vida, (20, -20))
@@ -702,13 +965,14 @@ def run_tutorial():
         elif vida_actual == 1:
             screen.blit(barra_vida1, (20, -20))
 
-        # DIBUJAR BASURAS CON ANIMACIONES
         for obj in basura:
+        # Evitar que el índice se salga del rango
+            if obj["frame_actual"] >= len(obj["frames"]):
+
+                obj["frame_actual"] = 0
             frame_actual = obj["frames"][obj["frame_actual"]]
             screen.blit(frame_actual, obj["rect"])
 
-        for bote in botes:
-            screen.blit(bote["imagen"], bote["rect"])
 
         # Actualizar animación
         ahora = pygame.time.get_ticks()
@@ -781,7 +1045,10 @@ def run_tutorial():
                 "delante": quieto_delante
             }
             frame = posturas_quieto.get(ultima_direccion, quieto_delante)
-
+            
+        #casillero
+        screen.blit(casillero,(592, 51))  
+        
         # --- DIBUJAR PERSONAJE ---
         personaje_draw_rect = frame.get_rect(center=hitbox.center)
         
@@ -808,13 +1075,15 @@ def run_tutorial():
         else:
             # Dibujar personaje normal
             screen.blit(frame, personaje_draw_rect)
-
+        #capas  
+        screen.blit(pared, (0, 741))
+        screen.blit(pared2,(660, 471))   
+        screen.blit(pared3, (660,0))
         # DIBUJAR OBJETO EN LA MANO
         if objeto_en_mano is not None and not animando_muerte:
             mano_x = personaje_draw_rect.centerx + 20
             mano_y = personaje_draw_rect.centery 
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
-
         # Mensaje
         if mensaje and pygame.time.get_ticks() - mensaje_tiempo < duracion_mensaje:
             # Calcular el ancho del texto
@@ -831,10 +1100,10 @@ def run_tutorial():
         else:
             mensaje = ""
 
-        # TIEMPO
+        # [Nuevo] TIEMPO
         tiempo_actual = pygame.time.get_ticks()
         segundos = (tiempo_actual - inicio_tiempo) // 1000
-        tiempo_restante = max(0, tiempo - segundos)
+        tiempo_restante = max(0, tiempo_total - segundos)
 
         if tiempo_restante <= 30 and not musica_cambiada:
             pygame.mixer.music.load("assets_PI/musica/musica_apresurada.ogg")
@@ -855,12 +1124,90 @@ def run_tutorial():
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
         screen.blit(texto_tiempo, (20, 90))
 
-        # VERIFICAR VICTORIA
+        # DIBUJAR BOTÓN DE PAUSA
+        sistema_pausa.dibujar()
+
+        def mostrar_pantalla_perdida():
+            pygame.mixer.music.load("assets_PI/sonidos/musica de perdida.mp3")
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
+            sonido_morir.play()
+
+            while True:
+                screen.fill((0, 0, 0))
+                screen.blit(pantalla_perdida, (0, 0))
+
+                mouse_pos = pygame.mouse.get_pos()
+
+                # Botones
+                if rect_reintentar.collidepoint(mouse_pos):
+                    screen.blit(boton_reintentar_hover, rect_reintentar)
+                else:
+                    screen.blit(boton_reintentar, rect_reintentar)
+
+                if rect_menu.collidepoint(mouse_pos):
+                    screen.blit(boton_menu_hover, rect_menu)
+                else:
+                    screen.blit(boton_menu, rect_menu)
+
+                pygame.display.flip()
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if rect_reintentar.collidepoint(mouse_pos):
+                            pygame.mixer.music.stop()
+                            return "reintentar"  # reiniciar nivel
+                        elif rect_menu.collidepoint(mouse_pos):
+                            pygame.mixer.music.stop()
+                            return "main"  # volver al menú
+
+        def mostrar_pantalla_victoria():
+            pygame.mixer.music.load("assets_PI\musica\musica_victoria.mp3")
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
+
+            while True:
+                screen.fill((0, 0, 0))
+                screen.blit(win, (0, 0))
+
+                mouse_pos = pygame.mouse.get_pos()
+
+                # Botones
+                if rect_reintentar.collidepoint(mouse_pos):
+                    screen.blit(boton_win_intentar, rect_reintentar_victoria)
+                else:
+                    screen.blit( boton_win_intentar_hover, rect_reintentar_victoria)
+
+                if rect_menu.collidepoint(mouse_pos):
+                    screen.blit(boton_win_menu, rect_menu_victoria)
+                else:
+                    screen.blit(boton_win_menu_hover, rect_menu_victoria)
+
+                pygame.display.flip()
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if rect_reintentar.collidepoint(mouse_pos):
+                            pygame.mixer.music.stop()
+                            return "reintentar"  # reiniciar nivel
+                        elif rect_menu.collidepoint(mouse_pos):
+                            pygame.mixer.music.stop()
+                            return "main" # volver al menú
+            
+        #ganar
         if ganar(basura, objeto_en_mano):
             resultado = mostrar_pantalla_victoria()
-            pygame.mixer.music.stop()
-            return resultado
-
+            if resultado == "main":
+                return "main"  # Volver al menú principal
+            elif resultado == "reintentar":
+                return "reintentar" # Reiniciar nivel
+                
         # -----------------------------
         # ANIMACIÓN DE MUERTE CORREGIDA
         # -----------------------------
@@ -903,8 +1250,10 @@ def run_tutorial():
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida()
-                    pygame.mixer.music.stop()
-                    return resultado
+                    if resultado == "main":
+                        return "main"  # Volver al menú principal
+                    elif resultado == "reintentar":
+                        return "reintentar"  # Reiniciar nivel
         
                 else:
                     # CORRECCIÓN: Mantener la última animación de muerte según dirección
@@ -932,8 +1281,8 @@ def run_tutorial():
         prev_keys = keys
         
     pygame.quit()
-    return "main"  # Por defecto, volver al menú principal
+    if hasattr(sistema_pausa, 'return_value') and sistema_pausa.return_value:
+        return sistema_pausa.return_value
 
-# Solo para pruebas independientes
 if __name__ == "__main__":
-    run_tutorial()
+    run_level3()

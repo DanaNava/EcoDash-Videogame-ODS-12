@@ -6,8 +6,10 @@ from configuracion import Configuracion
 from select_character import Select_character
 from seleccion_dificultad import Seleccion_dificultad
 from seleccion_nivel import Seleccion_nivel
-from nivel_1 import run_level1 
-from tutorial import run_tutorial  # ¡IMPORTANTE! Agregar esta línea
+from nivel_1 import run_level1
+from nivel_2 import run_level2
+from Nivel_3 import run_level3 
+from tutorial import run_tutorial
 
 def main():
     pygame.init()
@@ -30,7 +32,7 @@ def main():
     while True:
         resultado = pantalla_actual.run()
 
-        # Lógica de navegación entre pantallas (AGREGAR TUTORIAL)
+        # Lógica de navegación entre pantallas
         if resultado == "select_character":
             pantalla_actual = Select_character(screen)
 
@@ -46,14 +48,16 @@ def main():
         elif resultado in ["facil"]:
             pantalla_actual = Seleccion_nivel(screen)
 
-        elif resultado == "tutorial":  # ¡NUEVA OPCIÓN!
+        elif resultado == "tutorial":
             # Manejar el tutorial con posibilidad de reintento
             reiniciar_tutorial = True
             while reiniciar_tutorial:
-                resultado_tutorial = run_tutorial()  # Ejecuta el tutorial
+                resultado_tutorial = run_tutorial()
 
                 if resultado_tutorial == "main":
-                    # Volver al menú principal
+                    # VERIFICAR SI EL MIXER ESTÁ INICIALIZADO ANTES DE CARGAR MÚSICA
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
                     pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
                     pygame.mixer.music.set_volume(0.5)
                     pygame.mixer.music.play(-1)
@@ -61,11 +65,11 @@ def main():
                     reiniciar_tutorial = False
 
                 elif resultado_tutorial == "tutorial":
-                    # Reiniciar el tutorial
                     reiniciar_tutorial = True
 
                 else:
-                    # Por defecto, volver al menú principal
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
                     pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
                     pygame.mixer.music.set_volume(0.5)
                     pygame.mixer.music.play(-1)
@@ -79,6 +83,8 @@ def main():
                 resultado_nivel = run_level1()
 
                 if resultado_nivel == "main":
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
                     pygame.mixer.music.set_volume(0.5)
@@ -90,12 +96,45 @@ def main():
                     reiniciar_nivel = True
 
                 else:
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
                     pygame.mixer.music.set_volume(0.5)
                     pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen)
                     reiniciar_nivel = False
+
+        # ... (el resto del código para niveles 2 y 3 permanece igual)
+        elif resultado in ["nivel2"]:
+            reiniciar_nivel = True
+            while reiniciar_nivel:
+                resultado_nivel = run_level2()
+                if resultado_nivel == "main":
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.waw")
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Main(screen)
+                    reiniciar_nivel = False
+                # ... resto del código
+
+        elif resultado in ["nivel3"]:
+            reiniciar_nivel = True
+            while reiniciar_nivel:
+                resultado_nivel = run_level3()
+                if resultado_nivel == "main":
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Main(screen)
+                    reiniciar_nivel = False
+                # ... resto del código
                     
         elif resultado == "salir" or resultado is None:
             break
