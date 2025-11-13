@@ -576,9 +576,11 @@ def run_level1():
     duracion_mensaje = 3000
     fuente = pygame.font.Font(None, 32)
     
+    # velocidad del juego y personaje
     velocidad = 5
-    clock = pygame.time.Clock()
     
+    clock = pygame.time.Clock()
+   
     vida_max = 3
     vida_actual = vida_max
 
