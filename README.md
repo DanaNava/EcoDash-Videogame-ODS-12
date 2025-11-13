@@ -244,9 +244,9 @@ Antes de ejecutar el juego, asegúrate de cumplir con los siguientes requisitos 
   - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)  
 - **Memoria RAM recomendada:** 4 GB o más  
 - **Espacio en disco:** Al menos 200 MB libres  
-- **Resolución mínima:** 1280x720  
+- **Resolución:** 1024x768 
 
-> 💡 *Nota:* Para un mejor rendimiento, se recomienda ejecutar el juego en pantalla completa y cerrar otras aplicaciones en segundo plano.
+> 💡 *Nota:* Para un mejor rendimiento, se recomienda cerrar otras aplicaciones en segundo plano.
 
 ---
 ## 🧩 **Tecnologías utilizadas**
