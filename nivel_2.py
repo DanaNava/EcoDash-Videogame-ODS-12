@@ -1670,6 +1670,11 @@ def run_level2(idioma_actual, volumen_actual):
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "main"
+                        elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                            print("Botón siguiente nivel presionado")
+                            print("Retornando 'nivel3' desde mostrar_pantalla_victoria") 
+                            pygame.mixer.music.stop()
+                            return "nivel3"
             
         #ganar
 
@@ -1682,7 +1687,9 @@ def run_level2(idioma_actual, volumen_actual):
                 return "reintentar"
             elif resultado == "salir":
                 return "salir"
-                
+            elif resultado == "nivel3":
+                print("Retornando 'nivel3' desde run_level1")
+                return "nivel3" 
                 # -----------------------------
                 
         # ANIMACIÓN DE MUERTE CORREGIDA

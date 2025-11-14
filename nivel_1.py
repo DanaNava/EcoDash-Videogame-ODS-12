@@ -1158,6 +1158,7 @@ def run_level1(idioma_actual, volumen_actual):
                     screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
                 else:
                     screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
+                
 
                 
                 
@@ -1215,6 +1216,11 @@ def run_level1(idioma_actual, volumen_actual):
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "main"
+                        elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                            print("Botón siguiente nivel presionado")
+                            print("Retornando 'nivel2' desde mostrar_pantalla_victoria") 
+                            pygame.mixer.music.stop()
+                            return "nivel2"
             
         #ganar
         if ganar(basura, objeto_en_mano):
@@ -1226,6 +1232,9 @@ def run_level1(idioma_actual, volumen_actual):
                 return "reintentar"
             elif resultado == "salir":
                 return "salir"
+            elif resultado == "nivel2":
+                print("Retornando 'nivel2' desde run_level1")
+                return "nivel2"
                 
         # -----------------------------
         # ANIMACIÓN DE MUERTE CORREGIDA
