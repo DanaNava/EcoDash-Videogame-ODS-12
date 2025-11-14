@@ -341,6 +341,8 @@ def run_level2(idioma_actual, volumen_actual):
     bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
     bv2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_2co.png"))
     bv1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_1co.png"))
+    cronometro = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "Cronometro_PI.png")).convert_alpha()
+
 
     # Posturas estáticas para quieto (como respaldo)
 
@@ -828,7 +830,7 @@ def run_level2(idioma_actual, volumen_actual):
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
-    fuente_tiempo = pygame.font.Font(None, 48)
+    fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
 
     # --- ¡¡¡MODIFICADO AQUÍ!!! ---
     # --- Cargar las DOS fuentes ---
@@ -939,6 +941,7 @@ def run_level2(idioma_actual, volumen_actual):
             # Dibujar todo el juego congelado
             screen.fill((0, 0, 0))
             screen.blit(fondo, (0, 0))
+            screen.blit(cronometro, (15, 60))
 
             # BARRA DE VIDA
             if vida_actual == 3:
@@ -980,9 +983,10 @@ def run_level2(idioma_actual, volumen_actual):
             segundos_restantes = tiempo_visual % 60
             tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
             color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
-            pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+            #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
             texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-            screen.blit(texto_tiempo, (20, 90))
+            cronometro = pygame.transform.scale(cronometro, (150, 90))
+            screen.blit(texto_tiempo, (17, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
 
@@ -1209,7 +1213,7 @@ def run_level2(idioma_actual, volumen_actual):
 
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
-
+        screen.blit(cronometro, (15, 60))
         # BARRA DE VIDA
         if vida_actual == 3:
             screen.blit(barra_vida, (20, -20))
@@ -1496,9 +1500,10 @@ def run_level2(idioma_actual, volumen_actual):
         # Formato mm:ss con ceros (01:05)
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
 
-        pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+        #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-        screen.blit(texto_tiempo, (20, 90))
+        cronometro = pygame.transform.scale(cronometro, (150, 90))
+        screen.blit(texto_tiempo, (17, 85))
         
 
         # DIBUJAR BOTÓN DE PAUSA

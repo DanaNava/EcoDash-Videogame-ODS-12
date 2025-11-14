@@ -30,6 +30,8 @@ def run_tutorial():
     barra_vida = pygame.transform.scale(bv, (150, 118))
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
+    cronometro = pygame.image.load("assets_PI/sprites/Cronometro_PI.png").convert_alpha()
+
 
     # Botes
     organico = pygame.image.load("assets_PI/botes/bote organico.png").convert_alpha()
@@ -412,7 +414,7 @@ def run_tutorial():
     # Tiempo
     tiempo = 300
     inicio_tiempo = pygame.time.get_ticks()
-    fuente_tiempo = pygame.font.Font(None, 48)
+    fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
@@ -694,6 +696,7 @@ def run_tutorial():
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
         screen.blit(letrero_escalado, (680, 0))
+        screen.blit(cronometro, (15, 60))
 
         # BARRA DE VIDA
         if vida_actual == 3:
@@ -852,9 +855,10 @@ def run_tutorial():
         # Formato mm:ss con ceros (01:05)
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
 
-        pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+        #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-        screen.blit(texto_tiempo, (20, 90))
+        cronometro = pygame.transform.scale(cronometro, (150, 90))
+        screen.blit(texto_tiempo, (17, 85))
 
         # VERIFICAR VICTORIA
         if ganar(basura, objeto_en_mano):
