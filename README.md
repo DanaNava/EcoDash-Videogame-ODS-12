@@ -41,7 +41,7 @@ Cada nivel presenta entornos diferentes y nuevos tipos de residuos que el jugado
 
 *Ejemplo visual:*  
 <img width="250" height="200" alt="fondo_3" src="https://github.com/user-attachments/assets/b127a273-9045-4048-861d-4790c0ee6092" />
-<img width="250" height="200" alt="fondo_nivel2" src="https://github.com/user-attachments/assets/3e4c02a4-aa02-4a49-a822-951d7bfa59fa" />
+<img width="250" height="200" alt="fondo_nivel2" src="https://github.com/user-attachments/assets/272bc74f-a91d-453b-87e2-a95762f5004a" />
 <img width="250" height="200" alt="Fondo level3" src="https://github.com/user-attachments/assets/15bcea79-ba8a-4cb7-8120-e094dd10a491" />
 
 
@@ -165,42 +165,55 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 ## 📂 **Estructura del proyecto**
     
       EcoDash-Videogame-ODS-12/
+      │
+      ├── assets_PI/                     # Recursos del juego (imágenes, sonidos, música, personajes, etc.)
+      │   ├── basura/
+      │   │   ├── inorganica/
+      │   │   ├── organica/
+      │   │   └── residuos_peligrosos/
+      │   │
+      │   ├── botes/
+      │   ├── diseyo_nivel/
+      │   │   ├── nivel1/
+      │   │   ├── nivel2/
+      │   │   └── nivel3/
+      │   │
+      │   ├── interfaces/
+      │   │   ├── configuracion/
+      │   │   ├── eleguir_dificultad/
+      │   │   ├── eleguir_nivel/
+      │   │   ├── main/
+      │   │   ├── perdida/
+      │   │   └── victoria/
+      │   │
+      │   ├── musica/
+      │   ├── pausa/
+      │   ├── personajes/
+      │   │   ├── femenino/
+      │   │   └── masculino/
+      │   │
+      │   ├── sonidos/
+      │   └── sprites/
+      │
+      ├── .vscode/                       # Configuración del entorno de desarrollo
+      │   └── settings.json
+      │
+      ├── .gitignore
       ├── LICENSE
-      ├── README.md
+      ├── Main.py
       ├── nivel_1.py
+      ├── nivel_2.py
+      ├── Nivel_3.py
       ├── proyecto.py
       ├── seleccion_dificultad.py
       ├── seleccion_nivel.py
-      ├── select_character/
+      ├── select_character.py
+      ├── configuracion.py
+      ├── creditos.py
+      ├── tutorial.py
       │
-      └── assets_PI/
-          ├── basura/
-          │   ├── inorganica/
-          │   ├── organica/
-          │   └── residuos_peligrosos/
-          │
-          ├── botes/
-          ├── diseyo_nivel/
-          │   ├── nivel1/
-          │   ├── nivel2/
-          │   └── nivel3/
-          │
-          ├── interfaces/
-          │   ├── configuracion/
-          │   ├── eleguir_dificultad/
-          │   ├── eleguir_nivel/
-          │   ├── main/
-          │   ├── perdida/
-          │   └── victoria/
-          │
-          ├── musica/
-          ├── pausa/
-          ├── personajes/
-          │   ├── femenino/
-          │   └── masculino/
-          │
-          ├── sonidos/
-          └── sprites/
+      └── README.md
+
 
 ---
 ## ⚙️ **Instalación y ejecución**
@@ -244,9 +257,9 @@ Antes de ejecutar el juego, asegúrate de cumplir con los siguientes requisitos 
   - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)  
 - **Memoria RAM recomendada:** 4 GB o más  
 - **Espacio en disco:** Al menos 200 MB libres  
-- **Resolución mínima:** 1280x720  
+- **Resolución:** 1024x768 
 
-> 💡 *Nota:* Para un mejor rendimiento, se recomienda ejecutar el juego en pantalla completa y cerrar otras aplicaciones en segundo plano.
+> 💡 *Nota:* Para un mejor rendimiento, se recomienda cerrar otras aplicaciones en segundo plano.
 
 ---
 ## 🧩 **Tecnologías utilizadas**
