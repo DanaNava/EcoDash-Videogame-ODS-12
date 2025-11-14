@@ -621,9 +621,9 @@ def run_level2(idioma_actual, volumen_actual):
     ]
 
     botes = [
-        {"nombre": {"es": " al bote Inorgánico", "en": " in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
-        {"nombre": {"es": " al bote Orgánico", "en": " in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
-        {"nombre": {"es": " al bote Residuos peligrosos", "en": " in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
+        {"nombre": {"es": " al bote Inorgánico", "en": " in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(394, 403, 40, 38)},
+        {"nombre": {"es": " al bote Orgánico", "en": " in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(302, 404, 40, 39)},
+        {"nombre": {"es": " al bote Residuos peligrosos", "en": " in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(648, 696, 45, 58)},
         {"nombre": {"es": " al árbol", "en": " in the tree"}, "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
     ]
 

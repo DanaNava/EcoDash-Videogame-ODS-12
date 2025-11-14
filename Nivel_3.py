@@ -472,9 +472,9 @@ def run_level3(idioma_actual, volumen_actual):
     ]
 
     botes = [
-        {"nombre": {"es": "al bote Inorgánico", "en": "in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(770, 110, 20, 20)},
-        {"nombre": {"es": "al bote Orgánico", "en": "in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(940, 110, 20, 20)},
-        {"nombre": {"es": "al bote Residuos peligrosos", "en": "in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(525, 100, 40, 25)}
+        {"nombre": {"es": "al bote Inorgánico", "en": "in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(748, 110, 40, 33)},
+        {"nombre": {"es": "al bote Orgánico", "en": "in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(941, 111, 40, 35)},
+        {"nombre": {"es": "al bote Residuos peligrosos", "en": "in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(508, 115, 43, 42)}
     ]
 
     colisiones = [

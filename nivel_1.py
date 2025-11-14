@@ -431,9 +431,9 @@ def run_level1(idioma_actual, volumen_actual):
     ]
 
     botes = [
-        {"imagen": inorganico, "nombre": {"es": "Inorgánico", "en": "Inorganic"}, "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
-        {"imagen": organico, "nombre": {"es": "Orgánico", "en": "Organic"}, "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
-        {"imagen": peligroso, "nombre": {"es": "Peligrosos", "en": "Hazardous"}, "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
+        {"imagen": inorganico, "nombre": {"es": "Inorgánico", "en": "Inorganic"}, "tipo": "inorganica", "rect": pygame.Rect(289, 166, 41, 36)},
+        {"imagen": organico, "nombre": {"es": "Orgánico", "en": "Organic"}, "tipo": "organica", "rect": pygame.Rect(361, 167, 40, 41)},
+        {"imagen": peligroso, "nombre": {"es": "Peligrosos", "en": "Hazardous"}, "tipo": "peligrosa", "rect": pygame.Rect(800, 173, 43, 41)}
     ]
 
     colisiones = [
