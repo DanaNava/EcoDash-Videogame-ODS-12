@@ -311,6 +311,8 @@ def run_level2(idioma_actual, volumen_actual):
     capa_lampara15 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara15.png")).convert_alpha()
     capa_lampara16 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara16.png")).convert_alpha()
 
+    
+
     #columpio
     capa_colum1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "columpio", "colu1.png")).convert_alpha()
     capa_colum2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "columpio", "colu2.png")).convert_alpha()
@@ -654,7 +656,7 @@ def run_level2(idioma_actual, volumen_actual):
         pygame.Rect(640, 252, 111, 34), pygame.Rect(271, 271, 154, 15), pygame.Rect(246, 137, 9, 19), pygame.Rect(489, 138, 11, 17), pygame.Rect(710, 36, 90, 47),
 
         #bote peligro
-        pygame.Rect(648, 710, 30, 36),
+        pygame.Rect(648, 690, 30, 36),
 
         #bote inorganico
         pygame.Rect(404, 410, 21, 9),
