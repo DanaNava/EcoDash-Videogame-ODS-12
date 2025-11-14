@@ -369,12 +369,16 @@ def run_level2(idioma_actual, volumen_actual):
     boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_pantalla_victoria.png"))
     boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
     boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
+    boton_ir_siguiente_nivel = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal.png"))
+    boton_ir_siguiente_nivel_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal_hover.png"))
 
     rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
     rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
+
+    rect_ir_siguiente_nivel =  boton_ir_siguiente_nivel.get_rect(center=(515, 404))
 
     # Personaje inicial
 
@@ -1604,6 +1608,11 @@ def run_level2(idioma_actual, volumen_actual):
                     screen.blit(boton_win_menu_hover, rect_menu_victoria)
                 else:
                     screen.blit(boton_win_menu, rect_menu_victoria)
+
+                if rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                    screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
+                else:
+                    screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
                 
                 # 3. Textos (encima)
                 # 3a. Título y subtítulos
