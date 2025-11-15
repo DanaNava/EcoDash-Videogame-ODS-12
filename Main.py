@@ -47,6 +47,8 @@ def main():
 
         elif resultado == "seleccion_dificultad":
             pantalla_actual = Seleccion_dificultad(screen)  # Ir a la pantalla de selección de dificultad
+        
+        #elif resultado == ""
 
         elif resultado in ["facil"]:  # Si se elige la dificultad fácil, por ahora la unica disponible
             pantalla_actual = Seleccion_nivel(screen)  # Pasar a la selección de nivel

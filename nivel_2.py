@@ -317,7 +317,13 @@ def run_level2():
     cosa_12 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa12.png").convert_alpha()
     cosa_13 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa13.png").convert_alpha()
     cosa_14 = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/detalles_menores/cosa14.png").convert_alpha()
-   
+   #x
+   # Cargar imágenes de feedback (palomita y X)
+    palomita_img = pygame.image.load("assets_PI/sprites/palomita.png").convert_alpha()
+    x_img = pygame.image.load("assets_PI/sprites/x.png").convert_alpha()
+    bienlarry_img = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/gracias_larry.png").convert_alpha()
+    mallarry_img = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/tristesalarry.png").convert_alpha()
+
     # Pantalla de victoria y barras de vida
     w = pygame.image.load("assets_PI/interfaces/victoria/Pantalla_victoria.jpeg")
     bv = pygame.image.load("assets_PI/sprites/barra_vida_completa.png")
@@ -770,7 +776,13 @@ def run_level2():
     # -----------------------------
     # VARIABLES
     # -----------------------------
-    
+    # Variables para feedback visual
+    feedback_imagen = None
+    feedback_tiempo = 0
+    feedback_duracion_normal = 1000  # 1 segundo para palomita y X
+    feedback_duracion_larry = 1590   # 1.5 segundos para imágenes de Larry
+    feedback_pos = (0, 0)
+
     # Mostrar mensajes
     objeto_en_mano = None
     mensaje = ""
@@ -803,7 +815,7 @@ def run_level2():
     def ganar(basura, objeto_en_mano):
         
         # 1. Crea una lista de la 'basura esencial' que debe ser recogida.
-        #    Excluye explícitamente el objeto "a Larry" (la sorpresa).
+        #    Excluye explícitamente el objeto "a Larry" .
         basura_esencial_restante = [
             obj for obj in basura if obj["nombre"] != "a Larry"
         ]
@@ -1036,12 +1048,20 @@ def run_level2():
                                 mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']} muy bien!!!"
                                 objeto_en_mano = None
                                 sonido_tirar_correcto.play()
+                                # Mostrar palomita en el centro de la pantalla
+                                feedback_imagen = bienlarry_img
+                                feedback_tiempo = pygame.time.get_ticks()
+                                feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             else:
                                 # Caso 2: Larry en CUALQUIER OTRO bote (Incorrecto pero especial)
                                 # Usamos el nombre del "tipo" de bote para el mensaje
                              nombre_bote_incorrecto = bote_actual["nombre"].replace("al ", "").replace(" bote ", "")
                              mensaje = f"Tiraste a Larry en el bote {nombre_bote_incorrecto}, muy mal"
                              sonido_tirar_incorrecto.play()
+                             # Mostrar X en el centro de la pantalla
+                             feedback_imagen = mallarry_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                              objeto_en_mano = None # Larry se tira de todas formas
                               # ¡Importante! No sumamos error ni restamos vida por esto.
                             mensaje_tiempo = pygame.time.get_ticks()
@@ -1051,9 +1071,15 @@ def run_level2():
                             if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                               # Tiro CORRECTO
                              bote_correcto_encontrado = True
-                             mensaje = f"✓ llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
+                             mensaje = f"llevaste {objeto_en_mano['nombre']}{bote_actual['nombre']}"
                              objeto_en_mano = None
                              sonido_tirar_correcto.play()
+                             tiempo_total += 3
+                             mensaje += " + 3 segundos!"
+                             # Mostrar palomita en el centro de la pantalla
+                             feedback_imagen = palomita_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             else:
                              # Tiro INCORRECTO
                              errores += 1
@@ -1062,6 +1088,10 @@ def run_level2():
                              frame_actual_dano = 0
                              tiempo_frame = pygame.time.get_ticks()
                              sonido_tirar_incorrecto.play()
+                             # Mostrar X en el centro de la pantalla
+                             feedback_imagen = x_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
             
                              # BARRA DE VIDA
                              vida_actual -= 1
@@ -1362,6 +1392,24 @@ def run_level2():
             screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
         else:
             mensaje = ""
+
+           # [Nuevo] FEEDBACK VISUAL (palomita, X y Larry) - CENTRO DE PANTALLA
+        if feedback_imagen:
+            tiempo_actual_feedback = pygame.time.get_ticks()
+            
+            # Determinar qué duración usar según el tipo de imagen
+            if feedback_imagen in [bienlarry_img, mallarry_img]:
+                duracion_actual = feedback_duracion_larry
+            else:
+                duracion_actual = feedback_duracion_normal
+            
+            # Dibujar si aún está en tiempo
+            if tiempo_actual_feedback - feedback_tiempo < duracion_actual:
+                centro_pantalla = (screen.get_width() // 2, screen.get_height() // 2)
+                feedback_rect = feedback_imagen.get_rect(center=centro_pantalla)
+                screen.blit(feedback_imagen, feedback_rect)
+            else:
+                feedback_imagen = None
 
         # [Nuevo] TIEMPO
         tiempo_actual = pygame.time.get_ticks()
