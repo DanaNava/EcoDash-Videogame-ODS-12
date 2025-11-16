@@ -311,6 +311,8 @@ def run_level2(idioma_actual, volumen_actual):
     capa_lampara15 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara15.png")).convert_alpha()
     capa_lampara16 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara16.png")).convert_alpha()
 
+    
+
     #columpio
     capa_colum1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "columpio", "colu1.png")).convert_alpha()
     capa_colum2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "columpio", "colu2.png")).convert_alpha()
@@ -343,6 +345,8 @@ def run_level2(idioma_actual, volumen_actual):
     bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
     bv2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_2co.png"))
     bv1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_1co.png"))
+    cronometro = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "Cronometro_PI.png")).convert_alpha()
+
 
     # Posturas estáticas para quieto (como respaldo)
 
@@ -369,12 +373,16 @@ def run_level2(idioma_actual, volumen_actual):
     boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_pantalla_victoria.png"))
     boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
     boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
+    boton_ir_siguiente_nivel = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal.png"))
+    boton_ir_siguiente_nivel_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal_hover.png"))
 
     rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
     rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
+
+    rect_ir_siguiente_nivel =  boton_ir_siguiente_nivel.get_rect(center=(515, 404))
 
     # Personaje inicial
 
@@ -617,9 +625,9 @@ def run_level2(idioma_actual, volumen_actual):
     ]
 
     botes = [
-        {"nombre": {"es": " al bote Inorgánico", "en": " in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(386, 403, 53, 28)},
-        {"nombre": {"es": " al bote Orgánico", "en": " in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(305, 411, 31, 8)},
-        {"nombre": {"es": " al bote Residuos peligrosos", "en": " in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(648, 710, 30, 36)},
+        {"nombre": {"es": " al bote Inorgánico", "en": " in Inorganic bin"}, "tipo": "inorganica", "rect": pygame.Rect(394, 403, 40, 38)},
+        {"nombre": {"es": " al bote Orgánico", "en": " in Organic bin"}, "tipo": "organica", "rect": pygame.Rect(302, 404, 40, 39)},
+        {"nombre": {"es": " al bote Residuos peligrosos", "en": " in Hazardous bin"}, "tipo": "peligrosa", "rect": pygame.Rect(648, 696, 45, 58)},
         {"nombre": {"es": " al árbol", "en": " in the tree"}, "tipo": "segura", "rect": pygame.Rect(24, 164, 48, 20)}
     ]
 
@@ -658,7 +666,7 @@ def run_level2(idioma_actual, volumen_actual):
         pygame.Rect(640, 252, 111, 34), pygame.Rect(271, 271, 154, 15), pygame.Rect(246, 137, 9, 19), pygame.Rect(489, 138, 11, 17), pygame.Rect(710, 36, 90, 47),
 
         #bote peligro
-        pygame.Rect(648, 710, 30, 36),
+        pygame.Rect(648, 690, 30, 36),
 
         #bote inorganico
         pygame.Rect(404, 410, 21, 9),
@@ -837,7 +845,7 @@ def run_level2(idioma_actual, volumen_actual):
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
-    fuente_tiempo = pygame.font.Font(None, 48)
+    fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
 
     # --- ¡¡¡MODIFICADO AQUÍ!!! ---
     # --- Cargar las DOS fuentes ---
@@ -948,6 +956,7 @@ def run_level2(idioma_actual, volumen_actual):
             # Dibujar todo el juego congelado
             screen.fill((0, 0, 0))
             screen.blit(fondo, (0, 0))
+            screen.blit(cronometro, (15, 60))
 
             # BARRA DE VIDA
             if vida_actual == 3:
@@ -989,9 +998,10 @@ def run_level2(idioma_actual, volumen_actual):
             segundos_restantes = tiempo_visual % 60
             tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
             color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
-            pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+            #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
             texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-            screen.blit(texto_tiempo, (20, 90))
+            cronometro = pygame.transform.scale(cronometro, (150, 90))
+            screen.blit(texto_tiempo, (17, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
 
@@ -1230,7 +1240,7 @@ def run_level2(idioma_actual, volumen_actual):
 
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
-
+        screen.blit(cronometro, (15, 60))
         # BARRA DE VIDA
         if vida_actual == 3:
             screen.blit(barra_vida, (20, -20))
@@ -1534,9 +1544,10 @@ def run_level2(idioma_actual, volumen_actual):
         # Formato mm:ss con ceros (01:05)
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
 
-        pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+        #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-        screen.blit(texto_tiempo, (20, 90))
+        cronometro = pygame.transform.scale(cronometro, (150, 90))
+        screen.blit(texto_tiempo, (17, 85))
         
 
         # DIBUJAR BOTÓN DE PAUSA
@@ -1637,6 +1648,11 @@ def run_level2(idioma_actual, volumen_actual):
                     screen.blit(boton_win_menu_hover, rect_menu_victoria)
                 else:
                     screen.blit(boton_win_menu, rect_menu_victoria)
+
+                if rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                    screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
+                else:
+                    screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
                 
                 # 3. Textos (encima)
                 # 3a. Título y subtítulos
@@ -1694,6 +1710,11 @@ def run_level2(idioma_actual, volumen_actual):
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "main"
+                        elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                            print("Botón siguiente nivel presionado")
+                            print("Retornando 'nivel3' desde mostrar_pantalla_victoria") 
+                            pygame.mixer.music.stop()
+                            return "nivel3"
             
         #ganar
 
@@ -1706,7 +1727,9 @@ def run_level2(idioma_actual, volumen_actual):
                 return "reintentar"
             elif resultado == "salir":
                 return "salir"
-                
+            elif resultado == "nivel3":
+                print("Retornando 'nivel3' desde run_level1")
+                return "nivel3" 
                 # -----------------------------
                 
         # ANIMACIÓN DE MUERTE CORREGIDA

@@ -118,12 +118,17 @@ def main():
             if not running:
                 break
 
-        elif resultado in ["nivel1"]:
-            # Manejar el nivel 1 con posibilidad de reintento
+        elif resultado == "nivel1":
+            # Manejar el nivel 1 con posibilidad de reintento y progresión
+            nivel_actual = "nivel1"
             reiniciar_nivel = True
             while reiniciar_nivel and running:
-                # Pasar el idioma y el volumen al nivel
-                resultado_nivel = run_level1(idioma_juego, volumen_juego)
+                if nivel_actual == "nivel1":
+                    resultado_nivel = run_level1(idioma_juego, volumen_juego)
+                elif nivel_actual == "nivel2":
+                    resultado_nivel = run_level2(idioma_juego, volumen_juego)
+                elif nivel_actual == "nivel3":
+                    resultado_nivel = run_level3(idioma_juego, volumen_juego)
 
                 if resultado_nivel == "main":
                     # Volver al menú principal
@@ -137,11 +142,24 @@ def main():
                     reiniciar_nivel = False
 
                 elif resultado_nivel == "reintentar":
+                    # Reintentar el nivel actual
                     reiniciar_nivel = True
                 
                 elif resultado_nivel == "salir":
                     running = False
                     reiniciar_nivel = False
+                    
+                elif resultado_nivel == "nivel2":
+                    # Avanzar al nivel 2
+                    nivel_actual = "nivel2"
+                    reiniciar_nivel = True
+                    print(f"Avanzando a {nivel_actual}")
+
+                elif resultado_nivel == "nivel3":
+                    # Avanzar al nivel 3
+                    nivel_actual = "nivel3"
+                    reiniciar_nivel = True
+                    print(f"Avanzando a {nivel_actual}")
 
                 else:
                     # Por defecto, regresa al menú
@@ -157,12 +175,15 @@ def main():
             if not running:
                 break
 
-        elif resultado in ["nivel2"]:
-            # Manejar el nivel 2 con posibilidad de reintento
+        elif resultado == "nivel2":
+            # Manejar el nivel 2 con posibilidad de reintento y progresión
+            nivel_actual = "nivel2"
             reiniciar_nivel = True
             while reiniciar_nivel and running:
-                # Pasar el idioma y el volumen al nivel 2
-                resultado_nivel = run_level2(idioma_juego, volumen_juego)
+                if nivel_actual == "nivel2":
+                    resultado_nivel = run_level2(idioma_juego, volumen_juego)
+                elif nivel_actual == "nivel3":
+                    resultado_nivel = run_level3(idioma_juego, volumen_juego)
 
                 if resultado_nivel == "main":
                     if not pygame.mixer.get_init():
@@ -176,6 +197,12 @@ def main():
 
                 elif resultado_nivel == "reintentar":
                     reiniciar_nivel = True
+                    
+                elif resultado_nivel == "nivel3":
+                    # Avanzar al nivel 3
+                    nivel_actual = "nivel3"
+                    reiniciar_nivel = True
+                    print(f"Avanzando a {nivel_actual}")
 
                 elif resultado_nivel == "salir":
                     running = False
@@ -194,7 +221,7 @@ def main():
             if not running:
                 break
 
-        elif resultado in ["nivel3"]:
+        elif resultado == "nivel3":
             # Manejar el nivel 3 con posibilidad de reintento
             reiniciar_nivel = True
             while reiniciar_nivel and running:

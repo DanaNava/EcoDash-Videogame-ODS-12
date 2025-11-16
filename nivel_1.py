@@ -232,11 +232,15 @@ def run_level1(idioma_actual, volumen_actual):
     quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_detras.png")).convert_alpha()
     quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_delante.png")).convert_alpha()
 
+
+    cronometro = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "Cronometro_PI.png")).convert_alpha()
     #Escalar imagenes
     win = pygame.transform.scale(w, (1024, 768))
     barra_vida = pygame.transform.scale(bv, (150, 118))
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
+    cronometro = pygame.transform.scale(cronometro, (150, 90))
+    
 
     #Botes
     organico = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "botes", "bote organico.png")).convert_alpha()
@@ -253,9 +257,13 @@ def run_level1(idioma_actual, volumen_actual):
     boton_win_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_menu_pantalla_victoria.png"))
     boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
     boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
+    boton_ir_siguiente_nivel = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal.png"))
+    boton_ir_siguiente_nivel_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal_hover.png"))
+
 
     rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
-    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
+    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570))
+    rect_ir_siguiente_nivel =  boton_ir_siguiente_nivel.get_rect(center=(515, 404))
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
@@ -427,9 +435,9 @@ def run_level1(idioma_actual, volumen_actual):
     ]
 
     botes = [
-        {"imagen": inorganico, "nombre": {"es": "Inorgánico", "en": "Inorganic"}, "tipo": "inorganica", "rect": pygame.Rect(284, 155, 20, 35)},
-        {"imagen": organico, "nombre": {"es": "Orgánico", "en": "Organic"}, "tipo": "organica", "rect": pygame.Rect(341, 156, 20, 35)},
-        {"imagen": peligroso, "nombre": {"es": "Peligrosos", "en": "Hazardous"}, "tipo": "peligrosa", "rect": pygame.Rect(793, 179, 20, 20)}
+        {"imagen": inorganico, "nombre": {"es": "Inorgánico", "en": "Inorganic"}, "tipo": "inorganica", "rect": pygame.Rect(289, 166, 41, 36)},
+        {"imagen": organico, "nombre": {"es": "Orgánico", "en": "Organic"}, "tipo": "organica", "rect": pygame.Rect(361, 167, 40, 41)},
+        {"imagen": peligroso, "nombre": {"es": "Peligrosos", "en": "Hazardous"}, "tipo": "peligrosa", "rect": pygame.Rect(800, 173, 43, 41)}
     ]
 
     colisiones = [
@@ -603,7 +611,7 @@ def run_level1(idioma_actual, volumen_actual):
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
-    fuente_tiempo = pygame.font.Font(None, 48)
+    fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
 
     # --- ¡¡¡MODIFICADO AQUÍ!!! ---
     # --- Cargar las DOS fuentes ---
@@ -696,6 +704,7 @@ def run_level1(idioma_actual, volumen_actual):
                 screen.blit(barra_vida2, (20, -20))
             elif vida_actual == 1:
                 screen.blit(barra_vida1, (20, -20))
+            screen.blit(cronometro, (15, 60))
 
             # DIBUJAR BASURAS CON ANIMACIONES
             for obj in basura:
@@ -738,9 +747,10 @@ def run_level1(idioma_actual, volumen_actual):
             segundos_restantes = tiempo_visual % 60
             tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
             color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
-            pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+            #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
             texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-            screen.blit(texto_tiempo, (20, 90))
+            cronometro = pygame.transform.scale(cronometro, (150, 90))
+            screen.blit(texto_tiempo, (17, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
             sistema_pausa.dibujar()
@@ -916,6 +926,7 @@ def run_level1(idioma_actual, volumen_actual):
         # -----------------------------
         screen.fill((0, 0, 0))
         screen.blit(fondo, (0, 0))
+        screen.blit(cronometro, (15, 60))
 
         # BARRA DE VIDA
         if vida_actual == 3:
@@ -1068,9 +1079,10 @@ def run_level1(idioma_actual, volumen_actual):
         segundos_restantes = tiempo_visual % 60
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
 
-        pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
+        #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-        screen.blit(texto_tiempo, (20, 90))
+        cronometro = pygame.transform.scale(cronometro, (150, 90))
+        screen.blit(texto_tiempo, (17, 85))
 
         # DIBUJAR BOTÓN DE PAUSA
         sistema_pausa.dibujar()
@@ -1163,6 +1175,14 @@ def run_level1(idioma_actual, volumen_actual):
                 else:
                     screen.blit(boton_win_menu, rect_menu_victoria)
                 
+                if rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                    screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
+                else:
+                    screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
+                
+
+                
+                
                 # 3. Textos (encima)
                 # 3a. Título y subtítulos
                 
@@ -1217,6 +1237,11 @@ def run_level1(idioma_actual, volumen_actual):
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "main"
+                        elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                            print("Botón siguiente nivel presionado")
+                            print("Retornando 'nivel2' desde mostrar_pantalla_victoria") 
+                            pygame.mixer.music.stop()
+                            return "nivel2"
             
         #ganar
         if ganar(basura, objeto_en_mano):
@@ -1228,6 +1253,9 @@ def run_level1(idioma_actual, volumen_actual):
                 return "reintentar"
             elif resultado == "salir":
                 return "salir"
+            elif resultado == "nivel2":
+                print("Retornando 'nivel2' desde run_level1")
+                return "nivel2"
                 
         # -----------------------------
         # ANIMACIÓN DE MUERTE CORREGIDA
