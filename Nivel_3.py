@@ -214,6 +214,10 @@ def run_level3(idioma_actual, volumen_actual):
     pared2= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "pared.png"))
     pared3= pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 3", "pared3.png"))
     
+    #imahenes de la x y palomita
+    palomita_img = pygame.image.load("assets_PI/sprites/palomita.png").convert_alpha()
+    x_img = pygame.image.load("assets_PI/sprites/x.png").convert_alpha()
+
     # Pantalla de victoria y barras de vida
     w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "Pantalla_victoria.jpeg"))
     bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
@@ -628,6 +632,12 @@ def run_level3(idioma_actual, volumen_actual):
     # -----------------------------
     # VARIABLES
     # -----------------------------
+
+    #tiempo de la x y palomta
+    feedback_imagen = None
+    feedback_tiempo = 0
+    feedback_duracion = 1000
+    feedback_pos = (0, 0)
     
     # Mostrar mensajes
     objeto_en_mano = None
@@ -957,6 +967,9 @@ def run_level3(idioma_actual, volumen_actual):
                              mensaje = f"✓ llevaste {obj_nombre} {bote_nombre}" if idioma_actual == "es" else f"✓ You took {obj_nombre} {bote_nombre}"
                              objeto_en_mano = None
                              sonido_tirar_correcto.play()
+                             feedback_imagen = palomita_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             else:
                              # Tiro INCORRECTO
                              errores += 1
@@ -965,6 +978,9 @@ def run_level3(idioma_actual, volumen_actual):
                              frame_actual_dano = 0
                              tiempo_frame = pygame.time.get_ticks()
                              sonido_tirar_incorrecto.play()
+                             feedback_imagen = x_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
             
                              # BARRA DE VIDA
                              vida_actual -= 1
@@ -1171,7 +1187,12 @@ def run_level3(idioma_actual, volumen_actual):
             screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
         else:
             mensaje = ""
-
+        if feedback_imagen and pygame.time.get_ticks() - feedback_tiempo < feedback_duracion:
+            feedback_rect = feedback_imagen.get_rect(center=feedback_pos)
+            screen.blit(feedback_imagen, feedback_rect)
+        else:
+            feedback_imagen = None
+            
         # MOSTRAR TIEMPO
         if tiempo_restante <= 30 and not musica_cambiada:
             pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))

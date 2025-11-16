@@ -216,6 +216,10 @@ def run_level1(idioma_actual, volumen_actual):
     capa_delante_10 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_izquierda_1.png")).convert_alpha()
     capa_delante_11 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel1", "fondo_mesa_izquierda_2.png")).convert_alpha()
     
+    #imagenes de la x y la pahlomita
+    palomita_img = pygame.image.load("assets_PI/sprites/palomita.png").convert_alpha()
+    x_img = pygame.image.load("assets_PI/sprites/x.png").convert_alpha()
+
     # Pantalla de vistoria y barras de vida
     w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "Pantalla_victoria.jpeg"))
     bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
@@ -572,6 +576,12 @@ def run_level1(idioma_actual, volumen_actual):
     # -----------------------------
     # VARIABLES
     # -----------------------------
+
+    #tiempo de la x y l apalomita
+    feedback_imagen = None
+    feedback_tiempo = 0
+    feedback_duracion = 1000  # 1 segundo
+    feedback_pos = (0, 0)
     
     # Mostrar mensajes
     objeto_en_mano = None
@@ -588,7 +598,7 @@ def run_level1(idioma_actual, volumen_actual):
     vida_actual = vida_max
 
     # Tiempo - SISTEMA MEJORADO CON PAUSA
-    tiempo_total = 60
+    tiempo_total = 200
     inicio_tiempo = pygame.time.get_ticks()
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
@@ -857,6 +867,9 @@ def run_level1(idioma_actual, volumen_actual):
                             mensaje = f"✓ Tiraste {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✓ Threw {obj_nombre} in {bote_nombre} bin"
                             objeto_en_mano = None
                             sonido_tirar_correcto.play()
+                            feedback_imagen = palomita_img
+                            feedback_tiempo = pygame.time.get_ticks()
+                            feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                         else:
                             errores += 1
                             mensaje = f"✗ No puedes tirar {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre} bin"
@@ -864,6 +877,9 @@ def run_level1(idioma_actual, volumen_actual):
                             frame_actual_dano = 0
                             tiempo_frame = pygame.time.get_ticks()
                             sonido_tirar_incorrecto.play()
+                            feedback_imagen = x_img
+                            feedback_tiempo = pygame.time.get_ticks()
+                            feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             vida_actual -= 1
                             if vida_actual < 0:
                                 vida_actual = 0
@@ -1034,6 +1050,11 @@ def run_level1(idioma_actual, volumen_actual):
             screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
         else:
             mensaje = ""
+        if feedback_imagen and pygame.time.get_ticks() - feedback_tiempo < feedback_duracion:
+            feedback_rect = feedback_imagen.get_rect(center=feedback_pos)
+            screen.blit(feedback_imagen, feedback_rect)
+        else:
+            feedback_imagen = None
 
         # MOSTRAR TIEMPO
         if tiempo_restante <= 30 and not musica_cambiada:

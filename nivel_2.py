@@ -334,6 +334,10 @@ def run_level2(idioma_actual, volumen_actual):
     cosa_13 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "detalles_menores", "cosa13.png")).convert_alpha()
     cosa_14 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "detalles_menores", "cosa14.png")).convert_alpha()
    
+    palomita_img = pygame.image.load("assets_PI/sprites/palomita.png").convert_alpha()
+    x_img = pygame.image.load("assets_PI/sprites/x.png").convert_alpha()
+    bienlarry_img = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/gracias_larry.png").convert_alpha()
+    mallarry_img = pygame.image.load("assets_PI/diseyo_nivel/nivel 2/tristesalarry.png").convert_alpha()
     # Pantalla de victoria y barras de vida
     w = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "Pantalla_victoria.jpeg"))
     bv = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "sprites", "barra_vida_completa.png"))
@@ -805,6 +809,13 @@ def run_level2(idioma_actual, volumen_actual):
     # -----------------------------
     # VARIABLES
     # -----------------------------
+
+    #tiempo para las imahenes de la x y la palomita
+    feedback_imagen = None
+    feedback_tiempo = 0
+    feedback_duracion_normal = 1000  # 1 segundo para palomita y X
+    feedback_duracion_larry = 1590   # 1.5 segundos para imágenes de Larry
+    feedback_pos = (0, 0)
     
     # Mostrar mensajes
     objeto_en_mano = None
@@ -821,7 +832,7 @@ def run_level2(idioma_actual, volumen_actual):
     vida_actual = vida_max
 
     # Tiempo - SISTEMA MEJORADO CON PAUSA
-    tiempo_total = 250
+    tiempo_total = 400
     inicio_tiempo = pygame.time.get_ticks()
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
@@ -1126,6 +1137,9 @@ def run_level2(idioma_actual, volumen_actual):
                                 mensaje = f"✓ llevaste {obj_nombre}{bote_nombre} muy bien!!!" if idioma_actual == "es" else f"✓ You took {obj_nombre}{bote_nombre} very well!!!"
                                 objeto_en_mano = None
                                 sonido_tirar_correcto.play()
+                                feedback_imagen = bienlarry_img
+                                feedback_tiempo = pygame.time.get_ticks()
+                                feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             else:
                                 # Caso 2: Larry en CUALQUIER OTRO bote (Incorrecto pero especial)
                                 # Usamos el nombre del "tipo" de bote para el mensaje
@@ -1133,6 +1147,9 @@ def run_level2(idioma_actual, volumen_actual):
                                 bote_nombre = bote_actual['nombre'][idioma_actual].replace(" al ", "").replace(" bote ", "").replace(" in ", "").replace(" bin", "")
                                 mensaje = f"Tiraste {obj_nombre} en {bote_nombre}, muy mal" if idioma_actual == "es" else f"You threw {obj_nombre} in {bote_nombre}, very bad"
                                 sonido_tirar_incorrecto.play()
+                                feedback_imagen = mallarry_img
+                                feedback_tiempo = pygame.time.get_ticks()
+                                feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                                 objeto_en_mano = None # Larry se tira de todas formas
                               # ¡Importante! No sumamos error ni restamos vida por esto.
                             mensaje_tiempo = pygame.time.get_ticks()
@@ -1148,6 +1165,9 @@ def run_level2(idioma_actual, volumen_actual):
                              mensaje = f"✓ llevaste {obj_nombre} {bote_nombre}" if idioma_actual == "es" else f"✓ You took {obj_nombre}{bote_nombre}"
                              objeto_en_mano = None
                              sonido_tirar_correcto.play()
+                             feedback_imagen = palomita_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             else:
                              # Tiro INCORRECTO
                              errores += 1
@@ -1156,6 +1176,9 @@ def run_level2(idioma_actual, volumen_actual):
                              frame_actual_dano = 0
                              tiempo_frame = pygame.time.get_ticks()
                              sonido_tirar_incorrecto.play()
+                             feedback_imagen = x_img
+                             feedback_tiempo = pygame.time.get_ticks()
+                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
             
                              # BARRA DE VIDA
                              vida_actual -= 1
@@ -1476,6 +1499,23 @@ def run_level2(idioma_actual, volumen_actual):
             screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
         else:
             mensaje = ""
+            # [Nuevo] FEEDBACK VISUAL (palomita, X y Larry) - CENTRO DE PANTALLA
+        if feedback_imagen:
+            tiempo_actual_feedback = pygame.time.get_ticks()
+            
+            # Determinar qué duración usar según el tipo de imagen
+            if feedback_imagen in [bienlarry_img, mallarry_img]:
+                duracion_actual = feedback_duracion_larry
+            else:
+                duracion_actual = feedback_duracion_normal
+            
+            # Dibujar si aún está en tiempo
+            if tiempo_actual_feedback - feedback_tiempo < duracion_actual:
+                centro_pantalla = (screen.get_width() // 2, screen.get_height() // 2)
+                feedback_rect = feedback_imagen.get_rect(center=centro_pantalla)
+                screen.blit(feedback_imagen, feedback_rect)
+            else:
+                feedback_imagen = None
 
         # MOSTRAR TIEMPO
 
