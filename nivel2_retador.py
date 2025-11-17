@@ -839,8 +839,8 @@ def run_level2_retador(idioma_actual, volumen_actual):
     #charco
     charco1_pos = (407,562)
     charco1_rect = pygame.Rect(charco1_pos[0], charco1_pos[1], 78,24)
-    segundochar_pos = (785, 654)
-    segundochar_rect = pygame.Rect(segundochar_pos[0], segundochar_pos[1],42,44)
+    segundochar_pos = (781, 653)
+    segundochar_rect = pygame.Rect(segundochar_pos[0], segundochar_pos[1],50,31)
     # Barra de vida 
     vida_max = 3
     vida_actual = vida_max
