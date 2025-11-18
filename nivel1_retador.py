@@ -1198,7 +1198,7 @@ def run_level1retador(idioma_actual, volumen_actual):
                     titulo_str = "FELICIDADES"
                     sub1_str = "PUNTO VERDE PARA"
                     sub2_str = "TI"
-                    coordenadas_titulo = (363, 213) # <-- Coordenadas para Español
+                    coordenadas_titulo = (410, 213) # <-- Coordenadas para Español
 
                 titulo_surf = fuente_victoria_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
                 sub1_surf = fuente_victoria_subtitulo.render(sub1_str, True, (0, 0, 0)) # Color negro
