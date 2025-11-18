@@ -61,7 +61,7 @@ class Seleccion_nivel:
         try:
             # Fuente para el TÍTULO (Stay Pixel DEMO.otf)
             font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Tamaño 52
+            self.font_titulo = pygame.font.Font(font_titulo_path, 66) # Tamaño 52
         except FileNotFoundError:
             print("ERROR: No se encontró 'Stay Pixel DEMO.ttf'")
             self.font_titulo = pygame.font.Font(None, 60)
@@ -103,7 +103,7 @@ class Seleccion_nivel:
         # --- AÑADIDO: Dibujar TÍTULO dinámico ---
         titulo_str = "LEVEL SELECTION" if self.idioma == "en" else "SELECCIÓN DE NIVEL"
         titulo_surf = self.font_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
-        self.screen.blit(titulo_surf, (321, 105)) # Coordenadas que diste
+        self.screen.blit(titulo_surf, (290, 120)) # Coordenadas que diste
         # --- FIN TÍTULO ---
 
         # Textos para los botones (se dibujarán encima)

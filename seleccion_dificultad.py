@@ -60,7 +60,7 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
         # --- Cargar fuente para el TÍTULO ---
         try:
             font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Ajusta el tamaño
+            self.font_titulo = pygame.font.Font(font_titulo_path, 110) # Ajusta el tamaño
         except FileNotFoundError:
             print("ERROR: No se encontró 'Stay Pixel DEMO.tff'")
             self.font_titulo = pygame.font.Font(None, 60)
@@ -108,7 +108,7 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
         # --- AÑADIDO: Dibujar TÍTULO dinámico ---
         titulo_str = "DIFFICULTY" if self.idioma == "en" else "DIFICULTAD"
         titulo_surf = self.font_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
-        self.screen.blit(titulo_surf, (348, 165)) # Coordenadas que diste
+        self.screen.blit(titulo_surf, (300, 165)) # Coordenadas que diste
         # --- FIN TÍTULO ---
 
         # Textos para los botones (se dibujarán encima)
