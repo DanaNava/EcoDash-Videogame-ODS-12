@@ -880,6 +880,7 @@ def run_level1(idioma_actual, volumen_actual):
                             feedback_imagen = palomita_img
                             feedback_tiempo = pygame.time.get_ticks()
                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
+                            tiempo_total += 5
                         else:
                             errores += 1
                             mensaje = f"✗ No puedes tirar {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre} bin"

@@ -846,7 +846,7 @@ def run_level2_retador(idioma_actual, volumen_actual):
     vida_actual = vida_max
 
     # Tiempo - SISTEMA MEJORADO CON PAUSA
-    tiempo_total = 75
+    tiempo_total = 180
     inicio_tiempo = pygame.time.get_ticks()
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
