@@ -619,7 +619,7 @@ def run_level1retador(idioma_actual, volumen_actual):
         # Fuente para Títulos (Game Over / Victoria)
         font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
         fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
-        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 48) 
+        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 100) 
         fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
 
         # Fuente para Texto Normal (Botones / Mensajes)
@@ -1193,12 +1193,12 @@ def run_level1retador(idioma_actual, volumen_actual):
                     titulo_str = "CONGRATULATIONS!"
                     sub1_str = "GREEN DOT FOR"
                     sub2_str = "YOU!"
-                    coordenadas_titulo = (320, 260) # <-- Coordenadas para Inglés
+                    coordenadas_titulo = (160, 180) # <-- Coordenadas para Inglés
                 else:
                     titulo_str = "FELICIDADES"
                     sub1_str = "PUNTO VERDE PARA"
                     sub2_str = "TI"
-                    coordenadas_titulo = (363, 213) # <-- Coordenadas para Español
+                    coordenadas_titulo = (318, 150) # <-- Coordenadas para Español
 
                 titulo_surf = fuente_victoria_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
                 sub1_surf = fuente_victoria_subtitulo.render(sub1_str, True, (0, 0, 0)) # Color negro

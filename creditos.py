@@ -127,11 +127,11 @@ class Creditos:
         if self.idioma == "en":
             titulo_str_1 = "GAME"
             titulo_str_2 = "DEVELOPERS"
-            coordenadas_titulo_1 = (395, 183) # Coordenadas para Inglés
+            coordenadas_titulo_1 = (460, 183) # Coordenadas para Inglés
         else:
             titulo_str_1 = "DESARROLLADORES"
             titulo_str_2 = "del JUEGO"
-            coordenadas_titulo_1 = (291, 183) # Coordenadas para Español
+            coordenadas_titulo_1 = (350, 183) # Coordenadas para Español
             
         titulo_surf_1 = self.font_titulo.render(titulo_str_1, True, (0,0,0)) # Color negro
         titulo_surf_2 = self.font_titulo.render(titulo_str_2, True, (0,0,0)) # Color negro
