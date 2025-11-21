@@ -580,6 +580,15 @@ def run_level1(idioma_actual, volumen_actual):
     duracion_frame = 100
     duracion_frame_movimiento = 80
     duracion_frame_quieto = 200  # Más lento para animaciones de quieto
+    #tiempo en verde
+    tiempo_color_cambio = 0
+    color_tiempo_activo = False
+
+    tiempo_color_error = 0
+    color_error_activo = False
+
+    duracion_color = 2000  # 2 segundos
+
 
     # -----------------------------
     # VARIABLES
@@ -612,6 +621,10 @@ def run_level1(idioma_actual, volumen_actual):
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
     fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
+    tiempo_color_cambio = 0
+    duracion_color = 2000  # 2 segundos
+
+
 
     # --- ¡¡¡MODIFICADO AQUÍ!!! ---
     # --- Cargar las DOS fuentes ---
@@ -742,15 +755,18 @@ def run_level1(idioma_actual, volumen_actual):
             screen.blit(capa_delante_10, (192, 514))
             screen.blit(capa_delante_10, (185, 519))
 
-            #Tiempo congelado - usar tiempo_visual que ya está congelado
-            minutos = tiempo_visual // 60
-            segundos_restantes = tiempo_visual % 60
-            tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
-            color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
-            #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
-            texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
-            cronometro = pygame.transform.scale(cronometro, (150, 90))
-            screen.blit(texto_tiempo, (17, 85))
+            # ¿Sigue activo el color verde?
+            if pygame.time.get_ticks() - tiempo_color_cambio < duracion_color:
+                color_tiempo = (40, 167, 69)  # verde
+            else:
+                color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+
+            # Formato normal del tiempo (siempre se dibuja)
+                minutos = tiempo_visual // 60
+                segundos_restantes = tiempo_visual % 60
+                texto_tiempo = fuente_tiempo.render(f"{minutos:02}:{segundos_restantes:02}", True, color_tiempo)
+                screen.blit(texto_tiempo, (17, 85))
+
 
             # DIBUJAR SISTEMA DE PAUSA
             sistema_pausa.dibujar()
@@ -767,7 +783,7 @@ def run_level1(idioma_actual, volumen_actual):
             moving = False
             # Movimiento
             if not animando_dano:
-                if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                if keys[pygame.K_LEFT]:
                     hitbox.x -= velocidad
                     animacion_correr_izquierda = True
                     animacion_correr_derecha = False
@@ -776,7 +792,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "izquierda"
                     frame_actual_quieto_izquierda = 0
-                elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                elif keys[pygame.K_RIGHT]:
                     hitbox.x += velocidad
                     animacion_correr_derecha = True
                     animacion_correr_izquierda = False
@@ -785,7 +801,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "derecha"
                     frame_actual_quieto_derecha = 0
-                elif keys[pygame.K_UP] or keys[pygame.K_w]:
+                elif keys[pygame.K_UP]:
                     hitbox.y -= velocidad
                     animacion_correr_detras = True
                     animacion_correr_delante = False
@@ -794,7 +810,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "detras"
                     frame_actual_quieto_detras = 0
-                elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                elif keys[pygame.K_DOWN]:
                     hitbox.y += velocidad
                     animacion_correr_delante = True
                     animacion_correr_detras = False
@@ -881,6 +897,9 @@ def run_level1(idioma_actual, volumen_actual):
                             feedback_tiempo = pygame.time.get_ticks()
                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             tiempo_total += 5
+                            tiempo_color_cambio = pygame.time.get_ticks()
+                            color_tiempo_activo = True  # <-- activar el color temporal
+
                         else:
                             errores += 1
                             mensaje = f"✗ No puedes tirar {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre} bin"
@@ -892,6 +911,8 @@ def run_level1(idioma_actual, volumen_actual):
                             feedback_tiempo = pygame.time.get_ticks()
                             feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
                             vida_actual -= 1
+                            color_error_activo = True
+                            tiempo_color_error = pygame.time.get_ticks()
                             if vida_actual < 0:
                                 vida_actual = 0
                         mensaje_tiempo = pygame.time.get_ticks()
@@ -1068,23 +1089,35 @@ def run_level1(idioma_actual, volumen_actual):
         else:
             feedback_imagen = None
 
-        # MOSTRAR TIEMPO
-        if tiempo_restante <= 30 and not musica_cambiada:
-            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))
-            pygame.mixer.music.set_volume(volumen_actual) # <-- MODIFICADO
-            pygame.mixer.music.play(-1)
-            musica_cambiada = True
+       # --- CONTROL DE COLORES TEMPORALES DEL CRONÓMETRO ---
 
-        color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+        if color_error_activo:
+            # Prioridad: el rojo del error manda primero
+            if pygame.time.get_ticks() - tiempo_color_error < duracion_color:
+                color_tiempo = (220, 20, 60)  # rojo fuerte
+            else:
+             color_error_activo = False
+             color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+
+        elif color_tiempo_activo:
+            # Verde solo si no hay error activo
+            if pygame.time.get_ticks() - tiempo_color_cambio < duracion_color:
+                color_tiempo = (40, 167, 69)  # verde
+            else:
+                color_tiempo_activo = False
+                color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+        else:
+            # Color normal
+            color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+
+        # -------------------------
         minutos = tiempo_visual // 60
         segundos_restantes = tiempo_visual % 60
         tiempo_formateado = f"{minutos:02}:{segundos_restantes:02}"
 
-        #pygame.draw.rect(screen, (0, 0, 0), (20, 90, 100, 50))
         texto_tiempo = fuente_tiempo.render(f" {tiempo_formateado}", True, color_tiempo)
         cronometro = pygame.transform.scale(cronometro, (150, 90))
         screen.blit(texto_tiempo, (17, 85))
-
         # DIBUJAR BOTÓN DE PAUSA
         sistema_pausa.dibujar()
 
