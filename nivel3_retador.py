@@ -621,6 +621,9 @@ def run_level3_retador(idioma_actual, volumen_actual):
     duracion_frame_movimiento = 80
     duracion_frame_quieto = 200  # Más lento para animaciones de quieto
 
+    duracion_color = 2000
+    tiempo_color_cambio = 0
+
     # -----------------------------
     # VARIABLES
     # -----------------------------
@@ -660,6 +663,8 @@ def run_level3_retador(idioma_actual, volumen_actual):
     tiempo_ultima_pausa = 0
     tiempo_visual = tiempo_total 
     fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
+    tiempo_color_cambio = 0
+    duracion_color = 2000
 
     # --- ¡¡¡MODIFICADO AQUÍ!!! ---
     # --- Cargar las DOS fuentes ---
@@ -723,6 +728,11 @@ def run_level3_retador(idioma_actual, volumen_actual):
 
     # Variable para la última dirección
     ultima_direccion = "delante"
+
+    # Variables para efectos de color en el tiempo
+    color_tiempo_activo = False
+    color_error_activo = False
+    tiempo_color_error = 0
 
     # -----------------------------
     # BUCLE PRINCIPAL
@@ -1177,8 +1187,26 @@ def run_level3_retador(idioma_actual, volumen_actual):
             pygame.mixer.music.play(-1)
             musica_cambiada = True
 
-        color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+        # Manejo de colores del tiempo
+        if color_error_activo:
+            # Prioridad: el rojo del error manda primero
+            if pygame.time.get_ticks() - tiempo_color_error < duracion_color:
+                color_tiempo = (220, 20, 60)  # rojo fuerte
+            else:
+                color_error_activo = False
+                color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
 
+        elif color_tiempo_activo:
+            # Verde solo si no hay error activo
+            if pygame.time.get_ticks() - tiempo_color_cambio < duracion_color:
+                color_tiempo = (40, 167, 69)  # verde
+            else:
+                color_tiempo_activo = False
+                color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+        else:
+            # Color normal
+            color_tiempo = (255, 0, 0) if tiempo_visual <= 30 else (255, 255, 255)
+        
         # Convertir a minutos y segundos
         minutos = tiempo_visual // 60
         segundos_restantes = tiempo_visual % 60
