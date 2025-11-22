@@ -839,15 +839,80 @@ def run_level1(idioma_actual, volumen_actual):
             personaje_draw_rect.center = hitbox.center
 
             # Edge detection
-            pressed_o = keys[pygame.K_o] and not prev_keys[pygame.K_o]
-            pressed_p = keys[pygame.K_p] and not prev_keys[pygame.K_p]
-            pressed_z = keys[pygame.K_z] and not prev_keys[pygame.K_z]
-            pressed_x = keys[pygame.K_x] and not prev_keys[pygame.K_x]
+            pressed_enter = keys[pygame.K_RETURN] and not prev_keys[pygame.K_RETURN]
 
-            # Recoger objetos
-            if pressed_o or pressed_z:
+            accion_realizada = False  # al inicio del frame
+
+            # 1) TIRAR BASURA si traes algo en la mano
+            if pressed_enter and objeto_en_mano is not None:
+                proximity = hitbox.inflate(24, 24)
+                tiro_valido = False
+                bote_correcto_encontrado = False
+                bote_actual = None
+
+                for bote in botes:
+                    if proximity.colliderect(bote["rect"]):
+                        tiro_valido = True
+                        bote_actual = bote
+                        break 
+
+                if tiro_valido and bote_actual:
+                    obj_nombre = objeto_en_mano['nombre'][idioma_actual]
+                    bote_nombre = bote_actual['nombre'][idioma_actual]
+        
+                    if objeto_en_mano["tipo"] == bote_actual["tipo"]:
+                        bote_correcto_encontrado = True
+                        mensaje = f"✓ Tiraste {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✓ Threw {obj_nombre} in {bote_nombre} bin"
+                        objeto_en_mano = None
+                        sonido_tirar_correcto.play()
+                        feedback_imagen = palomita_img
+                        feedback_tiempo = pygame.time.get_ticks()
+                        feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
+                        tiempo_total += 5
+                        tiempo_color_cambio = pygame.time.get_ticks()
+                        color_tiempo_activo = True
+                    else:
+                        errores += 1
+                        mensaje = f"✗ No puedes tirar {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre} bin"
+                        animando_dano = True
+                        frame_actual_dano = 0
+                        tiempo_frame = pygame.time.get_ticks()
+                        sonido_tirar_incorrecto.play()
+                        feedback_imagen = x_img
+                        feedback_tiempo = pygame.time.get_ticks()
+                        feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
+                        vida_actual -= 1
+                        color_error_activo = True
+                        tiempo_color_error = pygame.time.get_ticks()
+                        if vida_actual < 0:
+                            vida_actual = 0
+                    mensaje_tiempo = pygame.time.get_ticks()
+                else:
+                    basura_cercana = False
+                    for obj in basura:
+                        if hitbox.inflate(12, 12).colliderect(obj["rect"]):
+                            basura_cercana = True
+                            break
+
+                    if basura_cercana:
+                        # Estás cerca de basura pero ya traes algo
+                        mensaje = "Ya tienes un objeto en la mano" if idioma_actual == "es" else "You are already holding an item"
+                    else:
+                        # No hay bote ni basura cerca
+                        mensaje = "No hay un bote cerca" if idioma_actual == "es" else "No bin is nearby"
+
+                    mensaje_tiempo = pygame.time.get_ticks()
+
+                accion_realizada = True
+
+                
+
+            # 2) RECOGER BASURA solo si NO traes nada y no hiciste ya algo
+            if pressed_enter and not accion_realizada:
+                basura_cercana = False
                 for obj in basura[:]:
                     if hitbox.inflate(12, 12).colliderect(obj["rect"]):
+                        basura_cercana = True
                         if objeto_en_mano is None:
                             sonido_recoger.play()
                             obj["animando"] = False
@@ -857,69 +922,13 @@ def run_level1(idioma_actual, volumen_actual):
                                 "tipo": obj["tipo"]
                             }
                             basura.remove(obj)
-                            # --- MODIFICADO: Mensaje dinámico ---
                             obj_nombre = obj['nombre'][idioma_actual]
                             mensaje = f"Recogiste: {obj_nombre}" if idioma_actual == "es" else f"You picked up: {obj_nombre}"
                         else:
                             mensaje = "Ya tienes un objeto en la mano" if idioma_actual == "es" else "You are already holding an item"
                         mensaje_tiempo = pygame.time.get_ticks()
+                        accion_realizada = True
                         break
-
-            # Tirar basura - VERSIÓN CORREGIDA
-            if pressed_p or pressed_x:
-                if objeto_en_mano is None:
-                    # --- MODIFICADO: Mensaje dinámico ---
-                    mensaje = "No tienes ningún objeto en la mano" if idioma_actual == "es" else "You are not holding an item"
-                    mensaje_tiempo = pygame.time.get_ticks()
-                else:
-                    proximity = hitbox.inflate(24, 24)
-                    tiro_valido = False
-                    bote_correcto_encontrado = False
-                    bote_actual = None
-
-                    for bote in botes:
-                        if proximity.colliderect(bote["rect"]):
-                            tiro_valido = True
-                            bote_actual = bote
-                            break 
-
-                    if tiro_valido and bote_actual:
-                        # --- MODIFICADO: Mensajes dinámicos ---
-                        obj_nombre = objeto_en_mano['nombre'][idioma_actual]
-                        bote_nombre = bote_actual['nombre'][idioma_actual]
-                        
-                        if objeto_en_mano["tipo"] == bote_actual["tipo"]:
-                            bote_correcto_encontrado = True
-                            mensaje = f"✓ Tiraste {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✓ Threw {obj_nombre} in {bote_nombre} bin"
-                            objeto_en_mano = None
-                            sonido_tirar_correcto.play()
-                            feedback_imagen = palomita_img
-                            feedback_tiempo = pygame.time.get_ticks()
-                            feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
-                            tiempo_total += 5
-                            tiempo_color_cambio = pygame.time.get_ticks()
-                            color_tiempo_activo = True  # <-- activar el color temporal
-
-                        else:
-                            errores += 1
-                            mensaje = f"✗ No puedes tirar {obj_nombre} en bote {bote_nombre}" if idioma_actual == "es" else f"✗ Cannot throw {obj_nombre} in {bote_nombre} bin"
-                            animando_dano = True
-                            frame_actual_dano = 0
-                            tiempo_frame = pygame.time.get_ticks()
-                            sonido_tirar_incorrecto.play()
-                            feedback_imagen = x_img
-                            feedback_tiempo = pygame.time.get_ticks()
-                            feedback_pos = (screen.get_width() // 2, screen.get_height() // 2)
-                            vida_actual -= 1
-                            color_error_activo = True
-                            tiempo_color_error = pygame.time.get_ticks()
-                            if vida_actual < 0:
-                                vida_actual = 0
-                        mensaje_tiempo = pygame.time.get_ticks()
-                    else:
-                        # --- MODIFICADO: Mensaje dinámico ---
-                        mensaje = "No hay un bote cerca" if idioma_actual == "es" else "No bin is nearby"
-                        mensaje_tiempo = pygame.time.get_ticks()
 
         # ACTUALIZAR ANIMACIONES DE BASURA
         tiempo_actual_anim = pygame.time.get_ticks()
