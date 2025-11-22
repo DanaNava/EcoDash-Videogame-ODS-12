@@ -767,7 +767,7 @@ def run_level1(idioma_actual, volumen_actual):
             moving = False
             # Movimiento
             if not animando_dano:
-                if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                if keys[pygame.K_LEFT]:
                     hitbox.x -= velocidad
                     animacion_correr_izquierda = True
                     animacion_correr_derecha = False
@@ -776,7 +776,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "izquierda"
                     frame_actual_quieto_izquierda = 0
-                elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                elif keys[pygame.K_RIGHT]:
                     hitbox.x += velocidad
                     animacion_correr_derecha = True
                     animacion_correr_izquierda = False
@@ -785,7 +785,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "derecha"
                     frame_actual_quieto_derecha = 0
-                elif keys[pygame.K_UP] or keys[pygame.K_w]:
+                elif keys[pygame.K_UP]:
                     hitbox.y -= velocidad
                     animacion_correr_detras = True
                     animacion_correr_delante = False
@@ -794,7 +794,7 @@ def run_level1(idioma_actual, volumen_actual):
                     moving = True
                     ultima_direccion = "detras"
                     frame_actual_quieto_detras = 0
-                elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                elif keys[pygame.K_DOWN]:
                     hitbox.y += velocidad
                     animacion_correr_delante = True
                     animacion_correr_detras = False
