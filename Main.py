@@ -1,6 +1,6 @@
 import pygame
 
-# Importamos todas las pantallas necesarias para la navegación del juego
+# Importamos todas las pantallas necesarias para la navegación del juego---------------
 from proyecto import Main
 from configuracion import Configuracion
 from select_character import Select_character
@@ -15,8 +15,8 @@ from nivel1_retador import run_level1retador
 from nivel2_retador import run_level2_retador
 from nivel3_retador import run_level3_retador
 def main():
-    pygame.init()   # Inicializa todos los módulos de pygame
-    pygame.mixer.init()   # Inicializa el sistema de sonido de pygame
+    pygame.init()   # Inicializa todos los módulos de pygame---------------------------
+    pygame.mixer.init()   # Inicializa el sistema de sonido de pygame------------------
 
     # Variables de estado para el volumen e idioma
     volumen_juego = 0.5

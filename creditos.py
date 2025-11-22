@@ -101,7 +101,7 @@ class Creditos:
             "Escobar Núñez Cristian Alexander",
             "Martínez Zúñiga Carolina",
             "Salgado Zepeda David",
-            "Vázquez Atanacio Diego Alejandro"
+            "Vazquez Atanacio Diego Alejandro"
         ]
 
     def handle_event(self, event):
