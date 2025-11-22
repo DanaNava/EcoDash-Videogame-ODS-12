@@ -376,6 +376,9 @@ def run_level2(idioma_actual, volumen_actual):
     boton_ir_siguiente_nivel = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal.png"))
     boton_ir_siguiente_nivel_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "ir_siguiente_nivel_normal_hover.png"))
 
+    boton_ir_siguiente_nivel = pygame.transform.scale(boton_ir_siguiente_nivel, (240, 65))
+    boton_ir_siguiente_nivel_hover = pygame.transform.scale(boton_ir_siguiente_nivel_hover, (240, 65))
+
     rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
     rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
 
@@ -1711,15 +1714,16 @@ def run_level2(idioma_actual, volumen_actual):
 
             
                 if idioma == "en":
-                    titulo_str = "CONGRATULATIONS!"
-                    sub1_str = "GREEN DOT FOR"
-                    sub2_str = "YOU!"
-                    coordenadas_titulo = (160, 180) # <-- Coordenadas para Inglés
+                    titulo_str = "WELL DONE!"
+                    sub1_str = "CHANGE BEGINS"
+                    sub2_str = "WITH YOU!"
+                    coordenadas_titulo = (300, 180) # <-- Coordenadas para Inglés
                 else:
-                    titulo_str = "FELICIDADES"
-                    sub1_str = "PUNTO VERDE PARA"
-                    sub2_str = "TI"
-                    coordenadas_titulo = (318, 150) # <-- Coordenadas para Español
+                    titulo_str = "¡BIEN HECHO!"
+                    sub1_str = "¡EL CAMBIO EMPIEZA"
+                    sub2_str = "CONTIGO!"
+                    coordenadas_titulo = (275, 150) # <-- Coordenadas para Español
+
 
                 titulo_surf = fuente_victoria_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
                 sub1_surf = fuente_victoria_subtitulo.render(sub1_str, True, (0, 0, 0)) # Color negro
@@ -1742,6 +1746,19 @@ def run_level2(idioma_actual, volumen_actual):
                     reintentar_str = "TRY AGAIN"
                 else:
                     reintentar_str = "REINTENTAR"
+
+                if idioma == "en":
+                    siguiente_nivel_str = "NEXT LEVEL"
+                else:
+                    siguiente_nivel_str = "SIGUIENTE NIVEL"
+
+                siguiente_nivel_surf = fuente_victoria_botones.render(siguiente_nivel_str, True, (0, 0, 0))
+                siguiente_nivel_rect_texto = siguiente_nivel_surf.get_rect(center=rect_ir_siguiente_nivel.center)
+                screen.blit(siguiente_nivel_surf, siguiente_nivel_rect_texto)
+
+                reintentar_surf = fuente_victoria_botones.render(reintentar_str, True, (0, 0, 0))
+                reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
+                screen.blit(reintentar_surf, reintentar_rect_texto)
 
                 reintentar_surf = fuente_victoria_botones.render(reintentar_str, True, (0, 0, 0))
                 reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
