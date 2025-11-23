@@ -90,10 +90,9 @@ Disponible en **español** e **inglés**, tanto en los textos de interfaz como e
 ---
 
 ## 🧭 **Controles del juego**        
-*⬆️ ⬅️ ⬇️ ➡️ --- **W A S D**   : Mover al personaje*
-- **O** u **Z** — Recoger residuos
-- **P** o **X** —  Depositar residuos
-- **ESC** — Pausar el juego  
+- *⬆️ ⬅️ ⬇️ ➡️: Mover al personaje*
+- <img width="80" height="80" alt="image" src="https://github.com/user-attachments/assets/be892698-5ea8-4201-9fe0-67c82938fbe0" />: Recoger residuos y depositar residuos
+- **ESC** — Pausar el juego
 
 ---
 
