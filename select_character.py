@@ -43,40 +43,30 @@ class Button:
 
 
 class Select_character:
-    # --- MODIFICADO: Acepta el idioma y volumen actual ---
     def __init__(self, screen, idioma_actual, volumen_actual): 
         self.screen = screen
-        self.posiciones = [443, 675]   # Posiciones posibles del botón de selección
-        self.indice_actual = 0   # Índice para mover el selector
+        self.posiciones = [443, 740]  # Izquierda: hombre (0), Derecha: mujer (1)
+        self.indice_actual = 0  # 0 = hombre, 1 = mujer
         self.personaje_seleccionado = None
-        
-        # --- MODIFICADO: Guarda el idioma y volumen ---
         self.idioma = idioma_actual
-        self.volumen = volumen_actual 
+        self.volumen = volumen_actual
 
-        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
-        # --- Cargar la fuente para el botón ---
+        # Cargar fuentes
         try:
-            # Fuente para el BOTÓN "Volver" (Pixel.ttf)
             font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
-            self.font_boton = pygame.font.Font(font_boton_path, 20) # tamaño de la letra
+            self.font_boton = pygame.font.Font(font_boton_path, 20)
         except FileNotFoundError:
             print("ERROR: No se encontró 'Pixel.ttf'")
             self.font_boton = pygame.font.Font(None, 40)
             
-        # --- Cargar la fuente para el TÍTULO ---
         try:
-            # Fuente para el TÍTULO (Stay Pixel DEMO.otf)
             font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 52) # Tamaño 52
+            self.font_titulo = pygame.font.Font(font_titulo_path, 52)
         except FileNotFoundError:
             print("ERROR: No se encontró 'Stay Pixel DEMO.ttf'")
             self.font_titulo = pygame.font.Font(None, 60)
-        # --- FIN DE LA MODIFICACIÓN ---
 
-
-        # Cargar imágenes del fondo y botones
-        # (Asegúrate de haber borrado el texto de "select_character_background.png")
+        # Cargar imágenes
         self.background = pygame.image.load("assets_PI/interfaces/eleguir_personaje/fondo/select_character_background.png")
         self.next_img = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_button.png")
         self.next_hover = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_buttonh.png")
@@ -84,7 +74,7 @@ class Select_character:
         self.back = pygame.image.load("assets_PI/sprites/boton_back.png")
         self.back_hover = pygame.image.load("assets_PI/sprites/boton_back_hover.png")
 
-        # Botones con sus respectivas acciones
+        # Botones
         self.next_button = Button(906, 670, self.next_img, self.next_hover, click_sound, action="seleccion_dificultad")
         self.back_button = Button(0, 2, self.back, self.back_hover, click_sound, action="main")
         self.select_button = Button(self.posiciones[self.indice_actual], 297, self.select_img, None, click_sound, action="seleccion_personaje")
@@ -92,55 +82,54 @@ class Select_character:
     def run(self):
         running = True
         while running:
-            pos_mouse = pygame.mouse.get_pos()   # Actualiza posición del mouse
+            pos_mouse = pygame.mouse.get_pos()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-                # Comprobar clic en cualquiera de los botones
+                # Comprobar clic en botones
                 result = self.next_button.clicked(event) or self.back_button.clicked(event) or self.select_button.clicked(event)
                 if result:
-                    return result   # Devuelve la acción que corresponda
+                    # Cuando se presiona cualquier botón, guardamos el personaje actualmente seleccionado
+                    self.personaje_seleccionado = self.indice_actual  # 0 = hombre, 1 = mujer
+                    print(f"Personaje seleccionado: {'Hombre' if self.personaje_seleccionado == 0 else 'Mujer'}")
+                    
+                    # Devolvemos tanto la acción como el personaje seleccionado
+                    return {
+                        "accion": result, 
+                        "personaje": self.personaje_seleccionado
+                    }
 
-                # Controles con teclado para mover el selector de personaje
+                # Controles con teclado para mover el selector
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
-                        self.indice_actual = (self.indice_actual + 1) % len(self.posiciones)
+                        self.indice_actual = 1  # Mover a mujer
                     elif event.key == pygame.K_LEFT:
-                        self.indice_actual = (self.indice_actual - 1) % len(self.posiciones)
-                    elif event.key == pygame.K_RETURN:
-                        self.personaje_seleccionado = self.indice_actual
-                        print(f"Personaje {self.personaje_seleccionado + 1} seleccionado!")
+                        self.indice_actual = 0  # Mover a hombre
 
-            # Actualiza visualmente la posición del botón de selección
+            # Actualizar posición visual del botón de selección
             self.select_button.rect.x = self.posiciones[self.indice_actual]
 
-            # --- DIBUJADO ---
-            # 1. Fondo (sin texto)
+            # Dibujado
             self.screen.blit(self.background, (0, 0))
 
-            # --- AÑADIDO: Texto dinámico para el TÍTULO ---
+            # Texto dinámico para el título
             titulo_texto_str = "CHOOSE YOUR CHARACTER" if self.idioma == "en" else "ESCOGE TU PERSONAJE"
-            titulo_texto_surf = self.font_titulo.render(titulo_texto_str, True, (0, 0, 0)) # Color negro
-            
-            # --- MODIFICADO: Usando tus coordenadas (240, 81) ---
-            coordenadas_titulo = (240, 81) 
-            
+            titulo_texto_surf = self.font_titulo.render(titulo_texto_str, True, (0, 0, 0))
+            coordenadas_titulo = (240, 81)
             self.screen.blit(titulo_texto_surf, coordenadas_titulo)
-            # --- FIN texto dinámico ---
 
-            # 2. Botones
+            # Botones
             self.next_button.draw(self.screen, pos_mouse)
             self.back_button.draw(self.screen, pos_mouse)
             self.select_button.draw(self.screen)
 
-            # --- AÑADIDO: Texto dinámico para el botón "Back" ---
+            # Texto dinámico para el botón "Back"
             texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
-            texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
-            coordenadas_boton_texto = (15, 18) 
+            texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0))
+            coordenadas_boton_texto = (15, 18)
             self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
-            # --- FIN texto dinámico ---
 
-            pygame.display.flip()   # Refresca la pantalla
+            pygame.display.flip()

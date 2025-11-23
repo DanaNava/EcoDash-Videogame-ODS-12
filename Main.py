@@ -14,13 +14,15 @@ from creditos import Creditos
 from nivel1_retador import run_level1retador
 from nivel2_retador import run_level2_retador
 from nivel3_retador import run_level3_retador
+
 def main():
     pygame.init()   # Inicializa todos los módulos de pygame---------------------------
     pygame.mixer.init()   # Inicializa el sistema de sonido de pygame------------------
 
-    # Variables de estado para el volumen e idioma
+    # Variables de estado para el volumen, idioma, personaje y dificultad
     volumen_juego = 0.5
     idioma_juego = "es"
+    personaje_juego = 0  # 0 = hombre, 1 = mujer (valor por defecto)
     dificultad = None
 
     screen = pygame.display.set_mode((1024, 768))   # Crea la ventana del juego con resolución 1024x768
@@ -80,6 +82,23 @@ def main():
 
         elif resultado == "seleccion_dificultad":
             pantalla_actual = Seleccion_dificultad(screen, idioma_juego, volumen_juego)   # Ir a la pantalla de selección de dificultad
+        
+        # MODIFICACIÓN: Capturar la selección de personaje desde Select_character
+        elif isinstance(resultado, dict) and "accion" in resultado:
+            # Esto viene de Select_character con información del personaje
+            accion = resultado["accion"]
+            personaje_juego = resultado["personaje"]  # 0 = hombre, 1 = mujer
+            
+            print(f"Personaje seleccionado: {'Hombre' if personaje_juego == 0 else 'Mujer'}")
+            
+            if accion == "seleccion_dificultad":
+                pantalla_actual = Seleccion_dificultad(screen, idioma_juego, volumen_juego)
+            elif accion == "main":
+                pantalla_actual = Main(screen, idioma_juego, volumen_juego)
+            elif accion == "seleccion_personaje":
+                # Ir directamente a selección de nivel si se presionó "Select"
+                pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+
         elif resultado == "facil":
             dificultad = "facil"
             pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
@@ -87,12 +106,13 @@ def main():
         elif resultado == "medio":
             dificultad = "medio"
             pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+        
         elif resultado == "tutorial":
             # Manejar el tutorial con posibilidad de reintento
             reiniciar_tutorial = True
             while reiniciar_tutorial and running:
-                # Pasar idioma y volumen al tutorial
-                resultado_tutorial = run_tutorial()
+                # Pasar idioma, volumen y personaje al tutorial
+                resultado_tutorial = run_tutorial(personaje=personaje_juego)
 
                 if resultado_tutorial == "main":
                     # Volver al menú principal
@@ -123,6 +143,7 @@ def main():
             
             if not running:
                 break
+        
         #nivel 1----------------------------------------------------------------------------------
         elif resultado == "nivel1":
             # Manejar el nivel 1 con posibilidad de reintento y progresión
@@ -131,19 +152,23 @@ def main():
             while reiniciar_nivel and running:
                 if nivel_actual == "nivel1":
                     if dificultad == "medio":
-                        resultado_nivel = run_level1retador(idioma_juego, volumen_juego)
+                        # Pasar personaje al nivel retador
+                        resultado_nivel = run_level1retador(idioma_juego, volumen_juego, personaje_juego)
                     else:
-                     resultado_nivel = run_level1(idioma_juego, volumen_juego)
+                        # Pasar personaje al nivel normal
+                        resultado_nivel = run_level1(idioma_juego, volumen_juego, personaje_juego)
+                
                 elif nivel_actual == "nivel2":
                     if dificultad == "medio":
-                        resultado_nivel = run_level2_retador(idioma_juego, volumen_juego)
+                        resultado_nivel = run_level2_retador(idioma_juego, volumen_juego, personaje_juego)
                     else:
-                     resultado_nivel = run_level2(idioma_juego, volumen_juego)
+                        resultado_nivel = run_level2(idioma_juego, volumen_juego, personaje_juego)
+                
                 elif nivel_actual == "nivel3":
                     if dificultad == "medio":
-                        resultado_nivel = run_level3_retador(idioma_juego, volumen_juego)
+                        resultado_nivel = run_level3_retador(idioma_juego, volumen_juego, personaje_juego)
                     else:
-                        resultado_nivel = run_level3(idioma_juego, volumen_juego)
+                        resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
 
                 if resultado_nivel == "main":
                     # Volver al menú principal
@@ -190,13 +215,14 @@ def main():
             if not running:
                 break
         #fin del nivel 1-----------------------------------------------------------------
+        
         #nivel 2 ------------------------------------------------------------------------
         elif resultado == "nivel2":
             if dificultad == "medio":
                 reiniciar_nivel = True
                 while reiniciar_nivel and running:
-                    # Pasar el idioma y el volumen al nivel 3
-                    resultado_nivel = run_level2_retador(idioma_juego, volumen_juego)
+                    # Pasar el idioma, volumen y personaje al nivel 2 retador
+                    resultado_nivel = run_level2_retador(idioma_juego, volumen_juego, personaje_juego)
 
                     if resultado_nivel == "main":
                         if not pygame.mixer.get_init():
@@ -223,11 +249,11 @@ def main():
                     pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                     reiniciar_nivel = False
-            if dificultad == "facil":
+            elif dificultad == "facil":
                 reiniciar_nivel = True
                 while reiniciar_nivel and running:
-                    # Pasar el idioma y el volumen al nivel 3
-                    resultado_nivel = run_level2(idioma_juego, volumen_juego)
+                    # Pasar el idioma, volumen y personaje al nivel 2 fácil
+                    resultado_nivel = run_level2(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
                         if not pygame.mixer.get_init():
                             pygame.mixer.init()
@@ -258,14 +284,15 @@ def main():
             if not running:
                 break
         #fin del nivel 2----------------------------------------------------------------------
+        
         #nivel 3------------------------------------------------------------------------------
         elif resultado == "nivel3":
             # Manejar el nivel 3 con posibilidad de reintento
             if dificultad == "medio":
                 reiniciar_nivel = True
                 while reiniciar_nivel and running:
-                    # Pasar el idioma y el volumen al nivel 3
-                    resultado_nivel = run_level3_retador(idioma_juego, volumen_juego)
+                    # Pasar el idioma, volumen y personaje al nivel 3 retador
+                    resultado_nivel = run_level3_retador(idioma_juego, volumen_juego, personaje_juego)
 
                     if resultado_nivel == "main":
                         if not pygame.mixer.get_init():
@@ -292,11 +319,11 @@ def main():
                     pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                     reiniciar_nivel = False
-            if dificultad == "facil":
+            elif dificultad == "facil":
                 reiniciar_nivel = True
                 while reiniciar_nivel and running:
-                    # Pasar el idioma y el volumen al nivel 3
-                    resultado_nivel = run_level3(idioma_juego, volumen_juego)
+                    # Pasar el idioma, volumen y personaje al nivel 3 fácil
+                    resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
                         if not pygame.mixer.get_init():
                             pygame.mixer.init()
@@ -326,11 +353,12 @@ def main():
             
             if not running:
                 break
+        #fin del nivel 3-------------------------------------------------------------------------------
 
         elif resultado == "salir" or resultado is None:
             running = False
             break
-    #fin del nivel 3-------------------------------------------------------------------------------
+    
     pygame.quit()   # Cierra pygame y finaliza el programa
 
 
