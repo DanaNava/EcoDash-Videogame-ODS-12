@@ -14,6 +14,8 @@ from creditos import Creditos
 from nivel1_retador import run_level1retador
 from nivel2_retador import run_level2_retador
 from nivel3_retador import run_level3_retador
+#Aun no funcional la intro
+from intro import run_intro
 
 def main():
     pygame.init()   # Inicializa todos los módulos de pygame---------------------------
