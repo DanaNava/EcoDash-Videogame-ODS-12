@@ -1103,6 +1103,21 @@ def run_level1(idioma_actual, volumen_actual):
 
        # --- CONTROL DE COLORES TEMPORALES DEL CRONÓMETRO ---
 
+         # MOSTRAR TIEMPO
+        if tiempo_restante <= 30 and not musica_cambiada:
+            # Cambiar a música apresurada
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))
+            pygame.mixer.music.set_volume(volumen_actual) 
+            pygame.mixer.music.play(-1)
+            musica_cambiada = True
+        elif tiempo_restante > 30 and musica_cambiada:
+            # Volver a música normal si el tiempo se recupera
+            pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
+            pygame.mixer.music.set_volume(volumen_actual) 
+            pygame.mixer.music.play(-1)
+            musica_cambiada = False
+
+
         if color_error_activo:
             # Prioridad: el rojo del error manda primero
             if pygame.time.get_ticks() - tiempo_color_error < duracion_color:
