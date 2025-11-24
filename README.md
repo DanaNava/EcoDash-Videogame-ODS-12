@@ -220,31 +220,28 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 1. **Clona este repositorio:**  
    ```bash
    git clone https://github.com/tu_usuario/eco-dash.git
+   cd eco-dash
 
-2. **Accede a la carpeta del proyecto:**  
-   ```bash
-   python -m venv venv
-
-3. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**  
-   ```bash
-   git clone https://github.com/tu_usuario/eco-dash.git
-
- Actívalo:
+2. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**
+   
   - En Windows:
     ```bash
+    python -m venv venv
     venv\Scripts\activate
    
   - En macOS / Linux:
     ```bash
+    python3 -m venv venv
     source venv/bin/activate
 
-4. **Instala las dependencias:**  
+3. **Instala las dependencias:**  
    ```bash
-   pip install pygame
+   pip install pygame ffpyplayer
+   
 
-5. **Ejecuta el juego:**  
+4. **Ejecuta el juego:**  
    ```bash
-   python main.py
+   python Main.py
 ---
 ## 🧪 Requisitos del sistema
 
@@ -253,7 +250,8 @@ Antes de ejecutar el juego, asegúrate de cumplir con los siguientes requisitos 
 - **Sistema operativo:** Windows 10 / macOS / Linux  
 - **Versión de Python:** 3.8 o superior  
 - **Bibliotecas necesarias:**  
-  - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)  
+  - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)
+  - [ffpyplayer](https://github.com/matham/ffpyplayer) (para la reproducción de video, instalable con `pip install ffpyplayer`)    
 - **Memoria RAM recomendada:** 4 GB o más  
 - **Espacio en disco:** Al menos 200 MB libres  
 - **Resolución:** 1024x768 
