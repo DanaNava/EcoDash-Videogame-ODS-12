@@ -145,7 +145,7 @@ Si se equivoca tres veces, pierde el nivel.
 ### ⏱️ **Cronómetro**
 El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jugador pierde automáticamente. Además, cuando el cronómetro alcanza los 30 segundos restantes, el color de los números cambia a rojo para alertar al jugador del poco tiempo disponible.
 
-*![Cronometro_2](https://github.com/user-attachments/assets/88d3b922-37d3-4a0d-abf6-edc02681b48e) ![Cronometro_rojo](https://github.com/user-attachments/assets/77676650-f4c2-4369-8ade-488192afd688)*
+*![Crono](https://github.com/user-attachments/assets/38301558-cb11-4a1f-964d-426236ccda63) ![Crono_rojo](https://github.com/user-attachments/assets/54afcc0f-b293-4da8-a8f1-80ca36cdf7b1)*
 
 ---
 
