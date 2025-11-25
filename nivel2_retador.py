@@ -395,8 +395,9 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
     # Personaje inicial
 
-    personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(489, 420))
+   # Personaje inicial - NO sobreescribir el parámetro 'personaje'
+    personaje_actual = quieto_delante  # <--- Usar variable diferente
+    personaje_draw_rect = personaje_actual.get_rect(center=(489, 420))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 

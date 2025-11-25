@@ -268,9 +268,9 @@ def run_level3_retador(idioma_actual, volumen_actual, personaje=0):
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
 
-    # Personaje inicial
-    personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(870, 140))
+   # Personaje inicial - NO sobreescribir el parámetro 'personaje'
+    personaje_actual = quieto_delante  # <--- Usar variable diferente
+    personaje_draw_rect = personaje_actual.get_rect(center=(870, 140))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 

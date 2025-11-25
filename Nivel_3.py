@@ -271,9 +271,9 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
 
     rect_ir_siguiente_nivel =  boton_ir_siguiente_nivel.get_rect(center=(515, 404))
 
-    # Personaje inicial
-    personaje = quieto_delante
-    personaje_draw_rect = personaje.get_rect(center=(870, 140))
+    # Personaje inicial - NO sobreescribir el parámetro 'personaje'
+    personaje_actual = quieto_delante  # <--- Usar variable diferente
+    personaje_draw_rect = personaje_actual.get_rect(center=(870, 140))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 
@@ -1622,4 +1622,4 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
     return return_value
 
 if __name__ == "__main__":
-    run_level3("es", 0.5)
+    run_level3("es", 0.5, personaje=1)

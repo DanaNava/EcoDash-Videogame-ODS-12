@@ -53,8 +53,7 @@ class Creditos:
 
         # --- Fondo BUB (atrás) ---
         try:
-            fondo_path = r"C:\EcoDash-Videogame-ODS-12\assets_PI\interfaces\Fondo_animado\BUB.png"
-            self.fondo = pygame.image.load(fondo_path).convert_alpha()
+            self.fondo = pygame.image.load("assets_PI/interfaces/Fondo_animado/BUB.png").convert_alpha()
             self.fondo = pygame.transform.scale(self.fondo, (ancho_ventana, alto_ventana))
         except pygame.error:
             self.fondo = pygame.Surface((ancho_ventana, alto_ventana))
@@ -62,8 +61,7 @@ class Creditos:
 
         # --- Fondo Verdi (medio) ---
         try:
-            fondo_frente_path = r"C:\EcoDash-Videogame-ODS-12\assets_PI\interfaces\Fondo_animado\verdi.png"
-            self.fondo_frente = pygame.image.load(fondo_frente_path).convert_alpha()
+            self.fondo_frente = pygame.image.load("assets_PI/interfaces/Fondo_animado/verdi.png").convert_alpha()
             self.fondo_frente = pygame.transform.scale(self.fondo_frente, (ancho_ventana, alto_ventana))
             self.fondo_frente.set_alpha(200)  # Transparencia parcial para que se vea BUB
         except pygame.error:
@@ -72,8 +70,7 @@ class Creditos:
 
         # --- Tabla (delante) ---
         try:
-            tabla_path = r"C:\EcoDash-Videogame-ODS-12\assets_PI\interfaces\Fondo_animado\tablon.png"
-            self.tabla = pygame.image.load(tabla_path).convert_alpha()
+            self.tabla = pygame.image.load("assets_PI/interfaces/Fondo_animado/tablon.png").convert_alpha()
             self.tabla = pygame.transform.scale(self.tabla, (ancho_ventana, alto_ventana))
             # si quieres ver el fondo detrás de la tabla, ajusta alpha:
             # self.tabla.set_alpha(230)
