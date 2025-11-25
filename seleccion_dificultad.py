@@ -74,9 +74,14 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
             self.font_opcion = pygame.font.Font(None, 48)
         # --- FIN DE LA MODIFICACIÓN ---
 
-
         # Fondo de la interfaz (ahora sin texto)
-        self.fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "fondo", "fondo_interfaz_elegir_dificultad_2.png")).convert()
+        self.fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "Fondo_animado", "tabla.png")).convert_alpha()
+        self.nube = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "Fondo_animado", "BUB.png")).convert_alpha()
+        self.azul = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "Fondo_animado", "azul.png")).convert_alpha()
+
+        # --- AÑADIDO: posiciones para animar las nubes ---
+        self.nube_x = 0
+        self.nube_vel = 0.1  # ← MISMA VELOCIDAD, AHORA HACIA LA DERECHA
 
         # Lista de botones con sus acciones (ahora sin texto)
         self.botones = [
@@ -85,11 +90,11 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
             Button((152, 482, 330, 98),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_medio.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_dificultad", "botones", "boton_interfaz_eleguir_dificultad_medio_hover.png"),"medio", click_sound ),
 
             # Este es el botón de "volver"
-            Button((0, 35, 120, 67),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),"select_character", click_sound )
+            Button((40, 35, 120, 67),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),"select_character", click_sound )
         ]
 
     def handle_event(self, event):
-        if event.type == pygame.QUIT:
+        if event.type == (pygame.QUIT):
             self.running = False
             return "salir"   # Si se cierra la ventana, se sale del juego
 
@@ -100,10 +105,25 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
                     return accion # Devuelve la acción del botón y cambia de pantalla
 
     def update(self):
-        pass   
+
+        # --- ANIMACIÓN DE NUBES (scroll infinito) ---
+        self.nube_x += self.nube_vel   # ← AHORA HACIA LA DERECHA
+
+        # Cuando sale por la derecha, reinicia
+        if self.nube_x >= 1280:
+            self.nube_x = 0
 
     def draw(self):
-        self.screen.blit(self.fondo, (0, 0))   # Dibujar el fondo
+
+        # --- ORDEN CORRECTO DE CAPAS ---
+        self.screen.blit(self.azul, (0,0))   # Capa más atrás
+
+        # NUBES animadas (dos para loop perfecto)
+        self.screen.blit(self.nube, (self.nube_x, 0))
+        self.screen.blit(self.nube, (self.nube_x - 1280, 0))  # ← ahora hace loop hacia la DERECHA
+
+        self.screen.blit(self.fondo, (0,0))  # Adelante (tabla)
+        # --------------------------------
 
         # --- AÑADIDO: Dibujar TÍTULO dinámico ---
         titulo_str = "DIFFICULTY" if self.idioma == "en" else "DIFICULTAD"
@@ -126,7 +146,7 @@ class Seleccion_dificultad:   # Pantalla para elegir dificultad
             if boton.action == "select_character":
                 texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
                 texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
-                coordenadas_boton_texto = (15, 49) 
+                coordenadas_boton_texto = (58, 49) 
                 self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
             
             # --- AÑADIDO: Lógica para dibujar texto "PRINCIPIANTE" ---

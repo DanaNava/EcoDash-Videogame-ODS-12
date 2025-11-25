@@ -1,151 +1,155 @@
 import pygame
-import os # <-- AÑADIDO
+import os
 
-pygame.init()   # Inicializa pygame
-pygame.mixer.init()   # Inicializa el sistema de sonido
+pygame.init()
+pygame.mixer.init()
 
-# --- AÑADIDO ---
-# Ruta base para encontrar los assets
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 click_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "sonido_click.wav"))
-click_sound.set_volume(0.5)   # Ajusta el volumen del clic
+click_sound.set_volume(0.5)
 
-# ----------- Clase Button Reutilizable -----------
+
+# ----------- Clase Button -----------
 class Button:
-    def __init__(self, rect, normal_path, hover_path, action, sound = None):
-        self.rect = pygame.Rect(rect)   # Área interactiva del botón
-        self.normal = pygame.image.load(normal_path).convert_alpha()   # Imagen normal
-        self.hover = pygame.image.load(hover_path).convert_alpha()   # Imagen cuando el mouse pasa encima
-        self.action = action   # Acción que devuelve cuando se clickea
-        self.sound = sound   # Sonido opcional del botón
+    def __init__(self, rect, normal_path, hover_path, action, sound=None):
+        self.rect = pygame.Rect(rect)
+        self.normal = pygame.image.load(normal_path).convert_alpha()
+        self.hover = pygame.image.load(hover_path).convert_alpha()
+        self.action = action
+        self.sound = sound
 
     def draw(self, screen):
-        mouse_pos = pygame.mouse.get_pos()   # Posición del mouse
-        # Si el mouse está encima, mostrar imagen hover
+        mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             screen.blit(self.hover, self.rect)
         else:
             screen.blit(self.normal, self.rect)
 
     def check_click(self, pos):
-       if self.rect.collidepoint(pos):   # Detecta clic dentro del botón
-            if self.sound:   # Reproducir sonido al hacer clic
+        if self.rect.collidepoint(pos):
+            if self.sound:
                 self.sound.play()
-            return self.action   # Devuelve la acción asociada
-       return None
+            return self.action
+        return None
 
 
 # ----------- Clase Selección de Nivel -----------
 class Seleccion_nivel:
-    # --- MODIFICADO: Acepta el idioma y volumen actual ---
     def __init__(self, screen, idioma_actual, volumen_actual):
         self.screen = screen
-        self.running = True   # Controla el bucle interno
-        
-        # --- AÑADIDO: Guarda el idioma y volumen ---
+        self.running = True
+
         self.idioma = idioma_actual
-        self.volumen = volumen_actual # <-- AÑADIDO
+        self.volumen = volumen_actual
 
-        # --- ¡¡¡MODIFICADO AQUÍ!!! ---
-        # --- Cargar la fuente para el botón ---
+        # Fuentes
         try:
-            # Fuente para el BOTÓN "Volver" y "Nivel" (Pixel.ttf)
-            font_boton_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf") 
-            self.font_boton = pygame.font.Font(font_boton_path, 19) # Tamaño 32
-        except FileNotFoundError:
-            print("ERROR: No se encontró 'Pixel.ttf'")
+            self.font_boton = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf"), 19)
+        except:
             self.font_boton = pygame.font.Font(None, 40)
-            
-        # --- Cargar la fuente para el TÍTULO ---
+
         try:
-            # Fuente para el TÍTULO (Stay Pixel DEMO.otf)
-            font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf") 
-            self.font_titulo = pygame.font.Font(font_titulo_path, 66) # Tamaño 52
-        except FileNotFoundError:
-            print("ERROR: No se encontró 'Stay Pixel DEMO.ttf'")
+            self.font_titulo = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf"), 66)
+        except:
             self.font_titulo = pygame.font.Font(None, 60)
-        # --- FIN DE LA MODIFICACIÓN ---
 
-        # Fondo de la pantalla (ahora sin texto)
-        self.fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "fondo", "fondo_interfaz_Seleccion_de_nivel.png")).convert()
+        # ------- FONDO ANIMADO --------
+        self.fondo = pygame.image.load(os.path.join(
+            BASE_DIR, "assets_PI", "interfaces", "Fondo_animado", "BUB.png"
+        )).convert_alpha()
 
-        # Botones de selección de nivel + botón de volver (ahora sin texto)
+        self.fondo_x = 0
+        self.fondo_vel = 0.1
+
+        # Fondo adelante
+        self.fondo_frente = pygame.image.load(os.path.join(
+            BASE_DIR, "assets_PI", "interfaces", "Fondo_animado", "selenive.png"
+        )).convert_alpha()
+
+        # Botones
         self.botones = [
-            Button((175, 345, 213, 84),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel1.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel1_hover.png"),"nivel1", click_sound),
+            Button((175, 345, 213, 84),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel1.png"),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel1_hover.png"),
+                "nivel1", click_sound),
 
-            Button((409, 345, 213, 84),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel2.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel2_hover.png"),"nivel2", click_sound),
+            Button((409, 345, 213, 84),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel2.png"),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel2_hover.png"),
+                "nivel2", click_sound),
 
-            Button((634, 345, 213, 84),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel3.png"),os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones", "boton_interfaz_eleguir_nivel_nivel3_hover.png"),"nivel3", click_sound),
+            Button((634, 345, 213, 84),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel3.png"),
+                os.path.join(BASE_DIR, "assets_PI", "interfaces", "eleguir_nivel", "botones",
+                             "boton_interfaz_eleguir_nivel_nivel3_hover.png"),
+                "nivel3", click_sound),
 
-            Button((0, 2, 120, 67),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),"seleccion_dificultad", click_sound)
+            Button((58, 40, 120, 67),
+                os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),
+                os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back_hover.png"),
+                "seleccion_dificultad", click_sound)
         ]
 
+    # -------- eventos --------
     def handle_event(self, event):
-        # Cerrar ventana
         if event.type == pygame.QUIT:
             self.running = False
             return "salir"
 
-        # Detectar clics en botones
         if event.type == pygame.MOUSEBUTTONDOWN:
             for boton in self.botones:
                 accion = boton.check_click(event.pos)
                 if accion:
-                    return accion   # Devuelve el estado a cambiar en el main
+                    return accion
 
+    # -------- update fondo --------
     def update(self):
-        pass   
+        self.fondo_x += self.fondo_vel
 
+        if self.fondo_x > self.fondo.get_width():
+            self.fondo_x = 0
+
+    # -------- draw --------
     def draw(self):
-        self.screen.blit(self.fondo, (0, 0))   # Dibuja el fondo
+        # ------- DIBUJAR FONDO ANIMADO --------
+        self.screen.blit(self.fondo, (self.fondo_x, 0))
+        self.screen.blit(self.fondo, (self.fondo_x - self.fondo.get_width(), 0))
 
-        # --- AÑADIDO: Dibujar TÍTULO dinámico ---
-        titulo_str = "LEVEL SELECTION" if self.idioma == "en" else "SELECCIÓN DE NIVEL"
-        titulo_surf = self.font_titulo.render(titulo_str, True, (0, 0, 0)) # Color negro
-        self.screen.blit(titulo_surf, (290, 120)) # Coordenadas que diste
-        # --- FIN TÍTULO ---
+        # ------- DIBUJAR FONDO ADELANTE --------
+        self.screen.blit(self.fondo_frente, (0, 0))
 
-        # Textos para los botones (se dibujarán encima)
-        texto_n1_str = "LEVEL 1" if self.idioma == "en" else "NIVEL 1"
-        texto_n1_surf = self.font_boton.render(texto_n1_str, True, (0, 0, 0))
-        
-        texto_n2_str = "LEVEL 2" if self.idioma == "en" else "NIVEL 2"
-        texto_n2_surf = self.font_boton.render(texto_n2_str, True, (0, 0, 0))
-        
-        texto_n3_str = "LEVEL 3" if self.idioma == "en" else "NIVEL 3"
-        texto_n3_surf = self.font_boton.render(texto_n3_str, True, (0, 0, 0))
-
-
+        # ------- DIBUJAR BOTONES --------
         for boton in self.botones:
-            boton.draw(self.screen)   # Renderiza cada botón
-            
-            # --- Lógica para dibujar texto en el botón "Back" ---
+            boton.draw(self.screen)
+
+        # ------- AHORA SÍ: TEXTO ARRIBA DEL TODO --------
+        titulo = "LEVEL SELECTION" if self.idioma == "en" else "SELECCIÓN DE NIVEL"
+        self.screen.blit(self.font_titulo.render(titulo, True, (0, 0, 0)), (290, 120))
+
+        # Etiquetas de los botones
+        for boton in self.botones:
             if boton.action == "seleccion_dificultad":
-                texto_boton_str = "BACK" if self.idioma == "en" else "VOLVER"
-                texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0, 0, 0)) # Color negro
-                coordenadas_boton_texto = (18, 19) 
-                self.screen.blit(texto_boton_surf, coordenadas_boton_texto)
-            
-            # --- AÑADIDO: Texto para botones de Nivel ---
-            elif boton.action == "nivel1":
-                self.screen.blit(texto_n1_surf, (204, 369)) # Coords que diste
-                
-            elif boton.action == "nivel2":
-                self.screen.blit(texto_n2_surf, (438, 369)) # Coords que diste
-                
-            elif boton.action == "nivel3":
-                self.screen.blit(texto_n3_surf, (663, 369)) # Coords que diste
-            
-            # --- FIN AÑADIDO ---
+                self.screen.blit(self.font_boton.render("VOLVER" if self.idioma=="es" else "BACK", True, (0,0,0)), (78, 55))
+            if boton.action == "nivel1":
+                self.screen.blit(self.font_boton.render("NIVEL 1" if self.idioma=="es" else "LEVEL 1", True, (0,0,0)), (204, 369))
+            if boton.action == "nivel2":
+                self.screen.blit(self.font_boton.render("NIVEL 2" if self.idioma=="es" else "LEVEL 2", True, (0,0,0)), (438, 369))
+            if boton.action == "nivel3":
+                self.screen.blit(self.font_boton.render("NIVEL 3" if self.idioma=="es" else "LEVEL 3", True, (0,0,0)), (663, 369))
 
-
+    # -------- loop --------
     def run(self):
         while self.running:
             for event in pygame.event.get():
                 cambio = self.handle_event(event)
                 if cambio:
-                    return cambio   # Sale si se pulsa algo
+                    return cambio
 
             self.update()
             self.draw()

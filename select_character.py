@@ -1,9 +1,10 @@
 import pygame
 import sys
 import os 
+import math
 
 pygame.init()   # Inicializa pygame
-pygame.mixer.init()   # Inicializa sistema de sonido
+pygame.mixer.init()  # Inicializa sistema de sonido
 
 # --- AÑADIDO ---
 # Ruta base para encontrar los assets
@@ -67,7 +68,10 @@ class Select_character:
             self.font_titulo = pygame.font.Font(None, 60)
 
         # Cargar imágenes
-        self.background = pygame.image.load("assets_PI/interfaces/eleguir_personaje/fondo/select_character_background.png")
+        self.background = pygame.image.load("assets_PI/interfaces/Fondo_animado/azul.png")
+        self.personaje = pygame.image.load("assets_PI/interfaces/Fondo_animado/personajes.png")
+        self.nube = pygame.image.load("assets_PI/interfaces/Fondo_animado/BUB.png")
+        
         self.next_img = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_button.png")
         self.next_hover = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/next_buttonh.png")
         self.select_img = pygame.image.load("assets_PI/interfaces/eleguir_personaje/botones/select.png")
@@ -81,6 +85,11 @@ class Select_character:
 
     def run(self):
         running = True
+
+        # --- NUEVO: Variables para animar la nube ---
+        nube_x = 0               # Posición horizontal inicial de la nube
+        velocidad_nube = 1       # Velocidad de movimiento de la nube
+
         while running:
             pos_mouse = pygame.mouse.get_pos()
 
@@ -112,9 +121,19 @@ class Select_character:
             # Actualizar posición visual del botón de selección
             self.select_button.rect.x = self.posiciones[self.indice_actual]
 
+            # --- NUEVO: Mover la nube horizontalmente ---
+            nube_x += velocidad_nube
+            if nube_x >= self.nube.get_width():
+                nube_x = 0
+
             # Dibujado
             self.screen.blit(self.background, (0, 0))
+            # --- NUEVO: Dibujar nube en loop infinito ---
+            self.screen.blit(self.nube, (nube_x - self.nube.get_width(), 0))
+            self.screen.blit(self.nube, (nube_x, 0))
 
+            self.screen.blit(self.personaje, (0, 0))
+            
             # Texto dinámico para el título
             titulo_texto_str = "CHOOSE YOUR CHARACTER" if self.idioma == "en" else "ESCOGE TU PERSONAJE"
             titulo_texto_surf = self.font_titulo.render(titulo_texto_str, True, (0, 0, 0))
