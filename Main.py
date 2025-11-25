@@ -148,6 +148,16 @@ def main():
         
         #nivel 1----------------------------------------------------------------------------------
         elif resultado == "nivel1":
+
+        #------intro-----------------------------------
+            intro_resultado = run_intro(idioma_juego, volumen_juego)
+            if intro_resultado == "main":
+                pantalla_actual = Main(screen, idioma_juego, volumen_juego)
+                continue  # Volver al menú sin iniciar nivel
+            elif intro_resultado == "salir":
+                running = False
+                break
+        #------------------------------------------
             # Manejar el nivel 1 con posibilidad de reintento y progresión
             nivel_actual = "nivel1"
             reiniciar_nivel = True

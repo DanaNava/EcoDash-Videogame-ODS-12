@@ -8,17 +8,26 @@ def run_intro(idioma, volumen):
     except:
         print("⚠ No se pudo iniciar el audio (pero el juego continuará).")
 
+    try:
+        pygame.mixer.music.stop()
+    except:
+        pass
+
     screen = pygame.display.set_mode((1024, 768))
     clock = pygame.time.Clock()
 
-    player = MediaPlayer("assets_PI/Intro/Intro_EcoDash_gd.mp4")
-    print("🔍 Cargando video...") 
+    # Selección del video según idioma
+    if idioma.lower() == "en":
+        ruta_video = "assets_PI/Intro/Intro_EcoDash_dg.mp4" 
+    else:
+        ruta_video = "assets_PI/Intro/Intro_EcoDash_gd.mp4"
 
-    # Opcional: controlar volumen del video
+    player = MediaPlayer(ruta_video)
+
     try: player.set_volume(volumen)
     except: pass
 
-    # 🔊 Cargamos el sonido del botón
+    #Cargamos el sonido del botón
     try:
         click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
     except:
@@ -49,14 +58,14 @@ def run_intro(idioma, volumen):
                 pygame.quit()
                 return "salir"
 
-            # 👉 Salto con clic
+            # Salto con clic
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if boton_rect.collidepoint(pygame.mouse.get_pos()):
                     if click_sound: click_sound.play()
                     fade_out = True  # Iniciar fade
             
 
-            # 👉 Salto con ESC/ESPACIO
+            # Salto con ESC/ESPACIO
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_ESCAPE, pygame.K_SPACE]:
                     if click_sound: click_sound.play()
@@ -68,30 +77,31 @@ def run_intro(idioma, volumen):
         # ⚠ Evitar EOF hasta que el fade o el botón lo digan
         if val == 'eof':
             frame = None  # no actualizamos más frames, pero NO salimos
+            fade_out = True
 
-        # 📌 Si hay un frame nuevo, lo guardamos
+        # Si hay un frame nuevo, lo guardamos
         if frame is not None:
             img, t = frame
             w, h = img.get_size()
             last_frame_surface = pygame.image.frombuffer(img.to_bytearray()[0], (w, h), "RGB")
 
-        # 📌 Dibujamos el último frame válido o un fondo negro
+        # Dibujamos el último frame válido o un fondo negro
         if last_frame_surface is not None:
             screen.blit(pygame.transform.scale(last_frame_surface, screen.get_size()), (0, 0))
         else:
-            screen.fill((0, 0, 0))  # 🟣 IMPORTANTE
+            screen.fill((0, 0, 0))
 
         # ---------------- BOTÓN --------------------
         mouse_pos = pygame.mouse.get_pos()
         elapsed = (pygame.time.get_ticks() - start_time) / 1000
 
-        # 🔸 Opacidad después de 5s
+        # Opacidad después de 5s
         if elapsed > 5:
             alpha = max(120, alpha - 1.2)
             alpha = int(alpha)
 
 
-        # 🔍 Hover animado (suave)
+        # Hover animado (suave)
         hovering = boton_rect.collidepoint(mouse_pos)
         grow = 8 if hovering else 0
 
@@ -100,8 +110,8 @@ def run_intro(idioma, volumen):
             (boton_rect.width + grow, boton_rect.height + grow), pygame.SRCALPHA
         )
 
-        # 🟣 Fondo con transparencia
-        fondo_alpha = min(255, alpha + (40 if hovering else 0))  # 🔒 límite de alpha
+        # Fondo con transparencia
+        fondo_alpha = min(255, alpha + (40 if hovering else 0)) 
         boton_surface.fill((0, 0, 0, 0))
         pygame.draw.rect(
             boton_surface,
@@ -111,11 +121,11 @@ def run_intro(idioma, volumen):
         )
 
 
-        # 📏 Posición centrada
+        # Posición centrada
         boton_x = boton_rect.x - grow // 2
         boton_y = boton_rect.y - grow // 2
 
-        # ✨ Borde semitransparente
+        # Borde semitransparente
         border_color = (255, 255, 255, int(alpha))
         pygame.draw.rect(
             boton_surface,
@@ -144,12 +154,10 @@ def run_intro(idioma, volumen):
 
             if fade_opacity >= 255:
                 player.close_player()
-                pygame.quit()
                 return "continuar"
 
         pygame.display.flip()
         clock.tick(60)
 
     player.close_player()
-    pygame.quit()
     return "continuar"
