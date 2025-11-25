@@ -845,6 +845,7 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
             # Dibujar todo el juego congelado
             screen.fill((0, 0, 0))
             screen.blit(fondo, (0, 0))
+            
 
             # BARRA DE VIDA
             if vida_actual == 3:
@@ -901,7 +902,7 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
                 minutos = tiempo_visual // 60
                 segundos_restantes = tiempo_visual % 60
                 texto_tiempo = fuente_tiempo.render(f"{minutos:02}:{segundos_restantes:02}", True, color_tiempo)
-                screen.blit(texto_tiempo, (17, 85))
+                screen.blit(texto_tiempo, (38, 85))
 
 
             # DIBUJAR SISTEMA DE PAUSA

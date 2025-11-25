@@ -962,7 +962,7 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 minutos = tiempo_visual // 60
                 segundos_restantes = tiempo_visual % 60
                 texto_tiempo = fuente_tiempo.render(f"{minutos:02}:{segundos_restantes:02}", True, color_tiempo)
-                screen.blit(texto_tiempo, (17, 85))
+                screen.blit(texto_tiempo, (38, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
             sistema_pausa.dibujar()
@@ -1426,6 +1426,8 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 boton_surf = fuente_boton_gameover.render(boton_str, True, (0, 0, 0)) # Color negro
                 boton_rect_texto = boton_surf.get_rect(center=rect_reintentar.center) 
                 screen.blit(boton_surf, boton_rect_texto)
+
+               
                 # --- FIN MODIFICACIÓN DE ORDEN ---
 
                 pygame.display.flip()
@@ -1517,7 +1519,7 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
                 screen.blit(reintentar_surf, reintentar_rect_texto)
                 
-                # --- Texto "MENU" ELIMINADO ---
+               
                 # --- FIN MODIFICACIONES VICTORIA ---
 
                 pygame.display.flip()
@@ -1529,6 +1531,9 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                         if rect_reintentar_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "reintentar"
+                        elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
+                            pygame.mixer.music.stop()
+                            return "siguiente_nivel"
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
                             return "seleccion_nivel"
@@ -1537,10 +1542,12 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
         if ganar(basura, objeto_en_mano):
             # --- MODIFICADO: Pasa el idioma ---
             resultado = mostrar_pantalla_victoria(idioma_actual)
-            if resultado == "main":
+            if resultado == "seleccion_nivel":
                 return "seleccion_nivel"
             elif resultado == "reintentar":
                 return "reintentar"
+            elif resultado == "siguiente_nivel":
+                return "siguiente_nivel"
             elif resultado == "salir":
                 return "salir"
                 
@@ -1583,7 +1590,7 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida(idioma_actual)
-                    if resultado == "main":
+                    if resultado == "seleccion_nivel":
                         return "seleccion_nivel"
                     elif resultado == "reintentar":
                         return "reintentar"

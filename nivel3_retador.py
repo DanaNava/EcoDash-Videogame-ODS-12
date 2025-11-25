@@ -1530,7 +1530,7 @@ def run_level3_retador(idioma_actual, volumen_actual, personaje=0):
         if ganar(basura, objeto_en_mano):
             # --- MODIFICADO: Pasa el idioma ---
             resultado = mostrar_pantalla_victoria(idioma_actual)
-            if resultado == "main":
+            if resultado == "seleccion_nivel":
                 return "seleccion_nivel"
             elif resultado == "reintentar":
                 return "reintentar"
@@ -1576,7 +1576,7 @@ def run_level3_retador(idioma_actual, volumen_actual, personaje=0):
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida(idioma_actual)
-                    if resultado == "main":
+                    if resultado == "seleccion_nivel":
                         return "seleccion_nivel"
                     elif resultado == "reintentar":
                         return "reintentar"

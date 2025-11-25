@@ -230,7 +230,7 @@ def run_level1retador(idioma_actual, volumen_actual, personaje=0):
         quieto_izquierda = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_izquierda.png")).convert_alpha()
         quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_detras.png")).convert_alpha()
         quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "masculino", "posturas", "PI_personaje_m_ver_delante.png")).convert_alpha()
-    else:  # Mujer
+    if personaje == 1:  # Mujer
         quieto_derecha = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "femenino", "posturas", "personaje_PI_femenino_derecha.png")).convert_alpha()
         quieto_izquierda = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "femenino", "posturas", "personaje_PI_femenino_izquierda.png")).convert_alpha()
         quieto_detras = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "femenino", "posturas", "personaje_PI_femenino_detras.png")).convert_alpha()
@@ -897,7 +897,7 @@ def run_level1retador(idioma_actual, volumen_actual, personaje=0):
                 minutos = tiempo_visual // 60
                 segundos_restantes = tiempo_visual % 60
                 texto_tiempo = fuente_tiempo.render(f"{minutos:02}:{segundos_restantes:02}", True, color_tiempo)
-                screen.blit(texto_tiempo, (17, 85))
+                screen.blit(texto_tiempo, (38, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
             sistema_pausa.dibujar()

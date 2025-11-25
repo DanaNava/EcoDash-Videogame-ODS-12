@@ -4,8 +4,6 @@ import os
 import random
 
 # Ruta base para encontrar los assets
-# NO REGRESA A SELECCION NIVEL
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ========== SISTEMA DE PAUSA ==========
@@ -18,14 +16,12 @@ class SistemaPausa:
         self.return_value = None
         
         # Botón de pausa en esquina superior derecha
-
         self.boton_pausa_rect = pygame.Rect(910, 20, 160, 160)
         self.boton_reanudar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_reiniciar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_menu_rect = pygame.Rect(0, 0, 120, 120)
         
         # Estados hover
-
         self.boton_pausa_hover = False
         self.boton_reanudar_hover = False
         self.boton_reiniciar_hover = False
@@ -36,7 +32,6 @@ class SistemaPausa:
             self.sprite_boton_pausa_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "minipausa_hover.png")).convert_alpha()
             
             # Escalar botón de pausa pequeño
-
             escala = 3.0
             nuevo_ancho = int(self.sprite_boton_pausa.get_width() * escala)
             nuevo_alto = int(self.sprite_boton_pausa.get_height() * escala)
@@ -44,7 +39,6 @@ class SistemaPausa:
             self.sprite_boton_pausa_hover = pygame.transform.scale(self.sprite_boton_pausa_hover, (nuevo_ancho, nuevo_alto))
             
             # Cargar otros sprites
-
             self.sprite_boton_reanudar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "volver.png")).convert_alpha()
             self.sprite_boton_reanudar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "volver_hover.png")).convert_alpha()
             self.sprite_boton_reiniciar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "reinicio.png")).convert_alpha()
@@ -54,7 +48,6 @@ class SistemaPausa:
             self.sprite_fondo_pausa = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "interfaz_de_pausa.png")).convert_alpha()
 
             # Escalar botones del menú de pausa x2.0
-            
             escala_menu = 4.0
             botones_menu = ['reanudar', 'reiniciar', 'menu']
             for sprite_name in botones_menu:
@@ -92,7 +85,6 @@ class SistemaPausa:
             y_pausa = (alto_pantalla - alto_pausa) // 2 +50
 
             # Botones en línea horizontal
-
             boton_ancho = 180
             boton_alto = 180
             espacio_entre_botones = 30
@@ -160,7 +152,6 @@ class SistemaPausa:
                     self.pantalla.blit(self.sprite_boton_pausa, self.boton_pausa_rect)
         else:
             # Pantalla de pausa centrada EDITAR TAMANO
-
             ancho_pantalla, alto_pantalla = self.pantalla.get_size()
             ancho_pausa = 800
             alto_pausa = 400
@@ -168,14 +159,12 @@ class SistemaPausa:
             y_pausa = (alto_pantalla - alto_pausa) // 2
 
             # Fondo semi-transparente centrado
-
             fondo_pausa = pygame.Surface((ancho_pausa, alto_pausa), pygame.SRCALPHA)
             fondo_pausa.fill((0, 0, 0, 200))
             self.pantalla.blit(fondo_pausa, (x_pausa, y_pausa))
             pygame.draw.rect(self.pantalla, (255, 255, 255), (x_pausa, y_pausa, ancho_pausa, alto_pausa), 3)
             
             # DIBUJAR INTERFAZ DE PAUSA - AGREGAR ESTA LÍNEA
-
             if self.sprite_fondo_pausa:
             # Escalar y centrar el sprite de fondo
                 fondo_escalado = pygame.transform.scale(self.sprite_fondo_pausa, (ancho_pausa, alto_pausa))
@@ -212,12 +201,10 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
 
     # -----------------------------
     # CARGA DE IMÁGENES (CON RUTAS CORREGIDAS)
-
     # -----------------------------
 
     fondo = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "fondo_nivel2.png")).convert_alpha()
     #arboles
-
     capa_arbol1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "fondos", "arbolesqiz1.png")).convert_alpha()
     capa_arbol2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "fondos", "arbolesqiz2.png")).convert_alpha()
     capa_arbol3 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "fondos", "arb3.png")).convert_alpha()
@@ -292,7 +279,6 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
    
 
     #lampara
-
     capa_lampara1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara1.png")).convert_alpha()
     capa_lampara2 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara2.png")).convert_alpha()
     capa_lampara3 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara3.png")).convert_alpha()
@@ -360,14 +346,12 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
         quieto_delante = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "personajes", "femenino", "posturas", "personaje_PI_femenino.png")).convert_alpha()
 
     #Escalar imagenes
-
     win = pygame.transform.scale(w, (1024, 768))
     barra_vida = pygame.transform.scale(bv, (150, 118))
     barra_vida2 = pygame.transform.scale(bv2, (150, 118))
     barra_vida1 = pygame.transform.scale(bv1, (150, 118))
 
     #Cargar botones (Asumimos que las imágenes ya no tienen texto)
-
     boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez.png")).convert_alpha()
     boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez_hover.png")).convert_alpha()
     boton_menu = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_menu.png")).convert_alpha()
@@ -392,16 +376,13 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     rect_ir_siguiente_nivel =  boton_ir_siguiente_nivel.get_rect(center=(515, 404))
 
     # Personaje inicial
-
     personaje = quieto_delante
     personaje_draw_rect = personaje.get_rect(center=(489, 420))
     hitbox = pygame.Rect(0, 0, 70, 70)
     hitbox.center = personaje_draw_rect.center
 
     # -----------------------------
-
     # CARGA musica de fondo
-
     # -----------------------------
 
     pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
@@ -409,9 +390,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     pygame.mixer.music.play(-1)
 
     # -----------------------------
-
     # CARGA efectos de sonido
-
     # -----------------------------
 
     sonido_caminar = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "pasos_madera.wav"))
@@ -422,7 +401,6 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     sonido_tirar_incorrecto = pygame.mixer.Sound(os.path.join(BASE_DIR, "assets_PI", "sonidos", "tirar_basura_sonido_error.wav"))
 
     # Volúmenes (basados en el volumen global)
-
     sonido_caminar.set_volume(1 * volumen_actual)
     sonido_dano.set_volume(0.5 * volumen_actual)
     sonido_morir.set_volume(1 * volumen_actual)
@@ -431,13 +409,10 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     sonido_tirar_incorrecto.set_volume(1 * volumen_actual)
 
     # -----------------------------
-
     # BASURA CON ANIMACIONES Y TRADUCCIONES
-
     # -----------------------------
 
     # Cargar frames de animación para cada basura
-
     frames_botella_agua = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua2.png")).convert_alpha(),
@@ -507,13 +482,10 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     ]
     
     # -----------------------------
-
     # POSICIONES ALEATORIAS PARA BASURAS
-
     # -----------------------------
 
     # Lista de coordenadas posibles
-
     posiciones_basura = [
         (825, 621),  
         (552, 46),  
@@ -527,17 +499,14 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     ]
 
     # Función para obtener posiciones aleatorias únicas
-
     def obtener_posiciones_aleatorias(cantidad):
         return random.sample(posiciones_basura, cantidad)
     
 
     # Obtener 6 posiciones aleatorias únicas (una para cada basura)
-
     posiciones_aleatorias = obtener_posiciones_aleatorias(9)
 
     # Definir basuras con animaciones y traducciones
-
     basura = [
         {
             "frames": frames_banana, 
@@ -640,7 +609,6 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
 
     colisiones = [
         #izquierda
-
         pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 448, 59, 20), 
         pygame.Rect(0, 498, 4, 268),
 
@@ -686,9 +654,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     ]
 
     # -----------------------------
-
     # ANIMACIONES DEL PERSONAJE (CON RUTAS CORREGIDAS)
-
     # -----------------------------
     def cargar_animaciones_personaje(personaje_elegido):
         def centrar_sprites(lista_frames):
@@ -910,7 +876,6 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     pantalla_perdida = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0.png")).convert_alpha()
 
     # Banderas para activar animaciones
-
     animando_dano = False
     animando_muerte = False
     animacion_correr_izquierda = False
@@ -919,7 +884,6 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     animacion_correr_delante = False
 
     # Bandera para animaciones de quieto
-    
     animando_quieto = False
 
     # Bandera de tiempo de animaciones
@@ -1063,9 +1027,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
     ultima_direccion = "delante"
 
     # -----------------------------
-
     # BUCLE PRINCIPAL
-
     # -----------------------------
 
     while running:
@@ -1147,7 +1109,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
                 minutos = tiempo_visual // 60
                 segundos_restantes = tiempo_visual % 60
                 texto_tiempo = fuente_tiempo.render(f"{minutos:02}:{segundos_restantes:02}", True, color_tiempo)
-                screen.blit(texto_tiempo, (17, 85))
+                screen.blit(texto_tiempo, (38, 85))
 
             # DIBUJAR SISTEMA DE PAUSA
 
@@ -1820,7 +1782,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
                             return "reintentar"
                         elif rect_menu.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "seleccion_nivel"
+                            return "seleccion_nivel"  # CORREGIDO: Cambiado de "main" a "seleccion_nivel"
 
         # --- MODIFICADO: Pasa el idioma a la pantalla de victoria ---
 
@@ -1922,7 +1884,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
                             return "reintentar"
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "seleccion_nivel"
+                            return "seleccion_nivel"  # CORREGIDO: Cambiado de "main" a "seleccion_nivel"
                         elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
                             print("Botón siguiente nivel presionado")
                             print("Retornando 'nivel3' desde mostrar_pantalla_victoria") 
@@ -1934,7 +1896,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
         if ganar(basura, objeto_en_mano):
             # --- MODIFICADO: Pasa el idioma ---
             resultado = mostrar_pantalla_victoria(idioma_actual)
-            if resultado == "main":
+            if resultado == "seleccion_nivel":  # CORREGIDO
                 return "seleccion_nivel"
             elif resultado == "reintentar":
                 return "reintentar"
@@ -1983,7 +1945,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida(idioma_actual)
-                    if resultado == "main":
+                    if resultado == "seleccion_nivel":  # CORREGIDO
                         return "seleccion_nivel"
                     elif resultado == "reintentar":
                         return "reintentar"
@@ -2004,7 +1966,7 @@ def run_level2(idioma_actual, volumen_actual, personaje=0):
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida(idioma_actual)
-                    if resultado == "main":
+                    if resultado == "seleccion_nivel":  # CORREGIDO
                         return "seleccion_nivel"
                     elif resultado == "reintentar":
                         return "reintentar"

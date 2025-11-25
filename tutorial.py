@@ -7,8 +7,8 @@ from ffpyplayer.player import MediaPlayer
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ========== SISTEMA DE VIDEO INICIAL ==========
-def mostrar_video_inicial(volumen):
-    """Muestra el video al inicio y espera a que el usuario haga clic para continuar"""
+def mostrar_video_inicial(volumen, idioma="es"):
+    """Muestra el video al inicio según el idioma y espera a que el usuario haga clic para continuar"""
     pygame.init()
     try:
         pygame.mixer.init()
@@ -18,9 +18,17 @@ def mostrar_video_inicial(volumen):
     screen = pygame.display.set_mode((1024, 768))
     clock = pygame.time.Clock()
 
-    # Cargar el video del tutorial
-    player = MediaPlayer("assets_PI/tutorial/video_tutorial.mp4")
-    print("🔍 Cargando video tutorial...") 
+    # Determinar el video según el idioma
+    if idioma == "en":
+        video_path = "assets_PI/tutorial/video_tutorial_ingles.mp4"
+        texto_boton = "GO TO LEVEL"
+    else:  # español por defecto
+        video_path = "assets_PI/tutorial/video_tutorial.mp4"
+        texto_boton = "IR AL NIVEL"
+
+    # Cargar el video del tutorial según idioma
+    player = MediaPlayer(video_path)
+    print(f"🔍 Cargando video tutorial en {idioma.upper()}...") 
 
     # SPRITE DEL BOTÓN SIGUIENTE
     try:
@@ -107,7 +115,7 @@ def mostrar_video_inicial(volumen):
                 
             if hovering:
                 font = pygame.font.Font(None, 40)
-                texto = font.render("IR AL NIVEL", True, (255, 255, 255))
+                texto = font.render(texto_boton, True, (255, 255, 255))
                 texto_rect = texto.get_rect(midbottom=(boton_rect.centerx, boton_rect.top - 10))
                 screen.blit(texto, texto_rect)
 
@@ -132,11 +140,13 @@ def mostrar_video_inicial(volumen):
 
 # ========== SISTEMA DE PAUSA ==========
 class SistemaPausa:
-    def __init__(self, pantalla):
+    def __init__(self, pantalla, idioma="es"):
         self.pantalla = pantalla
         self.juego_pausado = False
         self.musica_pausada = False
         self.return_value = None
+        self.idioma = idioma
+        
         
         # Botón de pausa en esquina superior derecha
         self.boton_pausa_rect = pygame.Rect(910, 20, 160, 160)
@@ -284,6 +294,7 @@ class SistemaPausa:
                 fondo_escalado = pygame.transform.scale(self.sprite_fondo_pausa, (ancho_pausa, alto_pausa))
                 self.pantalla.blit(fondo_escalado, (x_pausa, y_pausa))
             
+            # Dibujar botones con textos
             if self.sprite_boton_reanudar:
                 if self.boton_reanudar_hover and self.sprite_boton_reanudar_hover:
                     self.pantalla.blit(self.sprite_boton_reanudar_hover, self.boton_reanudar_rect)
@@ -301,13 +312,18 @@ class SistemaPausa:
                     self.pantalla.blit(self.sprite_boton_menu_hover, self.boton_menu_rect)
                 else:
                     self.pantalla.blit(self.sprite_boton_menu, self.boton_menu_rect)
+            
+            # Dibujar textos de los botones
+            font = pygame.font.Font(None, 36)
+            
+            
 # ========== FIN SISTEMA DE PAUSA ==========
 
-def run_tutorial(idioma=None, volumen=0.5):
+def run_tutorial(idioma="es", volumen=0.5):
     # -----------------------------
     # MOSTRAR VIDEO INICIAL
     # -----------------------------
-    resultado_video = mostrar_video_inicial(volumen)
+    resultado_video = mostrar_video_inicial(volumen, idioma)
     if resultado_video == "salir":
         pygame.quit()
         return "salir"
@@ -320,7 +336,7 @@ def run_tutorial(idioma=None, volumen=0.5):
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Tutorial")
 
-    sistema_pausa = SistemaPausa(screen)
+    sistema_pausa = SistemaPausa(screen, idioma)
 
     # -----------------------------
     # CARGA DE IMÁGENES
@@ -981,11 +997,18 @@ def run_tutorial(idioma=None, volumen=0.5):
                     }
                     basura.remove(obj)
                     sprite_visible = False
-                    mensaje = f"Recogiste: {obj['nombre']}"
+                    # Mensaje traducido según idioma
+                    if idioma == "en":
+                        mensaje = f"You picked up: {obj['nombre']}"
+                    else:
+                        mensaje = f"Recogiste: {obj['nombre']}"
                     break
             else:
                 if not any(hitbox.inflate(12, 12).colliderect(obj["rect"]) for obj in basura):
-                    mensaje = "No hay objetos para recoger cerca"
+                    if idioma == "en":
+                        mensaje = "No objects to pick up nearby"
+                    else:
+                        mensaje = "No hay objetos para recoger cerca"
                     mensaje_tiempo = pygame.time.get_ticks()
 
         # Tirar basura
@@ -1012,12 +1035,20 @@ def run_tutorial(idioma=None, volumen=0.5):
 
                 if objeto_en_mano["tipo"] == bote_actual["tipo"]:
                     bote_correcto_encontrado = True
-                    mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                    # Mensaje traducido según idioma
+                    if idioma == "en":
+                        mensaje = f"✓ You threw {objeto_en_mano['nombre']} in {bote_actual['nombre']} bin"
+                    else:
+                        mensaje = f"✓ Tiraste {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
                     objeto_en_mano = None
                     sonido_tirar_correcto.play()
                 else:
                     errores += 1
-                    mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
+                    # Mensaje traducido según idioma
+                    if idioma == "en":
+                        mensaje = f"✗ You can't throw {objeto_en_mano['nombre']} in {bote_actual['nombre']} bin"
+                    else:
+                        mensaje = f"✗ No puedes tirar {objeto_en_mano['nombre']} en bote {bote_actual['nombre']}"
                     animando_dano = True
                     frame_actual_dano = 0
                     tiempo_frame = pygame.time.get_ticks()
@@ -1029,7 +1060,10 @@ def run_tutorial(idioma=None, volumen=0.5):
 
                 mensaje_tiempo = pygame.time.get_ticks()
             else:
-                mensaje = "No hay un bote cerca"
+                if idioma == "en":
+                    mensaje = "No bin nearby"
+                else:
+                    mensaje = "No hay un bote cerca"
                 mensaje_tiempo = pygame.time.get_ticks()
                 sprite_visible = False
 
