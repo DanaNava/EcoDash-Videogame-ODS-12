@@ -145,7 +145,7 @@ Si se equivoca tres veces, pierde el nivel.
 ### ⏱️ **Cronómetro**
 El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jugador pierde automáticamente. Además, cuando el cronómetro alcanza los 30 segundos restantes, el color de los números cambia a rojo para alertar al jugador del poco tiempo disponible.
 
-*![Cronometro_2](https://github.com/user-attachments/assets/88d3b922-37d3-4a0d-abf6-edc02681b48e) ![Cronometro_rojo](https://github.com/user-attachments/assets/77676650-f4c2-4369-8ade-488192afd688)*
+*![Crono](https://github.com/user-attachments/assets/38301558-cb11-4a1f-964d-426236ccda63) ![Crono_rojo](https://github.com/user-attachments/assets/54afcc0f-b293-4da8-a8f1-80ca36cdf7b1)*
 
 ---
 
@@ -220,31 +220,28 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 1. **Clona este repositorio:**  
    ```bash
    git clone https://github.com/tu_usuario/eco-dash.git
+   cd eco-dash
 
-2. **Accede a la carpeta del proyecto:**  
-   ```bash
-   python -m venv venv
-
-3. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**  
-   ```bash
-   git clone https://github.com/tu_usuario/eco-dash.git
-
- Actívalo:
+2. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**
+   
   - En Windows:
     ```bash
+    python -m venv venv
     venv\Scripts\activate
    
   - En macOS / Linux:
     ```bash
+    python3 -m venv venv
     source venv/bin/activate
 
-4. **Instala las dependencias:**  
+3. **Instala las dependencias:**  
    ```bash
-   pip install pygame
+   pip install pygame ffpyplayer
+   
 
-5. **Ejecuta el juego:**  
+4. **Ejecuta el juego:**  
    ```bash
-   python main.py
+   python Main.py
 ---
 ## 🧪 Requisitos del sistema
 
@@ -253,7 +250,8 @@ Antes de ejecutar el juego, asegúrate de cumplir con los siguientes requisitos 
 - **Sistema operativo:** Windows 10 / macOS / Linux  
 - **Versión de Python:** 3.8 o superior  
 - **Bibliotecas necesarias:**  
-  - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)  
+  - [Pygame](https://www.pygame.org/news) (instalable con `pip install pygame`)
+  - [ffpyplayer](https://github.com/matham/ffpyplayer) (para la reproducción de video, instalable con `pip install ffpyplayer`)    
 - **Memoria RAM recomendada:** 4 GB o más  
 - **Espacio en disco:** Al menos 200 MB libres  
 - **Resolución:** 1024x768 
