@@ -15,25 +15,25 @@ class SistemaPausa:
         self.juego_pausado = False
         self.musica_pausada = False
         self.return_value = None
-        
+       
         # Botón de pausa en esquina superior derecha
 
-        self.boton_pausa_rect = pygame.Rect(910, 20, 60, 60)
+        self.boton_pausa_rect = pygame.Rect(910, 20, 160, 160)
         self.boton_reanudar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_reiniciar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_menu_rect = pygame.Rect(0, 0, 120, 120)
-        
+       
         # Estados hover
 
         self.boton_pausa_hover = False
         self.boton_reanudar_hover = False
         self.boton_reiniciar_hover = False
         self.boton_menu_hover = False
-        
+       
         try:
             self.sprite_boton_pausa = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "minipausa.png")).convert_alpha()
             self.sprite_boton_pausa_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "minipausa_hover.png")).convert_alpha()
-            
+           
             # Escalar botón de pausa pequeño
 
             escala = 3.0
@@ -41,7 +41,7 @@ class SistemaPausa:
             nuevo_alto = int(self.sprite_boton_pausa.get_height() * escala)
             self.sprite_boton_pausa = pygame.transform.scale(self.sprite_boton_pausa, (nuevo_ancho, nuevo_alto))
             self.sprite_boton_pausa_hover = pygame.transform.scale(self.sprite_boton_pausa_hover, (nuevo_ancho, nuevo_alto))
-            
+           
             # Cargar otros sprites
 
             self.sprite_boton_reanudar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "volver.png")).convert_alpha()
@@ -53,7 +53,7 @@ class SistemaPausa:
             self.sprite_fondo_pausa = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "pausa", "interfaz_de_pausa.png")).convert_alpha()
 
             # Escalar botones del menú de pausa x2.0
-            
+           
             escala_menu = 4.0
             botones_menu = ['reanudar', 'reiniciar', 'menu']
             for sprite_name in botones_menu:
@@ -66,7 +66,7 @@ class SistemaPausa:
                     setattr(self, f'sprite_boton_{sprite_name}', pygame.transform.scale(sprite_normal, (nuevo_ancho, nuevo_alto)))
                     setattr(self, f'sprite_boton_{sprite_name}_hover', pygame.transform.scale(sprite_hover, (nuevo_ancho, nuevo_alto)))
 
-        except: 
+        except:
             self.sprite_boton_pausa = None
             self.sprite_boton_pausa_hover = None
             self.sprite_boton_reanudar = None
@@ -81,7 +81,7 @@ class SistemaPausa:
         mouse_pos = pygame.mouse.get_pos()
         # Actualizar estados hover
         self.boton_pausa_hover = self.boton_pausa_rect.collidepoint(mouse_pos)
-        
+       
         # Calcular posiciones de botones del menú de pausa
         if self.juego_pausado:
             ancho_pantalla, alto_pantalla = self.pantalla.get_size()
@@ -102,21 +102,21 @@ class SistemaPausa:
             self.boton_reanudar_rect = pygame.Rect(inicio_x, pos_y, boton_ancho, boton_alto)
             self.boton_reiniciar_rect = pygame.Rect(inicio_x + boton_ancho + espacio_entre_botones, pos_y, boton_ancho, boton_alto)
             self.boton_menu_rect = pygame.Rect(inicio_x + (boton_ancho + espacio_entre_botones) * 2, pos_y, boton_ancho, boton_alto)
-            
+           
             self.boton_reanudar_hover = self.boton_reanudar_rect.collidepoint(mouse_pos)
             self.boton_reiniciar_hover = self.boton_reiniciar_rect.collidepoint(mouse_pos)
             self.boton_menu_hover = self.boton_menu_rect.collidepoint(mouse_pos)
-        
+       
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 if self.juego_pausado:
                     self.reanudar()
                 else:
                     self.pausar()
-        
+       
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
-            
+           
             if self.juego_pausado:
                 if self.boton_reanudar_rect.collidepoint(pos):
                     self.reanudar()
@@ -148,8 +148,8 @@ class SistemaPausa:
 
     def ir_al_menu(self, nivel_instance):
         self.juego_pausado = False
-        nivel_instance.return_value = "main"
-        self.return_value = "main"
+        self.return_value = "seleccion_nivel"
+        nivel_instance.return_value = "seleccion_nivel"
         nivel_instance.running = False
 
     def dibujar(self):
@@ -174,26 +174,26 @@ class SistemaPausa:
             fondo_pausa.fill((0, 0, 0, 200))
             self.pantalla.blit(fondo_pausa, (x_pausa, y_pausa))
             pygame.draw.rect(self.pantalla, (255, 255, 255), (x_pausa, y_pausa, ancho_pausa, alto_pausa), 3)
-            
+           
             # DIBUJAR INTERFAZ DE PAUSA - AGREGAR ESTA LÍNEA
 
             if self.sprite_fondo_pausa:
             # Escalar y centrar el sprite de fondo
                 fondo_escalado = pygame.transform.scale(self.sprite_fondo_pausa, (ancho_pausa, alto_pausa))
                 self.pantalla.blit(fondo_escalado, (x_pausa, y_pausa))
-            
+           
             if self.sprite_boton_reanudar:
                 if self.boton_reanudar_hover and self.sprite_boton_reanudar_hover:
                     self.pantalla.blit(self.sprite_boton_reanudar_hover, self.boton_reanudar_rect)
                 else:
                     self.pantalla.blit(self.sprite_boton_reanudar, self.boton_reanudar_rect)
-            
+           
             if self.sprite_boton_reiniciar:
                 if self.boton_reiniciar_hover and self.sprite_boton_reiniciar_hover:
                     self.pantalla.blit(self.sprite_boton_reiniciar_hover, self.boton_reiniciar_rect)
                 else:
                     self.pantalla.blit(self.sprite_boton_reiniciar, self.boton_reiniciar_rect)
-            
+           
             if self.sprite_boton_menu:
                 if self.boton_menu_hover and self.sprite_boton_menu_hover:
                     self.pantalla.blit(self.sprite_boton_menu_hover, self.boton_menu_rect)
@@ -208,7 +208,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     pygame.mixer.init()
     screen = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("Nivel 2")
-    
+   
     sistema_pausa = SistemaPausa(screen)
 
     # -----------------------------
@@ -311,7 +311,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     capa_lampara15 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara15.png")).convert_alpha()
     capa_lampara16 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "lampara", "lampara16.png")).convert_alpha()
 
-    
+   
 
     #columpio
     capa_colum1 = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "columpio", "colu1.png")).convert_alpha()
@@ -385,8 +385,8 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     boton_ir_siguiente_nivel = pygame.transform.scale(boton_ir_siguiente_nivel, (240, 65))
     boton_ir_siguiente_nivel_hover = pygame.transform.scale(boton_ir_siguiente_nivel_hover, (240, 65))
 
-    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
-    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570)) 
+    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487))
+    rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570))
 
     rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     rect_menu = boton_menu.get_rect(center=(515, 550))
@@ -407,7 +407,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     # -----------------------------
 
     pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
-    pygame.mixer.music.set_volume(volumen_actual) 
+    pygame.mixer.music.set_volume(volumen_actual)
     pygame.mixer.music.play(-1)
 
     # -----------------------------
@@ -446,68 +446,68 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "botella_agua", "botella agua4.png")).convert_alpha()
     ]
-    
+   
     frames_lata = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "lata", "lata4.png")).convert_alpha()
     ]
-    
+   
     frames_periodico = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "inorganica", "periodico", "periodico_mas_grande4.png")).convert_alpha()
     ]
-    
+   
     frames_banana = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Banana", "banano4.png")).convert_alpha()
     ]
-    
+   
     frames_cascara_huevo = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_4.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Cascara_huevo", "cascara_huevo_5.png")).convert_alpha()
     ]
-    
+   
     frames_manzana = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "organica", "Manzana", "manzene4.png")).convert_alpha()
     ]
-    
+   
     frames_bateria = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Bateria", "batería item -9c3f4.png")).convert_alpha()
     ]
-    
+   
     frames_foco = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a975.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a976.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a977.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Foco", "Foquito item-a978.png")).convert_alpha()
     ]
-    
+   
     frames_jeringa = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa1.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa2.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa3.png")).convert_alpha(),
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "basura", "residuos_peligrosos", "Jeringa", "Jeringa4.png")).convert_alpha()
     ]
-    
+   
     frames_surprice = [
         pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "surprice2.png")).convert_alpha(),
-        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "surprice1.png")).convert_alpha() 
+        pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "diseyo_nivel", "nivel 2", "surprice1.png")).convert_alpha()
     ]
-    
+   
     # -----------------------------
 
     # POSICIONES ALEATORIAS PARA BASURAS
@@ -532,7 +532,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
     def obtener_posiciones_aleatorias(cantidad):
         return random.sample(posiciones_basura, cantidad)
-    
+   
 
     # Obtener 6 posiciones aleatorias únicas (una para cada basura)
 
@@ -542,90 +542,90 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
     basura = [
         {
-            "frames": frames_banana, 
-            "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]), 
-            "nombre": {"es": "Plátano", "en": "Banana"}, 
+            "frames": frames_banana,
+            "rect": frames_banana[0].get_rect(topleft=posiciones_aleatorias[0]),
+            "nombre": {"es": "Plátano", "en": "Banana"},
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_botella_agua, 
-            "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]), 
-            "nombre": {"es": "Botella de agua", "en": "Water Bottle"}, 
+            "frames": frames_botella_agua,
+            "rect": frames_botella_agua[0].get_rect(topleft=posiciones_aleatorias[1]),
+            "nombre": {"es": "Botella de agua", "en": "Water Bottle"},
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_foco, 
-            "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]), 
-            "nombre": {"es": "Foco", "en": "Light Bulb"}, 
+            "frames": frames_foco,
+            "rect": frames_foco[0].get_rect(topleft=posiciones_aleatorias[2]),
+            "nombre": {"es": "Foco", "en": "Light Bulb"},
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_lata, 
-            "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]), 
-            "nombre": {"es": "Lata", "en": "Can"}, 
+            "frames": frames_lata,
+            "rect": frames_lata[0].get_rect(topleft=posiciones_aleatorias[3]),
+            "nombre": {"es": "Lata", "en": "Can"},
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_manzana, 
-            "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]), 
-            "nombre": {"es": "Manzana", "en": "Apple"}, 
+            "frames": frames_manzana,
+            "rect": frames_manzana[0].get_rect(topleft=posiciones_aleatorias[4]),
+            "nombre": {"es": "Manzana", "en": "Apple"},
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_bateria, 
-            "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]), 
-            "nombre": {"es": "Batería", "en": "Battery"}, 
+            "frames": frames_bateria,
+            "rect": frames_bateria[0].get_rect(topleft=posiciones_aleatorias[5]),
+            "nombre": {"es": "Batería", "en": "Battery"},
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_cascara_huevo, 
-            "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]), 
-            "nombre": {"es": "Cáscaras de huevo", "en": "Egg Shells"}, 
+            "frames": frames_cascara_huevo,
+            "rect": frames_cascara_huevo[0].get_rect(topleft=posiciones_aleatorias[6]),
+            "nombre": {"es": "Cáscaras de huevo", "en": "Egg Shells"},
             "tipo": "organica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_jeringa, 
-            "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]), 
-            "nombre": {"es": "Jeringa", "en": "Syringe"}, 
+            "frames": frames_jeringa,
+            "rect": frames_jeringa[0].get_rect(topleft=posiciones_aleatorias[7]),
+            "nombre": {"es": "Jeringa", "en": "Syringe"},
             "tipo": "peligrosa",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_periodico, 
-            "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]), 
-            "nombre": {"es": "Periódico", "en": "Newspaper"}, 
+            "frames": frames_periodico,
+            "rect": frames_periodico[0].get_rect(topleft=posiciones_aleatorias[8]),
+            "nombre": {"es": "Periódico", "en": "Newspaper"},
             "tipo": "inorganica",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
             "animando": True
         },
         {
-            "frames": frames_surprice, 
+            "frames": frames_surprice,
             "rect": frames_surprice[0].get_rect(topleft=(90, 572)),
-            "nombre": {"es": "a Larry", "en": "Larry"}, 
+            "nombre": {"es": "a Larry", "en": "Larry"},
             "tipo": "segura",
             "frame_actual": 0,
             "tiempo_ultimo_frame": 0,
@@ -643,7 +643,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     colisiones = [
         #izquierda
 
-        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 448, 59, 20), 
+        pygame.Rect(0, 1, 10, 241), pygame.Rect(6, 250, 11, 102), pygame.Rect(0, 373, 14, 71), pygame.Rect(67, 448, 59, 20),
         pygame.Rect(0, 498, 4, 268),
 
         #abajo
@@ -656,11 +656,11 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         pygame.Rect(996, 77, 17, 40), pygame.Rect(897, 41, 75, 14), pygame.Rect(839, 72, 33, 71),
 
         #rejas
-        pygame.Rect(837, 250, 11, 118), pygame.Rect(592, 382, 246, 3), pygame.Rect(208, 1, 630, 3), pygame.Rect(209, 30, 10, 332), 
+        pygame.Rect(837, 250, 11, 118), pygame.Rect(592, 382, 246, 3), pygame.Rect(208, 1, 630, 3), pygame.Rect(209, 30, 10, 332),
         pygame.Rect(248, 385, 202, 7),
 
-        #bancas no puestas 
-        pygame.Rect(187, 234, 10, 87), pygame.Rect(603, 428, 25, 34), 
+        #bancas no puestas
+        pygame.Rect(187, 234, 10, 87), pygame.Rect(603, 428, 25, 34),
 
         #mesa para comer?
         pygame.Rect(752, 456, 63, 81), pygame.Rect(709, 489, 17, 48), pygame.Rect(841, 488, 30, 48),
@@ -694,26 +694,26 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         def centrar_sprites(lista_frames):
             """Centra todos los sprites en un rectángulo de tamaño consistente"""
             frames_centrados = []
-        
+       
             # Encontrar el tamaño máximo entre todos los frames
             max_width = max(frame.get_width() for frame in lista_frames)
             max_height = max(frame.get_height() for frame in lista_frames)
-        
+       
             # Crear un tamaño objetivo ligeramente mayor para evitar recortes
             tamaño_objetivo = (max_width + 10, max_height + 10)
-        
+       
             for frame in lista_frames:
                 # Crear una superficie transparente del tamaño objetivo
                 superficie_centrada = pygame.Surface(tamaño_objetivo, pygame.SRCALPHA)
-            
+           
                 # Calcular posición para centrar el sprite
                 x = (tamaño_objetivo[0] - frame.get_width()) // 2
                 y = (tamaño_objetivo[1] - frame.get_height()) // 2
-            
+           
                 # Dibujar el frame centrado
                 superficie_centrada.blit(frame, (x, y))
                 frames_centrados.append(superficie_centrada)
-        
+       
             return frames_centrados
         if personaje_elegido == 0:  # Hombre
             return {
@@ -890,7 +890,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
     # Cargar animaciones según el personaje seleccionado
     animaciones = cargar_animaciones_personaje(personaje)
-    
+   
     # Asignar las animaciones a variables específicas
     frames_dano = animaciones["frames_dano"]
     frames_muerte_derecha = animaciones["frames_muerte_derecha"]
@@ -919,7 +919,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     animacion_correr_delante = False
 
     # Bandera para animaciones de quieto
-    
+   
     animando_quieto = False
 
     # Bandera de tiempo de animaciones
@@ -932,7 +932,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     frame_actual_correr_derecha = 0
     frame_actual_correr_delante = 0
     frame_actual_correr_detras = 0
-    
+   
     # Nuevos frames para animaciones de quieto
     frame_actual_quieto_derecha = 0
     frame_actual_quieto_izquierda = 0
@@ -969,13 +969,13 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     feedback_duracion_normal = 1000  # 1 segundo para palomita y X
     feedback_duracion_larry = 1590   # 1.5 segundos para imágenes de Larry
     feedback_pos = (0, 0)
-    
+   
     # Mostrar mensajes
     objeto_en_mano = None
     mensaje = ""
     mensaje_tiempo = 0
     duracion_mensaje = 3000  # Aumentar a 3 segundos
-    
+   
     # velocidad del juego y personaje
     velocidad = 3.5
     velocidad_reducida = 1
@@ -986,7 +986,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     charco1_rect = pygame.Rect(charco1_pos[0], charco1_pos[1], 78,24)
     segundochar_pos = (781, 653)
     segundochar_rect = pygame.Rect(segundochar_pos[0], segundochar_pos[1],50,31)
-    # Barra de vida 
+    # Barra de vida
     vida_max = 3
     vida_actual = vida_max
 
@@ -995,7 +995,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
     inicio_tiempo = pygame.time.get_ticks()
     tiempo_pausa_acumulado = 0
     tiempo_ultima_pausa = 0
-    tiempo_visual = tiempo_total 
+    tiempo_visual = tiempo_total
     fuente_tiempo = pygame.font.SysFont("dejavusansmono", 35)
     tiempo_color_cambio = 0
     duracion_color = 2000  # 2 segundos
@@ -1006,12 +1006,12 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         # Fuente para Títulos (Game Over / Victoria)
         font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
         fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
-        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 100) 
+        fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 100)
         fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
 
         # Fuente para Texto Normal (Botones / Mensajes)
         font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
-        fuente_boton_gameover = pygame.font.Font(font_texto_path, 11) 
+        fuente_boton_gameover = pygame.font.Font(font_texto_path, 11)
         fuente_victoria_botones = pygame.font.Font(font_texto_path, 21)
         fuente_mensajes = pygame.font.Font(font_texto_path, 15) # Para "Recogiste: Plátano"
 
@@ -1021,15 +1021,15 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         fuente_subtitulo_gameover = pygame.font.Font(None, 36)
         fuente_victoria_titulo = pygame.font.Font(None, 55)
         fuente_victoria_subtitulo = pygame.font.Font(None, 38)
-        
-        fuente_boton_gameover = pygame.font.Font(None, 32) 
+       
+        fuente_boton_gameover = pygame.font.Font(None, 32)
         fuente_victoria_botones = pygame.font.Font(None, 24)
         fuente_mensajes = pygame.font.Font(None, 32)
-    
+   
     # Asignar la fuente de mensajes a la variable 'fuente' que usa el resto del código
     fuente = fuente_mensajes
     # --- FIN DE LA MODIFICACIÓN ---
-    
+   
 
     # Variable indicadora para cambiar la musica
     musica_cambiada = False
@@ -1042,22 +1042,22 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         basura_esencial_restante = [
             obj for obj in basura if obj["nombre"][idioma_actual] != "Larry" and obj["nombre"][idioma_actual] != "a Larry"
         ]
-        
+       
         # 2. Verifica si el objeto en la mano NO es la basura esencial.
         #    El jugador PUEDE tener el objeto "Larry" en la mano al ganar.
 
         objeto_en_mano_esencial = (
-            objeto_en_mano is not None and 
-            objeto_en_mano["nombre"][idioma_actual] != "Larry" and 
+            objeto_en_mano is not None and
+            objeto_en_mano["nombre"][idioma_actual] != "Larry" and
             objeto_en_mano["nombre"][idioma_actual] != "a Larry"
         )
-        
+       
 
         # 3. La condición de victoria es:
         #    - La lista de basura esencial en el suelo debe estar vacía.
         #    - Y el jugador no debe tener otra basura esencial en la mano.
         return len(basura_esencial_restante) == 0 and not objeto_en_mano_esencial
-    
+   
     # Variable para el while infinito, para las teclas pulsadas y un contador de errores
     running = True
     return_value = None
@@ -1099,7 +1099,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                 tiempo_ultima_pausa = 0
         tiempo_transcurrido = (tiempo_actual - inicio_tiempo - tiempo_pausa_acumulado) // 1000
         tiempo_restante = max(0, tiempo_total - tiempo_transcurrido)
-        
+       
         if not sistema_pausa.juego_pausado:
             tiempo_visual = tiempo_restante
 
@@ -1141,7 +1141,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
             if objeto_en_mano is not None and not animando_muerte:
                 mano_x = personaje_draw_rect.centerx + 20
-                mano_y = personaje_draw_rect.centery 
+                mano_y = personaje_draw_rect.centery
                 screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
 
             # ¿Sigue activo el color verde?
@@ -1396,11 +1396,11 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         # -----------------------------
 
         tiempo_actual = pygame.time.get_ticks()
-        
+       
         for obj in basura:
             if obj["animando"]:
                 tiempo_transcurrido = tiempo_actual - obj["tiempo_ultimo_frame"]
-                
+               
                 # Lógica de timing para la animación
                 if obj["frame_actual"] == 0:  # Primer frame - 500ms
                     if tiempo_transcurrido >= 500:
@@ -1446,7 +1446,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         # Actualizar animación
 
         ahora = pygame.time.get_ticks()
-        
+       
         # --- Animaciones de movimiento ---
 
         if not animando_dano and not animando_muerte:
@@ -1487,7 +1487,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     elif ultima_direccion == "delante":
                         frame_actual_quieto_derecha = (frame_actual_quieto_derecha + 1) % len(frames_quieto_derecha)
                     tiempo_frame = ahora
-                
+               
                 # Seleccionar frame de quieto según la última dirección
 
                 if ultima_direccion == "derecha":
@@ -1546,13 +1546,13 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     animacion_correr_derecha = False
                     animacion_correr_delante = False
                     animacion_correr_detras = False
-            
+           
             # Dibujar frame de daño centrado correctamente
 
             frame_dano = frames_dano[frame_actual_dano]
             rect_dano = frame_dano.get_rect(center=hitbox.center)
             screen.blit(frame_dano, rect_dano)
-        
+       
 
         # --- CORRECCIÓN: NO dibujar personaje normal durante muerte ---
         elif not animando_muerte and not tiempo_fin_animacion:
@@ -1563,7 +1563,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
         if objeto_en_mano is not None and not animando_muerte and not tiempo_fin_animacion:
             mano_x = personaje_draw_rect.centerx + 20
-            mano_y = personaje_draw_rect.centery 
+            mano_y = personaje_draw_rect.centery
             screen.blit(objeto_en_mano["imagen"], (mano_x, mano_y))
 
         #fondo arbol esquina izquierda
@@ -1641,7 +1641,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         screen.blit(capa_arbol67, (167, 693))
         screen.blit(capa_arbol66, (171, 696))
         screen.blit(capa_arbol66, (146, 696))
-        
+       
         #fondo lampara
 
         screen.blit(capa_lampara1, (412, 612))
@@ -1652,7 +1652,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         screen.blit(capa_lampara6, (455, 602))
         screen.blit(capa_lampara7, (462, 604))
         screen.blit(capa_lampara8, (466, 610))
-        screen.blit(capa_lampara9, (469, 612)) 
+        screen.blit(capa_lampara9, (469, 612))
         screen.blit(capa_lampara10, (466, 617))
         screen.blit(capa_lampara11, (462, 620))
         screen.blit(capa_lampara12, (459, 623))
@@ -1668,7 +1668,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         screen.blit(capa_colum4, (259, 60))
         screen.blit(capa_colum5, (242, 54))
         screen.blit(capa_colum6, (243, 51))
-        
+       
         #detalles menores
         screen.blit(cosa_1, (660, 215))
         screen.blit(cosa_2, (658, 217))
@@ -1691,11 +1691,11 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
             # Calcular el ancho del texto
             texto_surface = fuente.render(mensaje, True, (255, 255, 255))
             texto_ancho = texto_surface.get_width()
-    
+   
             # Crear rectángulo dinámico basado en el ancho del texto
             mensaje_ancho = min(texto_ancho + 20, 700)  # Máximo 700 píxeles
             mensaje_rect = pygame.Rect(512 - mensaje_ancho // 2, 12, mensaje_ancho, 36)
-    
+   
             pygame.draw.rect(screen, (0, 0, 0), mensaje_rect)
             pygame.draw.rect(screen, (255, 255, 255), mensaje_rect, 2)  # Borde blanco
             screen.blit(texto_surface, (mensaje_rect.x + 10, mensaje_rect.y + 5))
@@ -1704,13 +1704,13 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
             # [Nuevo] FEEDBACK VISUAL (palomita, X y Larry) - CENTRO DE PANTALLA
         if feedback_imagen:
             tiempo_actual_feedback = pygame.time.get_ticks()
-            
+           
             # Determinar qué duración usar según el tipo de imagen
             if feedback_imagen in [bienlarry_img, mallarry_img]:
                 duracion_actual = feedback_duracion_larry
             else:
                 duracion_actual = feedback_duracion_normal
-            
+           
             # Dibujar si aún está en tiempo
             if tiempo_actual_feedback - feedback_tiempo < duracion_actual:
                 centro_pantalla = (screen.get_width() // 2, screen.get_height() // 2)
@@ -1725,13 +1725,13 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         if tiempo_restante <= 30 and not musica_cambiada:
             # Cambiar a música apresurada
             pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_apresurada.ogg"))
-            pygame.mixer.music.set_volume(volumen_actual) 
+            pygame.mixer.music.set_volume(volumen_actual)
             pygame.mixer.music.play(-1)
             musica_cambiada = True
         elif tiempo_restante > 30 and musica_cambiada:
             # Volver a música normal si el tiempo se recupera
             pygame.mixer.music.load(os.path.join(BASE_DIR, "assets_PI", "musica", "musica_nivel.wav"))
-            pygame.mixer.music.set_volume(volumen_actual) 
+            pygame.mixer.music.set_volume(volumen_actual)
             pygame.mixer.music.play(-1)
             musica_cambiada = False
 
@@ -1780,7 +1780,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                 mouse_pos = pygame.mouse.get_pos()
 
                 # --- ¡MODIFICACIÓN DE ORDEN DE DIBUJADO! -
-                
+               
                 # 1. DIBUJAR LOS BOTONES (IMAGEN VACÍA) PRIMERO
                 if rect_reintentar.collidepoint(mouse_pos):
                     screen.blit(boton_reintentar_hover, rect_reintentar)
@@ -1791,7 +1791,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     screen.blit(boton_menu_hover, rect_menu)
                 else:
                     screen.blit(boton_menu, rect_menu)
-                
+               
                 # 2. DIBUJAR EL TEXTO DESPUÉS (ENCIMA DE LOS BOTONES)
                 # 2a. Subtítulo (en dos líneas)
 
@@ -1806,7 +1806,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
                 subtitulo1_surf = fuente_subtitulo_gameover.render(subtitulo_str_1, True, (255, 255, 255))
                 subtitulo2_surf = fuente_subtitulo_gameover.render(subtitulo_str_2, True, (255, 255, 255))
-                
+               
                 subtitulo1_rect = subtitulo1_surf.get_rect(topleft=coordenadas_titulo)
 
                 subtitulo2_rect = subtitulo2_surf.get_rect(centerx=subtitulo1_rect.centerx + 20, top=subtitulo1_rect.bottom + 5)
@@ -1817,7 +1817,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                 # 2b. Texto Botón "Intentar de nuevo"
                 boton_str = "TRY AGAIN" if idioma == "en" else "INTENTAR DE NUEVO"
                 boton_surf = fuente_boton_gameover.render(boton_str, True, (0, 0, 0)) # Color negro
-                boton_rect_texto = boton_surf.get_rect(center=rect_reintentar.center) 
+                boton_rect_texto = boton_surf.get_rect(center=rect_reintentar.center)
                 screen.blit(boton_surf, boton_rect_texto)
                 # --- FIN MODIFICACIÓN DE ORDEN ---
 
@@ -1826,7 +1826,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        return "salir" 
+                        return "salir"
                     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if rect_reintentar.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
@@ -1865,11 +1865,11 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
                 else:
                     screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
-                
+               
                 # 3. Textos (encima)
                 # 3a. Título y subtítulos
 
-            
+           
                 if idioma == "en":
                     titulo_str = "WELL DONE!"
                     sub1_str = "CHANGE BEGINS"
@@ -1887,11 +1887,11 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
 
                 # Posición del título
                 titulo_rect = titulo_surf.get_rect(topleft=coordenadas_titulo) # <-- MODIFICADO
-                
+               
                 # Posición de subtítulos (centrados debajo del título)
                 sub1_rect = sub1_surf.get_rect(centerx=titulo_rect.centerx, top=titulo_rect.bottom + 10)
                 sub2_rect = sub2_surf.get_rect(centerx=titulo_rect.centerx, top=sub1_rect.bottom + 5)
-                
+               
                 screen.blit(titulo_surf, titulo_rect)
                 screen.blit(sub1_surf, sub1_rect)
                 screen.blit(sub2_surf, sub2_rect)
@@ -1914,7 +1914,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                 reintentar_surf = fuente_victoria_botones.render(reintentar_str, True, (0, 0, 0))
                 reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
                 screen.blit(reintentar_surf, reintentar_rect_texto)
-                
+               
                 # --- Texto "MENU" ELIMINADO ---
                 # --- FIN MODIFICACIONES VICTORIA ---
 
@@ -1932,10 +1932,10 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                             return "main"
                         elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
                             print("Botón siguiente nivel presionado")
-                            print("Retornando 'nivel3' desde mostrar_pantalla_victoria") 
+                            print("Retornando 'nivel3' desde mostrar_pantalla_victoria")
                             pygame.mixer.music.stop()
                             return "nivel3"
-            
+           
         #ganar
 
         if ganar(basura, objeto_en_mano):
@@ -1949,9 +1949,9 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                 return "salir"
             elif resultado == "nivel3":
                 print("Retornando 'nivel3' desde run_level1")
-                return "nivel3" 
+                return "nivel3"
                 # -----------------------------
-                
+               
         # ANIMACIÓN DE MUERTE CORREGIDA
         # -----------------------------
         if vida_actual <= 0:
@@ -1979,8 +1979,8 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     frames_muerte = frames_muerte_izquierda
                 else:
                     frames_muerte = frames_muerte_derecha
-                
-                if frame_actual_muerte < len(frames_muerte): 
+               
+                if frame_actual_muerte < len(frames_muerte):
                     frame_muerte = frames_muerte[frame_actual_muerte]
                     rect_muerte = frame_muerte.get_rect(center=hitbox.center)
                     # DIBUJAR SOLO LA ANIMACIÓN DE MUERTE, no el personaje normal
@@ -1996,7 +1996,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                         return "reintentar"
                     elif resultado == "salir":
                         return "salir"
-        
+       
                 else:
                     if ultima_direccion == "izquierda":
                         frames_muerte = frames_muerte_izquierda
@@ -2017,7 +2017,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                         return "reintentar"
                     elif resultado == "salir":
                         return "salir"
-        
+       
                 else:
                     if ultima_direccion == "izquierda":
                         frames_muerte = frames_muerte_izquierda
@@ -2026,7 +2026,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
                     frame_muerte = frames_muerte[-1]
                     rect_muerte = frame_muerte.get_rect(center=hitbox.center)
                     screen.blit(frame_muerte, rect_muerte)
-        
+       
         muerte_por_tiempo = False
         if tiempo_restante <= 0 and not muerte_por_tiempo:
             muerte_por_tiempo = True
@@ -2035,7 +2035,7 @@ def run_level2_retador(idioma_actual, volumen_actual, personaje=0):
         pygame.display.flip()
         clock.tick(60)
         prev_keys = keys
-        
+       
     pygame.quit()
     if hasattr(sistema_pausa, 'return_value') and sistema_pausa.return_value:
         return sistema_pausa.return_value

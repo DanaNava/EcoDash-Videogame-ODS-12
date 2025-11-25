@@ -4,6 +4,8 @@ import os
 import random 
 
 # Ruta base para encontrar los assets
+# NO REGRESA A SELECCION NIVEL
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ========== SISTEMA DE PAUSA ==========
@@ -15,7 +17,7 @@ class SistemaPausa:
         self.return_value = None
         
         # Botón de pausa en esquina superior derecha
-        self.boton_pausa_rect = pygame.Rect(910, 20, 60, 60)
+        self.boton_pausa_rect = pygame.Rect(910, 20, 160, 160)
         self.boton_reanudar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_reiniciar_rect = pygame.Rect(0, 0, 120, 120)
         self.boton_menu_rect = pygame.Rect(0, 0, 120, 120)
@@ -140,8 +142,8 @@ class SistemaPausa:
 
     def ir_al_menu(self, nivel_instance):
         self.juego_pausado = False
-        nivel_instance.return_value = "main"
-        self.return_value = "main"
+        nivel_instance.return_value = "seleccion_nivel"
+        self.return_value = "seleccion_nivel"
         nivel_instance.running = False
 
     def dibujar(self):
@@ -1107,7 +1109,6 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
 
         # Actualizar animación
         ahora = pygame.time.get_ticks()
-       
         # --- Animaciones de movimiento ---
         if not animando_dano and not animando_muerte:
             if animacion_correr_izquierda:
@@ -1342,7 +1343,7 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
                             return "reintentar"
                         elif rect_menu.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "main"
+                            return "seleccion_nivel"
 
         # --- MODIFICADO: Pasa el idioma a la pantalla de victoria ---
         def mostrar_pantalla_victoria(idioma):
@@ -1437,7 +1438,7 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
                             return "reintentar"
                         elif rect_menu_victoria.collidepoint(mouse_pos):
                             pygame.mixer.music.stop()
-                            return "main"
+                            return "seleccion_nivel"
                         elif rect_ir_siguiente_nivel.collidepoint(mouse_pos):
                             print("Botón siguiente nivel presionado")
                             print("Retornando 'nivel2' desde mostrar_pantalla_victoria") 
@@ -1448,8 +1449,8 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
         if ganar(basura, objeto_en_mano):
             # --- MODIFICADO: Pasa el idioma ---
             resultado = mostrar_pantalla_victoria(idioma_actual)
-            if resultado == "main":
-                return "main"
+            if resultado == "seleccion_nivel":
+                return "seleccion_nivel"
             elif resultado == "reintentar":
                 return "reintentar"
             elif resultado == "salir":
@@ -1495,8 +1496,8 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
                 ahora = pygame.time.get_ticks()
                 if ahora - tiempo_fin_animacion >= 1500:
                     resultado = mostrar_pantalla_perdida(idioma_actual)
-                    if resultado == "main":
-                        return "main"
+                    if resultado == "seleccion_nivel":
+                        return "seleccion_nivel"
                     elif resultado == "reintentar":
                         return "reintentar"
                     elif resultado == "salir":

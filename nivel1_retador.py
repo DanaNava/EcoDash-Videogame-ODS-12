@@ -134,14 +134,12 @@ class SistemaPausa:
 
     def reiniciar_nivel(self, nivel_instance):
         self.juego_pausado = False
-        nivel_instance.return_value = "reintentar"
         self.return_value = "reintentar"
         nivel_instance.running = False
 
     def ir_al_menu(self, nivel_instance):
         self.juego_pausado = False
-        nivel_instance.return_value = "main"
-        self.return_value = "main"
+        self.return_value = "seleccion_nivel"
         nivel_instance.running = False
 
     def dibujar(self):
