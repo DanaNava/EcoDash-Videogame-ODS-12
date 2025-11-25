@@ -1460,10 +1460,7 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 else:
                     screen.blit(boton_win_intentar, rect_reintentar_victoria)
                 
-                if rect_ir_siguiente_nivel.collidepoint(mouse_pos):
-                    screen.blit(boton_ir_siguiente_nivel_hover, rect_ir_siguiente_nivel)
-                else:
-                    screen.blit(boton_ir_siguiente_nivel, rect_ir_siguiente_nivel)
+    
 
                 # Dibuja el botón de menú (con el texto ya en la imagen)
                 if rect_menu_victoria.collidepoint(mouse_pos):
@@ -1506,14 +1503,6 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
                 else:
                     reintentar_str = "REINTENTAR"
 
-                if idioma == "en":
-                    siguiente_nivel_str = "NEXT LEVEL"
-                else:
-                    siguiente_nivel_str = "SIGUIENTE NIVEL"
-
-                siguiente_nivel_surf = fuente_victoria_botones.render(siguiente_nivel_str, True, (0, 0, 0))
-                siguiente_nivel_rect_texto = siguiente_nivel_surf.get_rect(center=rect_ir_siguiente_nivel.center)
-                screen.blit(siguiente_nivel_surf, siguiente_nivel_rect_texto)
 
                 reintentar_surf = fuente_victoria_botones.render(reintentar_str, True, (0, 0, 0))
                 reintentar_rect_texto = reintentar_surf.get_rect(center=rect_reintentar_victoria.center)
