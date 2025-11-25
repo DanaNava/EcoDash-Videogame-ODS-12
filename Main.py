@@ -169,7 +169,7 @@ def main():
                     else:
                         # Pasar personaje al nivel normal
                         resultado_nivel = run_level1(idioma_juego, volumen_juego, personaje_juego)
-                
+                 
                 elif nivel_actual == "nivel2":
                     if dificultad == "medio":
                         resultado_nivel = run_level2_retador(idioma_juego, volumen_juego, personaje_juego)
