@@ -280,7 +280,7 @@ Estas tecnologías permitieron desarrollar un videojuego educativo liviano, mult
 
 | Nombre | Rol | Contacto |
 |--------|------|-----------|
-| Ibarra Heredia Alan Alejandro | Programador principal / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
+| Ibarra Heredia Alan Alejandro | Programador  / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
 | Vazquez Atanacio Diego Alejandro| Programador / Artista de objetos | dvazquez52@ucol.mx  |
 | Martinez zuñiga Carolina | Diseñador UI/UX / Documentador / Traductor | caro.zuniga.006@gmail.com |
 | Nava Montiel Dana Paola |Programador / Diseñador de interfaz / Guionista | dananavamontiel@gmail.com |
