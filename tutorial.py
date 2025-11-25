@@ -373,6 +373,8 @@ def run_tutorial(idioma="es", volumen=0.5):
 
     boton_win_menu_hover = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_hover_pantalla_victoria.png")
     boton_win_menu = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_pantalla_victoria.png")
+    boton_win = pygame.transform.scale(boton_win_menu, (650, 200))
+    boton_win_hover = pygame.transform.scale(boton_win_menu_hover, (650, 200))
 
     rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570))
 
@@ -780,6 +782,16 @@ def run_tutorial(idioma="es", volumen=0.5):
         pygame.mixer.music.play(-1)
         sonido_morir.play()
 
+        # Definir el rectángulo del botón con tamaño aumentado
+        ancho_boton = 600  # Aumentar el ancho
+        alto_boton = 200   # Aumentar el alto
+        # COORDENADAS PARA CENTRAR EL BOTÓN:
+        x_pos = (screen.get_width() - ancho_boton) // 2  # Centrado horizontal
+        y_pos = (screen.get_height() - alto_boton) // 2  # Centrado vertical
+        
+        rect_menu_victoria = pygame.Rect(x_pos, y_pos, ancho_boton, alto_boton)
+
+
         while True:
             screen.fill((0, 0, 0))
             screen.blit(pantalla_perdida, (0, 0))
@@ -788,7 +800,7 @@ def run_tutorial(idioma="es", volumen=0.5):
 
             # Botones
             if rect_menu.collidepoint(mouse_pos):
-                screen.blit(boton_menu_hover, rect_menu)
+                screen.blit(boton_win_hover, rect_menu)
             else:
                 screen.blit(boton_menu, rect_menu)
 
@@ -808,15 +820,24 @@ def run_tutorial(idioma="es", volumen=0.5):
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
+        # Definir el rectángulo del botón con tamaño aumentado
+        ancho_boton = 600  # Aumentar el ancho
+        alto_boton = 200   # Aumentar el alto
+        # COORDENADAS PARA CENTRAR EL BOTÓN:
+        x_pos = (screen.get_width() - ancho_boton) // 2  # Centrado horizontal
+        y_pos = (screen.get_height() - alto_boton) // 2  # Centrado vertical
+        
+        rect_menu_victoria = pygame.Rect(x_pos, y_pos, ancho_boton, alto_boton)
+
         while True:
             screen.fill((0, 0, 0))
             screen.blit(win, (0, 0))
 
             mouse_pos = pygame.mouse.get_pos()
             if rect_menu_victoria.collidepoint(mouse_pos):
-                screen.blit(boton_win_menu_hover, rect_menu_victoria)
+                screen.blit(boton_win_hover, rect_menu_victoria)
             else:
-                screen.blit(boton_win_menu, rect_menu_victoria)
+                screen.blit(boton_win, rect_menu_victoria)
 
             pygame.display.flip()
 
