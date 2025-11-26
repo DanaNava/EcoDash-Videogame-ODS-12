@@ -274,13 +274,14 @@ El desarrollo de **ECO DASH** se realizó utilizando herramientas accesibles y d
 - 🎮 **Motor / Librería principal:** [Pygame](https://www.pygame.org/)  
   Librería utilizada para la creación del entorno gráfico, manejo de sprites, animaciones y sonidos.
 
--🎥 **Reproducción de video:** [ffpyplayer](https://github.com/matham/ffpyplayer)  
+- 🎥 **Reproducción de video:** [ffpyplayer](https://github.com/matham/ffpyplayer)  
   Utilizado para la reproducción de videos dentro del juego, como cinemáticas o introducciones.
 
 - 🎨 **Recursos visuales:** [LibreSprite](https://libresprite.github.io/)  
   Herramienta empleada para el diseño y animación de sprites, personajes, objetos y elementos del entorno.
 
 Estas tecnologías permitieron desarrollar un videojuego educativo liviano, multiplataforma y con énfasis en la enseñanza del reciclaje mediante la interacción y el juego.
+
 
 ---
 
