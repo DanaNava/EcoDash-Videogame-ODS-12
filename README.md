@@ -203,6 +203,9 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
       ├── nivel_1.py
       ├── nivel_2.py
       ├── Nivel_3.py
+      ├──nivel1_retador.py
+      ├──nivel2_retador.py
+      ├──nivel3_retador.py
       ├── proyecto.py
       ├── seleccion_dificultad.py
       ├── seleccion_nivel.py
