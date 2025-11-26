@@ -269,7 +269,7 @@ class SistemaPausa:
 
     def ir_al_menu(self, nivel_instance):
         self.juego_pausado = False
-        self.return_value = "main"
+        self.return_value = "seleccion_nivel"
 
     def dibujar(self):
         if not self.juego_pausado:
@@ -319,7 +319,7 @@ class SistemaPausa:
             
 # ========== FIN SISTEMA DE PAUSA ==========
 
-def run_tutorial(idioma="es", volumen=0.5):
+def run_tutorial_nivel (idioma="es", volumen=0.5):
     # -----------------------------
     # MOSTRAR VIDEO INICIAL
     # -----------------------------
@@ -371,12 +371,23 @@ def run_tutorial(idioma="es", volumen=0.5):
     boton_menu = pygame.image.load("assets_PI/interfaces/perdida/boton_menu.png").convert_alpha()
     boton_menu_hover = pygame.image.load("assets_PI/interfaces/perdida/boton_menu_hover.png").convert_alpha()
 
-    boton_win_menu_hover = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_hover_pantalla_victoria.png")
-    boton_win_menu = pygame.image.load("assets_PI/interfaces/victoria/boton_menu_pantalla_victoria.png")
+    boton_win_menu_hover = pygame.image.load("assets_PI/tutorial/tuto_level_1/boton_menu_pantalla_victoria_hover.png")
+    boton_win_menu = pygame.image.load("assets_PI/tutorial/tuto_level_1/boton_menu_pantalla_victoria.png")
     boton_win = pygame.transform.scale(boton_win_menu, (650, 200))
     boton_win_hover = pygame.transform.scale(boton_win_menu_hover, (650, 200))
 
+    boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez.png")).convert_alpha()
+    boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez_hover.png")).convert_alpha()
+    boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
+    boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
+    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
+    rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
     
+    boton_win_menu_ingles_hover = pygame.image.load("assets_PI/tutorial/tuto_level_1/boton_menu_pantalla_victoria_hover_ingles.png")
+    boton_win_menu_ingles = pygame.image.load("assets_PI/tutorial/tuto_level_1/boton_menu_pantalla_victoria_ingles.png")
+    boton_win_ingles = pygame.transform.scale(boton_win_menu_ingles, (650, 200))
+    boton_win_hover_ingles = pygame.transform.scale(boton_win_menu_ingles_hover, (650, 200))
+
     rect_menu_victoria = boton_win_menu.get_rect(center=(515, 570))
 
     rect_menu = boton_menu.get_rect(center=(515, 550))
@@ -699,12 +710,7 @@ def run_tutorial(idioma="es", volumen=0.5):
 
     pantalla_perdida = pygame.image.load("assets_PI/interfaces/perdida/game over 2.0.png").convert_alpha()
     pantalla_perdida_español = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0_español.png")).convert_alpha()
-    boton_reintentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez.png")).convert_alpha()
-    boton_reintentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "boton_intenta_otra_vez_hover.png")).convert_alpha()
-    boton_win_intentar = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria.png"))
-    boton_win_intentar_hover = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "victoria", "boton_intenta_otra_vez_victoria_hover.png"))
-    rect_reintentar_victoria = boton_win_intentar.get_rect(center=(515, 487)) 
-    rect_reintentar = boton_reintentar.get_rect(center=(515, 467))
+
     # Banderas para activar animaciones
     animando_dano = False
     animando_muerte = False
@@ -743,6 +749,15 @@ def run_tutorial(idioma="es", volumen=0.5):
     mensaje_tiempo = 0
     duracion_mensaje = 3000
     fuente = pygame.font.Font(None, 32)
+
+    font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
+
+    font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
+    fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
+    fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 100) 
+    fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
+    fuente_boton_gameover = pygame.font.Font(font_texto_path, 11) 
+
     
     # velocidad del juego y personaje
     velocidad = 5
@@ -751,15 +766,6 @@ def run_tutorial(idioma="es", volumen=0.5):
     # Barra de vida 
     vida_max = 3
     vida_actual = vida_max
-
-    font_titulo_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf")
-    fuente_subtitulo_gameover = pygame.font.Font(font_titulo_path, 32)
-    fuente_victoria_titulo = pygame.font.Font(font_titulo_path, 100) 
-    fuente_victoria_subtitulo = pygame.font.Font(font_titulo_path, 35)
-    font_texto_path = os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf")
-    fuente_boton_gameover = pygame.font.Font(font_texto_path, 11) 
-
-    
 
     # Tiempo - SISTEMA MEJORADO CON PAUSA
     tiempo_total = 200
@@ -865,7 +871,7 @@ def run_tutorial(idioma="es", volumen=0.5):
                         return "tutorial"  # Reiniciar el nivel
                     elif rect_menu.collidepoint(mouse_pos):
                         pygame.mixer.music.stop()
-                        return "main"
+                        return "seleccion_nivel"
 
     def mostrar_pantalla_victoria():
         pygame.mixer.music.load("assets_PI/musica/musica_victoria.mp3")
@@ -886,10 +892,16 @@ def run_tutorial(idioma="es", volumen=0.5):
             screen.blit(win, (0, 0))
 
             mouse_pos = pygame.mouse.get_pos()
-            if rect_menu_victoria.collidepoint(mouse_pos):
-                screen.blit(boton_win_hover, rect_menu_victoria)
-            else:
-                screen.blit(boton_win, rect_menu_victoria)
+            if idioma == "es":
+                if rect_menu_victoria.collidepoint(mouse_pos):
+                    screen.blit(boton_win_hover, rect_menu_victoria)
+                else:
+                    screen.blit(boton_win, rect_menu_victoria)
+            if idioma == "en":
+                if rect_menu_victoria.collidepoint(mouse_pos):
+                    screen.blit(boton_win_hover_ingles, rect_menu_victoria)
+                else:
+                    screen.blit(boton_win_ingles, rect_menu_victoria)
 
             pygame.display.flip()
 
@@ -900,7 +912,7 @@ def run_tutorial(idioma="es", volumen=0.5):
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if rect_menu_victoria.collidepoint(mouse_pos):
                         pygame.mixer.music.stop()
-                        return "main"  
+                        return "nivel1"  
 
     # -----------------------------
     # BUCLE PRINCIPAL
@@ -1391,4 +1403,4 @@ def run_tutorial(idioma="es", volumen=0.5):
 
 # Solo para pruebas independientes
 if __name__ == "__main__":
-    run_tutorial()
+    run_tutorial_nivel()

@@ -40,7 +40,7 @@ class Button:
             return self.action
         return None
 
-# -------- Clase Créditos con fondos y tabla --------
+# -------- Clase Créditos --------
 class Creditos:
     def __init__(self, screen, idioma_actual, volumen_actual):
         self.screen = screen
@@ -51,7 +51,7 @@ class Creditos:
 
         ancho_ventana, alto_ventana = screen.get_size()
 
-        # --- Fondo BUB (atrás) ---
+        # --- Fondo BUB ---
         try:
             self.fondo = pygame.image.load("assets_PI/interfaces/Fondo_animado/BUB.png").convert_alpha()
             self.fondo = pygame.transform.scale(self.fondo, (ancho_ventana, alto_ventana))
@@ -59,26 +59,24 @@ class Creditos:
             self.fondo = pygame.Surface((ancho_ventana, alto_ventana))
             self.fondo.fill((0,0,0))
 
-        # --- Fondo Verdi (medio) ---
+        # --- Fondo Verdi ---
         try:
             self.fondo_frente = pygame.image.load("assets_PI/interfaces/Fondo_animado/verdi.png").convert_alpha()
             self.fondo_frente = pygame.transform.scale(self.fondo_frente, (ancho_ventana, alto_ventana))
-            self.fondo_frente.set_alpha(200)  # Transparencia parcial para que se vea BUB
+            self.fondo_frente.set_alpha(200)
         except pygame.error:
             self.fondo_frente = pygame.Surface((ancho_ventana, alto_ventana))
             self.fondo_frente.fill((50,50,50))
 
-        # --- Tabla (delante) ---
+        # --- Tabla ---
         try:
             self.tabla = pygame.image.load("assets_PI/interfaces/Fondo_animado/tablon.png").convert_alpha()
             self.tabla = pygame.transform.scale(self.tabla, (ancho_ventana, alto_ventana))
-            # si quieres ver el fondo detrás de la tabla, ajusta alpha:
-            # self.tabla.set_alpha(230)
         except pygame.error:
             self.tabla = pygame.Surface((ancho_ventana, alto_ventana))
             self.tabla.fill((100,100,100))
 
-        # --- Botón de Volver ---
+        # --- Botón Volver ---
         self.boton_volver = Button(
             (0,2,120,67),
             os.path.join(BASE_DIR, "assets_PI", "sprites", "boton_back.png"),
@@ -87,28 +85,42 @@ class Creditos:
             click_sound
         )
 
-        # Fuentes
+        # --- Fuentes ---
         try:
             self.font_titulo = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Stay Pixel DEMO.ttf"), 48)
         except:
-            self.font_titulo = pygame.font.Font(None, 55)
+            self.font_titulo = pygame.font.Font(None, 40)
 
         try:
-            self.font_nombres = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf"), 15)
+            self.font_nombres = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf"), 20)
+            self.font_roles = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf"), 11)
             self.font_boton = pygame.font.Font(os.path.join(BASE_DIR, "assets_PI", "fuentes", "Pixel.ttf"), 20)
         except:
-            self.font_nombres = pygame.font.Font(None, 36)
-            self.font_boton = pygame.font.Font(None, 40)
+            self.font_nombres = pygame.font.Font(None, 25)
+            self.font_roles = pygame.font.Font(None, 12)
+            self.font_boton = pygame.font.Font(None, 20)
 
-        # Lista de nombres
-        self.nombres = [
-            "Ibarra Heredia Alan Alejandro",
-            "Nava Montiel Dana Paola",
-            "Escobar Núñez Cristian Alexander",
-            "Martínez Zúñiga Carolina",
-            "Salgado Zepeda David",
-            "Vazquez Atanacio Diego Alejandro"
+        # --- Créditos en ambos idiomas ---
+        self.creditos_es = [
+            ("--------Alan Ibarra --------", "Programador / Diseñador de personajes / Multimedia"),
+            ("-----Alejandro Vazquez-----", "Programador / Artista de objetos"),
+            ("--------Dana Nava--------", "Programador / Diseñador de interfaz / Director de cinemática"),
+            ("-------David Salgado-------", "Diseñador de niveles / Programador / Diseñador de sonido"),
+            ("-----Carolina Martínez-----", "Programador / Diseñador UIX / Documentador / Traductor"),
+            ("------Cristian Escobar------", "Diseñador de interfaz / Encargado de idioma / Documentador")
         ]
+        
+        self.creditos_en = [
+            ("--------Alan Ibarra --------", "Programmer / Character Designer / Multimedia"),
+            ("-----Alejandro Vazquez-----", "Programmer / Object Artist"),
+            ("--------Dana Nava--------", "Programmer / Interface Designer / Cinematic Director"),
+            ("-------David Salgado-------", "Level Designer / Programmer / Sound Designer"),
+            ("-----Carolina Martínez-----", "Programmer / UI/UX Designer / Documenter / Translator"),
+            ("------Cristian Escobar------", "Interface Designer / Language Manager / Documenter")
+        ]
+        
+        # Seleccionar los créditos según el idioma actual
+        self.creditos = self.creditos_es if self.idioma == "es" else self.creditos_en
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -120,43 +132,46 @@ class Creditos:
                 return accion
 
     def draw(self):
-        # 1. Fondo BUB (atrás)
+        # Fondo
         self.screen.blit(self.fondo, (0,0))
-
-        # 2. Fondo Verdi (medio) con transparencia
         self.screen.blit(self.fondo_frente, (0,0))
-
-        # 3. Tabla encima
         self.screen.blit(self.tabla, (0,0))
 
-        # 4. Botón Volver
+        # Botón Volver
         self.boton_volver.draw(self.screen)
-        texto_boton_str = "BACK" if self.idioma=="en" else "VOLVER"
-        texto_boton_surf = self.font_boton.render(texto_boton_str, True, (0,0,0))
-        self.screen.blit(texto_boton_surf, (14,18))
+        texto_boton = "BACK" if self.idioma == "en" else "VOLVER"
+        self.screen.blit(self.font_boton.render(texto_boton, True, (0,0,0)), (14,18))
 
-        # 5. Título
-        if self.idioma=="en":
-            titulo_str_1 = "GAME"
-            titulo_str_2 = "DEVELOPERS"
-            coord_titulo_1 = (420,183)
+        # ---- TITULO ----
+        if self.idioma == "en":
+            t1 = "GAME"
+            t2 = "DEVELOPERS"
+            pos1 = (420, 183)
         else:
-            titulo_str_1 = "DESARROLLADORES"
-            titulo_str_2 = "del JUEGO"
-            coord_titulo_1 = (350,183)
+            t1 = "DESARROLLADORES"
+            t2 = "del JUEGO"
+            pos1 = (350, 183)
 
-        titulo_surf_1 = self.font_titulo.render(titulo_str_1, True, (0,0,0))
-        titulo_surf_2 = self.font_titulo.render(titulo_str_2, True, (0,0,0))
-        titulo_rect_1 = titulo_surf_1.get_rect(topleft=coord_titulo_1)
-        titulo_rect_2 = titulo_surf_2.get_rect(centerx=titulo_rect_1.centerx, top=titulo_rect_1.bottom+5)
-        self.screen.blit(titulo_surf_1, titulo_rect_1)
-        self.screen.blit(titulo_surf_2, titulo_rect_2)
+        surf1 = self.font_titulo.render(t1, True, (0,0,0))
+        surf2 = self.font_titulo.render(t2, True, (0,0,0))
+        r1 = surf1.get_rect(topleft=pos1)
+        r2 = surf2.get_rect(centerx=r1.centerx, top=r1.bottom+5)
 
-        # 6. Lista de nombres
-        start_x, start_y, line_height = 315, 387, 45
-        for i, nombre in enumerate(self.nombres):
+        self.screen.blit(surf1, r1)
+        self.screen.blit(surf2, r2)
+
+        # ---- NOMBRES Y ROLES ----
+        start_y = 300
+        spacing = 70
+
+        for i, (nombre, roles) in enumerate(self.creditos):
             nombre_surf = self.font_nombres.render(nombre, True, (0,0,0))
-            self.screen.blit(nombre_surf, (start_x, start_y + i*line_height))
+            nombre_rect = nombre_surf.get_rect(center=(512, start_y + i*spacing))
+            self.screen.blit(nombre_surf, nombre_rect)
+
+            roles_surf = self.font_roles.render(roles, True, (0,0,0))
+            roles_rect = roles_surf.get_rect(center=(512, nombre_rect.bottom + 12))
+            self.screen.blit(roles_surf, roles_rect)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -174,12 +189,12 @@ class Creditos:
 if __name__ == "__main__":
     screen = pygame.display.set_mode((1024,768))
     pygame.display.set_caption("Créditos con fondos y tabla")
-    idioma_actual = "es"
-    volumen_actual = 0.5
-
-    pantalla_creditos = Creditos(screen, idioma_actual, volumen_actual)
-    resultado = pantalla_creditos.run()
-    print(f"Cerró con: {resultado}")
+    
+    # Probar ambos idiomas
+    for idioma in ["es", "en"]:
+        pantalla_creditos = Creditos(screen, idioma, 0.5)
+        resultado = pantalla_creditos.run()
+        print(f"Cerró con: {resultado} - Idioma: {idioma}")
 
     pygame.quit()
     sys.exit()

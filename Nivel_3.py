@@ -729,6 +729,7 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
     frames_quieto_delante = [quieto_delante]
 
     pantalla_perdida = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0.png")).convert_alpha()
+    pantalla_perdida_español = pygame.image.load(os.path.join(BASE_DIR, "assets_PI", "interfaces", "perdida", "game over 2.0_español.png")).convert_alpha()
 
     # Banderas para activar animaciones
     animando_dano = False
@@ -1385,7 +1386,11 @@ def run_level3(idioma_actual, volumen_actual, personaje=0):
 
             while True:
                 screen.fill((0, 0, 0))
-                screen.blit(pantalla_perdida, (0, 0)) # Fondo (con "GAME OVER")
+                if idioma == "en":
+                    screen.blit(pantalla_perdida, (0, 0)) # Fondo (con "GAME OVER")
+                if idioma == "es":
+                   screen.blit(pantalla_perdida_español, (0, 0)) # Fondo (con "GAME OVER")
+                   
                 mouse_pos = pygame.mouse.get_pos()
 
                 # --- ¡MODIFICACIÓN DE ORDEN DE DIBUJADO! ---

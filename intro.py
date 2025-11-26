@@ -138,7 +138,11 @@ def run_intro(idioma, volumen):
         screen.blit(boton_surface, (boton_x, boton_y))
 
         # 🏷 Texto transparente
-        texto = font.render("Saltar", True, (255, 255, 255))
+        if idioma == "es":
+            texto = font.render("Saltar", True, (255, 255, 255))
+        if idioma == "en":
+            texto = font.render("Skip", True, (255, 255, 255))
+
         texto.set_alpha(alpha)
         text_rect = texto.get_rect(center=(boton_x + (boton_rect.width + grow)//2,
                                            boton_y + (boton_rect.height + grow)//2))

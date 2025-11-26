@@ -48,7 +48,7 @@ Cada nivel presenta entornos diferentes y nuevos tipos de residuos que el jugado
 ---
 
 ### ⏸️ **Función de pausa**
-Permite **reanudar**, **reiniciar** el nivel o **volver al menú principal**.  
+Permite **reanudar**, **reiniciar** el nivel o **volver a la selección de nivel**.  
 
 *Ejemplo visual:*  
 ![Menu_pausa](https://github.com/user-attachments/assets/6a568c03-198e-4f1c-851c-f190e741bae9)
@@ -203,6 +203,9 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
       ├── nivel_1.py
       ├── nivel_2.py
       ├── Nivel_3.py
+      ├──nivel1_retador.py
+      ├──nivel2_retador.py
+      ├──nivel3_retador.py
       ├── proyecto.py
       ├── seleccion_dificultad.py
       ├── seleccion_nivel.py
@@ -210,6 +213,8 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
       ├── configuracion.py
       ├── creditos.py
       ├── tutorial.py
+      ├──tutorial_nivel.py
+      ├──intro.py
       │
       └── README.md
 
@@ -269,10 +274,14 @@ El desarrollo de **ECO DASH** se realizó utilizando herramientas accesibles y d
 - 🎮 **Motor / Librería principal:** [Pygame](https://www.pygame.org/)  
   Librería utilizada para la creación del entorno gráfico, manejo de sprites, animaciones y sonidos.
 
+- 🎥 **Reproducción de video:** [ffpyplayer](https://github.com/matham/ffpyplayer)  
+  Utilizado para la reproducción de videos dentro del juego, como cinemáticas o introducciones.
+
 - 🎨 **Recursos visuales:** [LibreSprite](https://libresprite.github.io/)  
   Herramienta empleada para el diseño y animación de sprites, personajes, objetos y elementos del entorno.
 
 Estas tecnologías permitieron desarrollar un videojuego educativo liviano, multiplataforma y con énfasis en la enseñanza del reciclaje mediante la interacción y el juego.
+
 
 ---
 
@@ -280,12 +289,13 @@ Estas tecnologías permitieron desarrollar un videojuego educativo liviano, mult
 
 | Nombre | Rol | Contacto |
 |--------|------|-----------|
-| Ibarra Heredia Alan Alejandro | Programador principal / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
+| Ibarra Heredia Alan Alejandro | Líder de equipo / Programador  / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
 | Vazquez Atanacio Diego Alejandro| Programador / Artista de objetos | dvazquez52@ucol.mx  |
 | Martinez zuñiga Carolina | Diseñador UI/UX / Documentador / Traductor | caro.zuniga.006@gmail.com |
-| Nava Montiel Dana Paola |Programador / Diseñador de interfaz / Guionista | dananavamontiel@gmail.com |
+| Nava Montiel Dana Paola |Programador / Diseñador de interfaz / Director de cinemática | dananavamontiel@gmail.com |
 | Salgado Zepeda David | Diseñador de niveles / Programador / Diseñador de sonido | dsalgadozepeda@gmail.com |
 | Escobar Nuñez Cristian Alexander | Diseñador de interfaz / Encargado de idioma / Documentador | cescobar2@ucol.mx |
+
 
 ---
 
