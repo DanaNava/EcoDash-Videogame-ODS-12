@@ -10,6 +10,7 @@ from nivel_1 import run_level1
 from nivel_2 import run_level2
 from Nivel_3 import run_level3 
 from tutorial import run_tutorial
+from tutorial_nivel import run_tutorial_nivel
 from creditos import Creditos
 from nivel1_retador import run_level1retador
 from nivel2_retador import run_level2_retador
@@ -153,6 +154,7 @@ def main():
 
         #------intro-----------------------------------
             intro_resultado = run_intro(idioma_juego, volumen_juego)
+            
             if intro_resultado == "main":
                 reproducir_musica_principal(volumen_juego)
                 pantalla_actual = Main(screen, idioma_juego, volumen_juego)
@@ -160,6 +162,44 @@ def main():
             elif intro_resultado == "salir":
                 running = False
                 break
+            
+            # MOSTRAR TUTORIAL_NIVEL SOLO EN DIFICULTAD FÁCIL - CON BUCLE DE REINICIO
+            if dificultad == "facil":
+                reiniciar_tutorial_nivel = True
+                while reiniciar_tutorial_nivel and running:
+                    tutorial_en_nivel_resultado = run_tutorial_nivel(idioma_juego, volumen_juego)
+                    
+                    # Manejar el resultado del tutorial_nivel con posibilidad de reinicio
+                    if tutorial_en_nivel_resultado == "tutorial":
+                        # Reiniciar el tutorial_nivel (permanecer en el bucle)
+                        reiniciar_tutorial_nivel = True
+                        print("Reiniciando tutorial_nivel...")
+                    
+                    elif tutorial_en_nivel_resultado == "seleccion_nivel":
+                        # Ir a selección de nivel
+                        reproducir_musica_principal(volumen_juego)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        reiniciar_tutorial_nivel = False
+                        continue  # Salir del flujo del nivel 1
+                    
+                    elif tutorial_en_nivel_resultado == "main":
+                        # Volver al menú principal
+                        reproducir_musica_principal(volumen_juego)
+                        pantalla_actual = Main(screen, idioma_juego, volumen_juego)
+                        reiniciar_tutorial_nivel = False
+                        continue  # Salir del flujo del nivel 1
+                    
+                    elif tutorial_en_nivel_resultado == "salir":
+                        running = False
+                        reiniciar_tutorial_nivel = False
+                        break
+                    
+                    else:
+                        # Por defecto, continuar al nivel
+                        reiniciar_tutorial_nivel = False
+                
+                if not running:
+                    break
         #------------------------------------------
             # Manejar el nivel 1 con posibilidad de reintento y progresión
             nivel_actual = "nivel1"
