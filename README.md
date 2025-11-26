@@ -48,7 +48,7 @@ Cada nivel presenta entornos diferentes y nuevos tipos de residuos que el jugado
 ---
 
 ### ⏸️ **Función de pausa**
-Permite **reanudar**, **reiniciar** el nivel o **volver al menú principal**.  
+Permite **reanudar**, **reiniciar** el nivel o **volver a la selección de nivel**.  
 
 *Ejemplo visual:*  
 ![Menu_pausa](https://github.com/user-attachments/assets/6a568c03-198e-4f1c-851c-f190e741bae9)
