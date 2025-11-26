@@ -213,6 +213,8 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
       ├── configuracion.py
       ├── creditos.py
       ├── tutorial.py
+      ├──tutorial_nivel.py
+      ├──intro.py
       │
       └── README.md
 
