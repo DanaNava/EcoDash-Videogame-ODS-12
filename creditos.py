@@ -100,8 +100,8 @@ class Creditos:
             self.font_roles = pygame.font.Font(None, 12)
             self.font_boton = pygame.font.Font(None, 20)
 
-        # --- Créditos ---
-        self.creditos = [
+        # --- Créditos en ambos idiomas ---
+        self.creditos_es = [
             ("--------Alan Ibarra --------", "Programador / Diseñador de personajes / Multimedia"),
             ("-----Alejandro Vazquez-----", "Programador / Artista de objetos"),
             ("--------Dana Nava--------", "Programador / Diseñador de interfaz / Director de cinemática"),
@@ -109,6 +109,18 @@ class Creditos:
             ("-----Carolina Martínez-----", "Programador / Diseñador UIX / Documentador / Traductor"),
             ("------Cristian Escobar------", "Diseñador de interfaz / Encargado de idioma / Documentador")
         ]
+        
+        self.creditos_en = [
+            ("--------Alan Ibarra --------", "Programmer / Character Designer / Multimedia"),
+            ("-----Alejandro Vazquez-----", "Programmer / Object Artist"),
+            ("--------Dana Nava--------", "Programmer / Interface Designer / Cinematic Director"),
+            ("-------David Salgado-------", "Level Designer / Programmer / Sound Designer"),
+            ("-----Carolina Martínez-----", "Programmer / UI/UX Designer / Documenter / Translator"),
+            ("------Cristian Escobar------", "Interface Designer / Language Manager / Documenter")
+        ]
+        
+        # Seleccionar los créditos según el idioma actual
+        self.creditos = self.creditos_es if self.idioma == "es" else self.creditos_en
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -177,12 +189,12 @@ class Creditos:
 if __name__ == "__main__":
     screen = pygame.display.set_mode((1024,768))
     pygame.display.set_caption("Créditos con fondos y tabla")
-    idioma_actual = "es"
-    volumen_actual = 0.5
-
-    pantalla_creditos = Creditos(screen, idioma_actual, volumen_actual)
-    resultado = pantalla_creditos.run()
-    print(f"Cerró con: {resultado}")
+    
+    # Probar ambos idiomas
+    for idioma in ["es", "en"]:
+        pantalla_creditos = Creditos(screen, idioma, 0.5)
+        resultado = pantalla_creditos.run()
+        print(f"Cerró con: {resultado} - Idioma: {idioma}")
 
     pygame.quit()
     sys.exit()
