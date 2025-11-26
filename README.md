@@ -289,12 +289,13 @@ Estas tecnologías permitieron desarrollar un videojuego educativo liviano, mult
 
 | Nombre | Rol | Contacto |
 |--------|------|-----------|
-| Ibarra Heredia Alan Alejandro | Programador  / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
+| Ibarra Heredia Alan Alejandro | Líder de equipo / Programador  / Diseñador de personajes / Editor multimedia | aibarra9@ucol.mx |
 | Vazquez Atanacio Diego Alejandro| Programador / Artista de objetos | dvazquez52@ucol.mx  |
 | Martinez zuñiga Carolina | Diseñador UI/UX / Documentador / Traductor | caro.zuniga.006@gmail.com |
 | Nava Montiel Dana Paola |Programador / Diseñador de interfaz / Director de cinemática | dananavamontiel@gmail.com |
 | Salgado Zepeda David | Diseñador de niveles / Programador / Diseñador de sonido | dsalgadozepeda@gmail.com |
 | Escobar Nuñez Cristian Alexander | Diseñador de interfaz / Encargado de idioma / Documentador | cescobar2@ucol.mx |
+
 
 ---
 
