@@ -166,7 +166,8 @@ def main():
             # MOSTRAR TUTORIAL_NIVEL SOLO EN DIFICULTAD FÁCIL - CON BUCLE DE REINICIO
             if dificultad == "facil":
                 reiniciar_tutorial_nivel = True
-                while reiniciar_tutorial_nivel and running:
+                salir_a_otra_pantalla = False
+                while reiniciar_tutorial_nivel and running and not salir_a_otra_pantalla:
                     tutorial_en_nivel_resultado = run_tutorial_nivel(idioma_juego, volumen_juego)
                     
                     # Manejar el resultado del tutorial_nivel con posibilidad de reinicio
@@ -180,14 +181,16 @@ def main():
                         reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_tutorial_nivel = False
-                        continue  # Salir del flujo del nivel 1
+                        salir_a_otra_pantalla = True
+                        break  # SALIR DEL BUCLE Y CONTINUAR CON EL FLUJO PRINCIPAL
                     
                     elif tutorial_en_nivel_resultado == "main":
                         # Volver al menú principal
                         reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                         reiniciar_tutorial_nivel = False
-                        continue  # Salir del flujo del nivel 1
+                        salir_a_otra_pantalla = True
+                        break  # SALIR DEL BUCLE Y CONTINUAR CON EL FLUJO PRINCIPAL
                     
                     elif tutorial_en_nivel_resultado == "salir":
                         running = False
@@ -197,6 +200,10 @@ def main():
                     else:
                         # Por defecto, continuar al nivel
                         reiniciar_tutorial_nivel = False
+                
+                # Si salimos a otra pantalla, continuar con el bucle principal
+                if salir_a_otra_pantalla:
+                    continue
                 
                 if not running:
                     break
@@ -225,45 +232,46 @@ def main():
                     else:
                         resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
 
+                # MANEJO DE RESULTADOS - CORREGIDO
                 if resultado_nivel == "main":
-                        # Volver a selección de nivel en lugar de menú principal
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
-                        reiniciar_nivel = False
-                        
+                    # Volver a selección de nivel en lugar de menú principal
+                    reproducir_musica_principal(volumen_juego)
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
+                    
                 elif resultado_nivel == "seleccion_nivel":
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
-                        reiniciar_nivel = False
+                    reproducir_musica_principal(volumen_juego)
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
 
                 elif resultado_nivel == "reintentar":
-                        # Reintentar el nivel actual
-                        reiniciar_nivel = True
-                    
+                    # Reintentar el nivel actual
+                    reiniciar_nivel = True
+                
                 elif resultado_nivel == "salir":
-                        running = False
-                        reiniciar_nivel = False
-                        
+                    running = False
+                    reiniciar_nivel = False
+                    
                 elif resultado_nivel == "nivel2":
-                        # Avanzar al nivel 2
-                        nivel_actual = "nivel2"
-                        reiniciar_nivel = True
-                        print(f"Avanzando a {nivel_actual}")
+                    # Avanzar al nivel 2
+                    nivel_actual = "nivel2"
+                    reiniciar_nivel = True
+                    print(f"Avanzando a {nivel_actual}")
 
                 elif resultado_nivel == "nivel3":
-                        # Avanzar al nivel 3
-                        nivel_actual = "nivel3"
-                        reiniciar_nivel = True
-                        print(f"Avanzando a {nivel_actual}")
+                    # Avanzar al nivel 3
+                    nivel_actual = "nivel3"
+                    reiniciar_nivel = True
+                    print(f"Avanzando a {nivel_actual}")
 
                 else:
-                        # Por defecto, regresa a selección de nivel
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
-                        reiniciar_nivel = False
-            
-                if not running:
-                        break
+                    # Por defecto, regresa a selección de nivel
+                    reproducir_musica_principal(volumen_juego)
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
+        
+            if not running:
+                break
         #fin del nivel 1-----------------------------------------------------------------
         
         #nivel 2 ------------------------------------------------------------------------
@@ -276,7 +284,7 @@ def main():
 
                     if resultado_nivel == "main":
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
 
                     elif resultado_nivel == "seleccion_nivel":
@@ -292,7 +300,7 @@ def main():
                         reiniciar_nivel = False
                 else:
                     reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                     reiniciar_nivel = False
             elif dificultad == "facil":
                 reiniciar_nivel = True
@@ -301,7 +309,7 @@ def main():
                     resultado_nivel = run_level2(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
                         
                     elif resultado_nivel == "seleccion_nivel":
@@ -318,7 +326,7 @@ def main():
 
                     else:
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
             
             if not running:
@@ -336,7 +344,7 @@ def main():
 
                     if resultado_nivel == "main":
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
 
                     elif resultado_nivel == "seleccion_nivel":
@@ -352,7 +360,7 @@ def main():
                         reiniciar_nivel = False
                 else:
                     reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                     reiniciar_nivel = False
             elif dificultad == "facil":
                 reiniciar_nivel = True
@@ -361,7 +369,7 @@ def main():
                     resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
                     
                     elif resultado_nivel == "seleccion_nivel":
@@ -378,7 +386,7 @@ def main():
 
                     else:
                         reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
             
             if not running:
