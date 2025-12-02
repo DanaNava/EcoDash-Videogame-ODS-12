@@ -10,26 +10,12 @@ from nivel_1 import run_level1
 from nivel_2 import run_level2
 from Nivel_3 import run_level3 
 from tutorial import run_tutorial
-from tutorial_nivel import run_tutorial_nivel
 from creditos import Creditos
 from nivel1_retador import run_level1retador
 from nivel2_retador import run_level2_retador
 from nivel3_retador import run_level3_retador
 #Aun no funcional la intro
 from intro import run_intro
-
-def reproducir_musica_principal(volumen_juego):
-    """Función para reproducir la música principal del menú"""
-    if not pygame.mixer.get_init():
-        pygame.mixer.init()
-    
-    # Detener cualquier música actual
-    pygame.mixer.music.stop()
-    
-    # Cargar y reproducir música principal
-    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
-    pygame.mixer.music.set_volume(volumen_juego)
-    pygame.mixer.music.play(-1)  # -1 para loop infinito
 
 def main():
     pygame.init()   # Inicializa todos los módulos de pygame---------------------------
@@ -45,7 +31,9 @@ def main():
     pygame.display.set_caption("Eco Dash")   # Título de la ventana
 
     # Cargar música de fondo del menú principal UNA SOLA VEZ al inicio
-    reproducir_musica_principal(volumen_juego)
+    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+    pygame.mixer.music.set_volume(volumen_juego)
+    pygame.mixer.music.play(-1)
 
     # Cargar efecto de sonido para los clics
     click_sound = pygame.mixer.Sound("assets_PI/sonidos/sonido_click.wav")
@@ -90,7 +78,8 @@ def main():
 
         elif resultado == "main":
             # Asegurar que la música esté sonando al volver al main
-            reproducir_musica_principal(volumen_juego)
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play(-1)
             pantalla_actual = Main(screen, idioma_juego, volumen_juego)   # Volver al menú principal
 
         elif resultado == "seleccion_dificultad":
@@ -129,7 +118,11 @@ def main():
 
                 if resultado_tutorial == "main":
                     # Volver al menú principal (TUTORIAL MANTIENE "main")
-                    reproducir_musica_principal(volumen_juego)
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(volumen_juego)
+                    pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                     reiniciar_tutorial = False
 
@@ -142,7 +135,11 @@ def main():
 
                 else:
                     # Por defecto, volver al menú principal
-                    reproducir_musica_principal(volumen_juego)
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(volumen_juego)
+                    pygame.mixer.music.play(-1)
                     pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                     reiniciar_tutorial = False
         
@@ -154,59 +151,12 @@ def main():
 
         #------intro-----------------------------------
             intro_resultado = run_intro(idioma_juego, volumen_juego)
-            
             if intro_resultado == "main":
-                reproducir_musica_principal(volumen_juego)
                 pantalla_actual = Main(screen, idioma_juego, volumen_juego)
                 continue  # Volver al menú sin iniciar nivel
             elif intro_resultado == "salir":
                 running = False
                 break
-            
-            # MOSTRAR TUTORIAL_NIVEL SOLO EN DIFICULTAD FÁCIL - CON BUCLE DE REINICIO
-            if dificultad == "facil":
-                reiniciar_tutorial_nivel = True
-                salir_a_otra_pantalla = False
-                while reiniciar_tutorial_nivel and running and not salir_a_otra_pantalla:
-                    tutorial_en_nivel_resultado = run_tutorial_nivel(idioma_juego, volumen_juego)
-                    
-                    # Manejar el resultado del tutorial_nivel con posibilidad de reinicio
-                    if tutorial_en_nivel_resultado == "tutorial":
-                        # Reiniciar el tutorial_nivel (permanecer en el bucle)
-                        reiniciar_tutorial_nivel = True
-                        print("Reiniciando tutorial_nivel...")
-                    
-                    elif tutorial_en_nivel_resultado == "seleccion_nivel":
-                        # Ir a selección de nivel
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
-                        reiniciar_tutorial_nivel = False
-                        salir_a_otra_pantalla = True
-                        break  # SALIR DEL BUCLE Y CONTINUAR CON EL FLUJO PRINCIPAL
-                    
-                    elif tutorial_en_nivel_resultado == "main":
-                        # Volver al menú principal
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Main(screen, idioma_juego, volumen_juego)
-                        reiniciar_tutorial_nivel = False
-                        salir_a_otra_pantalla = True
-                        break  # SALIR DEL BUCLE Y CONTINUAR CON EL FLUJO PRINCIPAL
-                    
-                    elif tutorial_en_nivel_resultado == "salir":
-                        running = False
-                        reiniciar_tutorial_nivel = False
-                        break
-                    
-                    else:
-                        # Por defecto, continuar al nivel
-                        reiniciar_tutorial_nivel = False
-                
-                # Si salimos a otra pantalla, continuar con el bucle principal
-                if salir_a_otra_pantalla:
-                    continue
-                
-                if not running:
-                    break
         #------------------------------------------
             # Manejar el nivel 1 con posibilidad de reintento y progresión
             nivel_actual = "nivel1"
@@ -219,7 +169,6 @@ def main():
                     else:
                         # Pasar personaje al nivel normal
                         resultado_nivel = run_level1(idioma_juego, volumen_juego, personaje_juego)
-                 
                 elif nivel_actual == "nivel2":
                     if dificultad == "medio":
                         resultado_nivel = run_level2_retador(idioma_juego, volumen_juego, personaje_juego)
@@ -232,46 +181,54 @@ def main():
                     else:
                         resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
 
-                # MANEJO DE RESULTADOS - CORREGIDO
                 if resultado_nivel == "main":
-                    # Volver a selección de nivel en lugar de menú principal
-                    reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
-                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
-                    
+                        # Volver a selección de nivel en lugar de menú principal
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                            pygame.mixer.music.set_volume(volumen_juego)
+                            pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        reiniciar_nivel = False
+                        
                 elif resultado_nivel == "seleccion_nivel":
-                    reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
-                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        reiniciar_nivel = False
 
                 elif resultado_nivel == "reintentar":
-                    # Reintentar el nivel actual
-                    reiniciar_nivel = True
-                
-                elif resultado_nivel == "salir":
-                    running = False
-                    reiniciar_nivel = False
+                        # Reintentar el nivel actual
+                        reiniciar_nivel = True
                     
+                elif resultado_nivel == "salir":
+                        running = False
+                        reiniciar_nivel = False
+                        
                 elif resultado_nivel == "nivel2":
-                    # Avanzar al nivel 2
-                    nivel_actual = "nivel2"
-                    reiniciar_nivel = True
-                    print(f"Avanzando a {nivel_actual}")
+                        # Avanzar al nivel 2
+                        nivel_actual = "nivel2"
+                        reiniciar_nivel = True
+                        print(f"Avanzando a {nivel_actual}")
 
                 elif resultado_nivel == "nivel3":
-                    # Avanzar al nivel 3
-                    nivel_actual = "nivel3"
-                    reiniciar_nivel = True
-                    print(f"Avanzando a {nivel_actual}")
+                        # Avanzar al nivel 3
+                        nivel_actual = "nivel3"
+                        reiniciar_nivel = True
+                        print(f"Avanzando a {nivel_actual}")
 
                 else:
-                    # Por defecto, regresa a selección de nivel
-                    reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
-                    reiniciar_nivel = False  # IMPORTANTE: Salir del bucle de reinicio
-        
-            if not running:
-                break
+                        # Por defecto, regresa a selección de nivel
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
+                        reiniciar_nivel = False
+            
+                if not running:
+                        break
         #fin del nivel 1-----------------------------------------------------------------
         
         #nivel 2 ------------------------------------------------------------------------
@@ -283,12 +240,16 @@ def main():
                     resultado_nivel = run_level2_retador(idioma_juego, volumen_juego, personaje_juego)
 
                     if resultado_nivel == "main":
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                            pygame.mixer.music.set_volume(volumen_juego)
+                            pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
 
                     elif resultado_nivel == "seleccion_nivel":
-                        reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
 
@@ -299,8 +260,13 @@ def main():
                         running = False
                         reiniciar_nivel = False
                 else:
-                    reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(volumen_juego)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                     reiniciar_nivel = False
             elif dificultad == "facil":
                 reiniciar_nivel = True
@@ -308,12 +274,16 @@ def main():
                     # Pasar el idioma, volumen y personaje al nivel 2 fácil (CORREGIDO)
                     resultado_nivel = run_level2(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
                         
                     elif resultado_nivel == "seleccion_nivel":
-                        reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False    
                         
@@ -325,15 +295,20 @@ def main():
                         reiniciar_nivel = False
 
                     else:
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
             
             if not running:
                 break
         #fin del nivel 2----------------------------------------------------------------------
         
-        #nivel 3------------------------------------------------------------------------------
+        #<------------------------------------------------------------------------------
         elif resultado == "nivel3":
             # Manejar el nivel 3 con posibilidad de reintento
             if dificultad == "medio":
@@ -343,12 +318,16 @@ def main():
                     resultado_nivel = run_level3_retador(idioma_juego, volumen_juego, personaje_juego)
 
                     if resultado_nivel == "main":
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
 
                     elif resultado_nivel == "seleccion_nivel":
-                        reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
 
@@ -359,8 +338,13 @@ def main():
                         running = False
                         reiniciar_nivel = False
                 else:
-                    reproducir_musica_principal(volumen_juego)
-                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                    if not pygame.mixer.get_init():
+                        pygame.mixer.init()
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                    pygame.mixer.music.set_volume(volumen_juego)
+                    pygame.mixer.music.play(-1)
+                    pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                     reiniciar_nivel = False
             elif dificultad == "facil":
                 reiniciar_nivel = True
@@ -368,12 +352,16 @@ def main():
                     # Pasar el idioma, volumen y personaje al nivel 3 fácil (CORREGIDO)
                     resultado_nivel = run_level3(idioma_juego, volumen_juego, personaje_juego)
                     if resultado_nivel == "main":
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
                     
                     elif resultado_nivel == "seleccion_nivel":
-                        reproducir_musica_principal(volumen_juego)
                         pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
                         reiniciar_nivel = False
                         
@@ -385,8 +373,13 @@ def main():
                         reiniciar_nivel = False
 
                     else:
-                        reproducir_musica_principal(volumen_juego)
-                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)
+                        if not pygame.mixer.get_init():
+                            pygame.mixer.init()
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load("assets_PI/musica/musica_main.wav")
+                        pygame.mixer.music.set_volume(volumen_juego)
+                        pygame.mixer.music.play(-1)
+                        pantalla_actual = Seleccion_nivel(screen, idioma_juego, volumen_juego)  # CAMBIADO
                         reiniciar_nivel = False
             
             if not running:

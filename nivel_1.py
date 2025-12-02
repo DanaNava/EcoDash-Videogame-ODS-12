@@ -743,7 +743,7 @@ def run_level1(idioma_actual, volumen_actual, personaje=0):
     duracion_mensaje = 3000  # Aumentar a 3 segundos
     
     # velocidad del juego y personaje
-    velocidad = 5
+    velocidad = 20
     clock = pygame.time.Clock()
     
     # Barra de vida 
