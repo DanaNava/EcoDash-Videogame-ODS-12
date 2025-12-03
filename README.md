@@ -229,8 +229,8 @@ El nivel cuenta con un límite de tiempo. Si el cronómetro llega a cero, el jug
 
 1. **Clona este repositorio:**  
    ```bash
-   git clone https://github.com/tu_usuario/eco-dash.git
-   cd eco-dash
+   git clone https://github.com/DanaNava/EcoDash-Videogame-ODS-12.git
+   cd EcoDash-Videogame-ODS-12
 
 2. **(Opcional pero recomendado) Crea un entorno virtual para evitar conflictos con otras dependencias:**
    
